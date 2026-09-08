@@ -1,0 +1,264 @@
+---
+import Base from '../../layouts/Base.astro'
+---
+
+<Base
+	title="NOI Quick Check | Apartment Wealth Navigator"
+	description="A fast, transparent read on whether your apartment building is leaving NOI, and building value, on the table."
+	canonical="https://apartmentwealthnavigator.com/tools/noi-check"
+>
+	<section class="noi-check">
+		<h1>NOI Quick Check</h1>
+		<p>
+			Enter what you already know about the building. Every assumption below is visible and you
+			can change it before you see a result.
+		</p>
+
+		<form id="noi-form" class="noi-form">
+			<label for="units">Number of units</label>
+			<input id="units" type="number" min="1" step="1" required />
+
+			<fieldset class="noi-form__group">
+				<legend>Current gross rent</legend>
+				<input id="grossRent" type="number" min="0" step="1" required />
+				<div class="noi-form__radios">
+					<label><input type="radio" name="rentPeriod" value="annual" checked /> Annual</label>
+					<label><input type="radio" name="rentPeriod" value="monthly" /> Monthly</label>
+				</div>
+			</fieldset>
+
+			<fieldset class="noi-form__group">
+				<legend>Current annual operating expenses</legend>
+				<label class="noi-form__checkbox">
+					<input id="notSureOpex" type="checkbox" />
+					Not sure, estimate from an expense ratio instead
+				</label>
+				<div id="opexAmountField">
+					<label for="annualOpex">Annual operating expenses</label>
+					<input id="annualOpex" type="number" min="0" step="1" />
+				</div>
+				<div id="opexRatioField" hidden>
+					<label for="opexRatio">
+						Operating expense ratio (0 to 1)
+						<!-- TODO-Shafiq: set the default operating-expense ratio for the "not sure" path. Left blank on purpose until you set it. -->
+					</label>
+					<input id="opexRatio" type="number" min="0" max="1" step="0.01" placeholder="e.g. 0.40" />
+				</div>
+			</fieldset>
+
+			<label for="marketRentPerUnit">Estimated market rent per unit (monthly)</label>
+			<input id="marketRentPerUnit" type="number" min="0" step="1" required />
+
+			<label for="capRate">
+				Representative cap rate (0 to 1)
+				<!-- TODO-Shafiq: set the representative cap rate default. Left blank on purpose until you set it. -->
+			</label>
+			<input id="capRate" type="number" min="0" max="1" step="0.001" placeholder="e.g. 0.06" required />
+
+			<button type="submit">Calculate</button>
+		</form>
+
+		<div id="result-panel" class="result-panel" hidden>
+			<h2>Your result</h2>
+
+			<dl class="result-grid">
+				<dt>Current NOI</dt>
+				<dd id="current-noi"></dd>
+
+				<dt>Potential NOI</dt>
+				<dd id="potential-noi"></dd>
+
+				<dt>Annual NOI gap</dt>
+				<dd id="noi-gap"></dd>
+
+				<dt>Estimated value impact</dt>
+				<dd id="value-impact"></dd>
+			</dl>
+
+			<p class="disclaimer"><strong>ESTIMATE.</strong> Label every output an ESTIMATE, not an appraisal or a valuation.</p>
+			<p class="disclaimer">No PII stored on the site beyond the GoHighLevel submission.</p>
+
+			<a class="cta" href="/get-started">Get the real numbers on your building</a>
+		</div>
+	</section>
+</Base>
+
+<script>
+	import { computeNoi } from '../../lib/noi'
+
+	const form = document.getElementById('noi-form') as HTMLFormElement
+	const unitsInput = document.getElementById('units') as HTMLInputElement
+	const grossRentInput = document.getElementById('grossRent') as HTMLInputElement
+	const marketRentInput = document.getElementById('marketRentPerUnit') as HTMLInputElement
+	const capRateInput = document.getElementById('capRate') as HTMLInputElement
+
+	const notSureOpex = document.getElementById('notSureOpex') as HTMLInputElement
+	const opexAmountField = document.getElementById('opexAmountField') as HTMLElement
+	const opexRatioField = document.getElementById('opexRatioField') as HTMLElement
+	const annualOpexInput = document.getElementById('annualOpex') as HTMLInputElement
+	const opexRatioInput = document.getElementById('opexRatio') as HTMLInputElement
+
+	const resultPanel = document.getElementById('result-panel') as HTMLElement
+	const currentNoiEl = document.getElementById('current-noi') as HTMLElement
+	const potentialNoiEl = document.getElementById('potential-noi') as HTMLElement
+	const noiGapEl = document.getElementById('noi-gap') as HTMLElement
+	const valueImpactEl = document.getElementById('value-impact') as HTMLElement
+
+	function formatCurrency(value: number): string {
+		return value.toLocaleString('en-US', {
+			style: 'currency',
+			currency: 'USD',
+			maximumFractionDigits: 0,
+		})
+	}
+
+	notSureOpex.addEventListener('change', () => {
+		const notSure = notSureOpex.checked
+		opexAmountField.hidden = notSure
+		opexRatioField.hidden = !notSure
+		annualOpexInput.required = !notSure
+		opexRatioInput.required = notSure
+	})
+
+	form.addEventListener('submit', (event) => {
+		event.preventDefault()
+
+		const units = Number(unitsInput.value)
+		const rentPeriod = (form.querySelector('input[name="rentPeriod"]:checked') as HTMLInputElement).value
+		const grossRentAmount = Number(grossRentInput.value)
+		const grossAnnualRent = rentPeriod === 'monthly' ? grossRentAmount * 12 : grossRentAmount
+		const marketRentPerUnit = Number(marketRentInput.value)
+		const capRate = Number(capRateInput.value)
+
+		const result = notSureOpex.checked
+			? computeNoi({
+					units,
+					grossAnnualRent,
+					marketRentPerUnit,
+					opexRatio: Number(opexRatioInput.value),
+					capRate,
+				})
+			: computeNoi({
+					units,
+					grossAnnualRent,
+					marketRentPerUnit,
+					annualOpex: Number(annualOpexInput.value),
+					capRate,
+				})
+
+		currentNoiEl.textContent = formatCurrency(result.currentNoi)
+		potentialNoiEl.textContent = formatCurrency(result.potentialNoi)
+		noiGapEl.textContent = formatCurrency(result.noiGap)
+		valueImpactEl.textContent = formatCurrency(result.valueImpact)
+
+		resultPanel.hidden = false
+	})
+</script>
+
+<style>
+	.noi-check {
+		max-width: 640px;
+		margin: 0 auto;
+		padding: var(--space-6) var(--space-4);
+	}
+
+	.noi-form {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		margin-top: var(--space-5);
+	}
+
+	.noi-form label {
+		font-weight: 600;
+	}
+
+	.noi-form input[type='number'] {
+		font-size: var(--text-base);
+		padding: var(--space-2);
+		border: 1px solid var(--color-border);
+		border-radius: 2px;
+		margin-bottom: var(--space-3);
+	}
+
+	.noi-form__group {
+		border: 1px solid var(--color-border);
+		border-radius: 2px;
+		padding: var(--space-3);
+		margin-bottom: var(--space-3);
+	}
+
+	.noi-form__radios {
+		display: flex;
+		gap: var(--space-4);
+		font-weight: 400;
+		margin-top: var(--space-2);
+	}
+
+	.noi-form__checkbox {
+		display: block;
+		font-weight: 400;
+		margin-bottom: var(--space-2);
+	}
+
+	.noi-form button {
+		align-self: flex-start;
+		background: var(--color-obsidian);
+		color: var(--color-bg);
+		border: none;
+		font-size: var(--text-base);
+		font-weight: 600;
+		padding: var(--space-2) var(--space-4);
+		border-radius: 2px;
+		cursor: pointer;
+	}
+
+	.noi-form button:hover {
+		background: var(--color-accent);
+		color: var(--color-obsidian);
+	}
+
+	.result-panel {
+		margin-top: var(--space-6);
+		padding-top: var(--space-5);
+		border-top: 1px solid var(--color-border);
+	}
+
+	.result-grid {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		gap: var(--space-2) var(--space-4);
+		margin-bottom: var(--space-4);
+	}
+
+	.result-grid dt {
+		color: var(--color-slate);
+	}
+
+	.result-grid dd {
+		margin: 0;
+		font-weight: 600;
+		text-align: right;
+	}
+
+	.disclaimer {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+	}
+
+	.cta {
+		display: inline-block;
+		margin-top: var(--space-4);
+		background: var(--color-obsidian);
+		color: var(--color-bg);
+		text-decoration: none;
+		font-weight: 600;
+		padding: var(--space-2) var(--space-4);
+		border-radius: 2px;
+	}
+
+	.cta:hover {
+		background: var(--color-accent);
+		color: var(--color-obsidian);
+	}
+</style>
