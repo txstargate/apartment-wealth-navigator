@@ -2,6 +2,7 @@
 import '../styles/tokens.css'
 import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
+import Analytics from '../components/Analytics.astro'
 
 interface Props {
   title: string
@@ -34,5 +35,6 @@ const { title, description, canonical } = Astro.props
 			<slot />
 		</main>
 		<Footer />
+		<Analytics />
 	</body>
 </html>
