@@ -1,0 +1,83 @@
+---
+const navItems = [
+	{ label: 'Home', href: '/' },
+	{ label: 'About', href: '/about' },
+	{ label: 'Services', href: '/services' },
+	{ label: 'Insights', href: '/insights' },
+	{ label: 'Tools', href: '/tools' },
+	{ label: 'Contact', href: '/contact' },
+]
+
+// TODO-Shafiq: confirm the phone number to publish here.
+const phoneNumber = '(000) 000-0000'
+const phoneHref = 'tel:+10000000000'
+---
+
+<header class="site-header">
+	<nav class="site-nav">
+		<a class="site-nav__brand" href="/">Apartment Wealth Navigator</a>
+		<ul class="site-nav__links">
+			{
+				navItems.map((item) => (
+					<li>
+						<a href={item.href}>{item.label}</a>
+					</li>
+				))
+			}
+		</ul>
+		<a class="site-nav__phone" href={phoneHref}>{phoneNumber}</a>
+	</nav>
+</header>
+
+<style>
+	.site-header {
+		position: sticky;
+		top: 0;
+		z-index: 50;
+		background: var(--color-bg);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.site-nav {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-4);
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: var(--space-3) var(--space-4);
+	}
+
+	.site-nav__brand {
+		font-family: var(--font-headline);
+		font-weight: 600;
+		color: var(--color-obsidian);
+		text-decoration: none;
+		white-space: nowrap;
+	}
+
+	.site-nav__links {
+		display: flex;
+		gap: var(--space-4);
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.site-nav__links a {
+		color: var(--color-text);
+		text-decoration: none;
+		font-size: var(--text-sm);
+	}
+
+	.site-nav__links a:hover {
+		color: var(--color-accent);
+	}
+
+	.site-nav__phone {
+		color: var(--color-obsidian);
+		text-decoration: none;
+		font-size: var(--text-sm);
+		white-space: nowrap;
+	}
+</style>
