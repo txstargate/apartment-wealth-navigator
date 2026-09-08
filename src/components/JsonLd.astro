@@ -1,0 +1,13 @@
+---
+interface Props {
+  data: Record<string, unknown> | Record<string, unknown>[]
+}
+
+const { data } = Astro.props
+
+// Escape "</" so a literal string value in the payload can never close
+// the <script> tag early.
+const json = JSON.stringify(data).replace(/</g, '\\u003c')
+---
+
+<script type="application/ld+json" set:html={json} />
