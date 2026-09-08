@@ -1,0 +1,71 @@
+---
+import { getCollection, render } from 'astro:content'
+import Base from '../../layouts/Base.astro'
+import JsonLd from '../../components/JsonLd.astro'
+import GeoCTA from '../../components/GeoCTA.astro'
+import { buildFaqSchema } from '../../lib/schema'
+
+export async function getStaticPaths() {
+  const services = await getCollection('services')
+  return services.map((entry) => ({
+    params: { service: entry.id },
+    props: { entry },
+  }))
+}
+
+const { entry } = Astro.props
+const { Content } = await render(entry)
+const canonical = `https://apartmentwealthnavigator.com/services/${entry.id}`
+const faqSchema = buildFaqSchema(entry.data.faq)
+---
+
+<Base title={entry.data.title} description={entry.data.description} canonical={canonical}>
+  <JsonLd data={faqSchema} />
+  <article class="service">
+    <h1>{entry.data.title}</h1>
+    <div class="service__body">
+      <Content />
+    </div>
+
+    <section class="service__faq">
+      <h2>Common questions</h2>
+      {
+        entry.data.faq.map((item: { question: string; answer: string }) => (
+          <div class="service__faq-item">
+            <h3>{item.question}</h3>
+            <p>{item.answer}</p>
+          </div>
+        ))
+      }
+    </section>
+
+    <GeoCTA />
+  </article>
+</Base>
+
+<style>
+  .service {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .service__body {
+    margin-bottom: var(--space-6);
+  }
+
+  .service__faq {
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-5);
+    margin-bottom: var(--space-5);
+  }
+
+  .service__faq-item {
+    margin-bottom: var(--space-4);
+  }
+
+  .service__faq-item h3 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-1);
+  }
+</style>

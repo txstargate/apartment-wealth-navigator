@@ -1,13 +1,190 @@
 ---
 import Base from '../layouts/Base.astro'
 import GeoCTA from '../components/GeoCTA.astro'
+
+const stats = [
+	{ value: '225+', label: 'Owners helped improve NOI' },
+	{ value: '75+', label: 'Apartment buildings sold' },
+	{ value: '155+', label: 'Refinances positioned' },
+	{ value: '35+', label: 'Years in real estate' },
+]
 ---
 
 <Base
-	title="Apartment Wealth Navigator"
+	title="Apartment Wealth Navigator | Shafiq Hirani, Apartment NOI and Sale Advisory"
 	description="DC, Virginia, and Maryland apartment building owners: find the NOI leak, decide whether to refinance or sell, and get a read on your building."
 	canonical="https://apartmentwealthnavigator.com/"
 >
-	<h1>Apartment Wealth Navigator</h1>
-	<GeoCTA />
+	<section class="hero">
+		<h1>Raise your building's NOI before a lender or a buyer sets its value for you</h1>
+		<p>
+			I am Shafiq Hirani. I advise small and mid-sized apartment owners in Washington DC,
+			Virginia, and Maryland. The work is raising net operating income (NOI), cutting wasted
+			expenses, and positioning a building for a stronger refinance or sale.
+		</p>
+		<GeoCTA />
+	</section>
+
+	<section class="stats">
+		<h2 class="visually-hidden">Track record</h2>
+		<ul class="stats__grid">
+			{
+				stats.map((stat) => (
+					<li class="stats__card">
+						<p class="stats__value">{stat.value}</p>
+						<p class="stats__label">{stat.label}</p>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
+	<section class="content-block">
+		<h2>The market stopped covering the difference</h2>
+		<p>Rising values used to hide weak operating performance. Higher interest rates ended that.</p>
+		<p>
+			Your next lender and your next buyer both price the building on the net operating income it
+			produces today, from documents they can verify.
+		</p>
+		<p>
+			A broker who tells you to wait for the market to come back is asking you to sit out a
+			repricing that already happened.
+		</p>
+	</section>
+
+	<section class="content-block">
+		<h2>You are in one of these four situations</h2>
+		<p>You own one apartment building or several, in your own name or through an LLC.</p>
+		<ul>
+			<li>Your loan matures inside the next two years.</li>
+			<li>Insurance, taxes, water, and payroll have climbed faster than your rents.</li>
+			<li>You are weighing a sale and want to know what the building would sell for on today's numbers.</li>
+			<li>The building already runs well and you want the next layer of upside.</li>
+		</ul>
+	</section>
+
+	<section class="content-block">
+		<h2>Three ways I work with owners</h2>
+		<div class="services-grid">
+			<div>
+				<h3><a href="/services/noi">NOI Optimization and Expense Review</a></h3>
+				<p>
+					Read the income and expense lines a lender or a buyer will price, then work them in an
+					order that holds up.
+				</p>
+			</div>
+			<div>
+				<h3><a href="/services/sale">Sale Readiness and Disposition Advisory</a></h3>
+				<p>Get the building, the numbers, and the document file ready before a buyer's underwriter reads them.</p>
+			</div>
+			<div>
+				<h3><a href="/services/refinance">Refinance Positioning</a></h3>
+				<p>Work the numbers your next lender will size the loan on, while those numbers can still change.</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="content-block">
+		<h2>Read before you decide</h2>
+		<p>
+			The <a href="/insights">Insights Hub</a> covers net operating income, refinance timing, sale
+			readiness, and the DC-specific version of each question.
+		</p>
+	</section>
+
+	<section class="content-block">
+		<h2>Who reads your numbers</h2>
+		<p>
+			Commercial Real Estate Advisor and Broker with RE/MAX Distinctive Commercial, licensed in
+			Washington DC, Virginia, and Maryland. CCIM, MBA, and Professional Engineer.
+		</p>
+		<p><a href="/about">More about how I work</a></p>
+	</section>
+
+	<section class="content-block content-block--closing">
+		<h2>Start with your own numbers</h2>
+		<p>Send the property address and your last twelve months of operating statements. I read them before we speak.</p>
+		<GeoCTA />
+	</section>
 </Base>
+
+<style>
+	.hero {
+		max-width: 760px;
+		margin: 0 auto;
+		padding: var(--space-8) var(--space-4) var(--space-6);
+		text-align: center;
+	}
+
+	.hero h1 {
+		font-size: var(--text-3xl);
+		margin-bottom: var(--space-4);
+	}
+
+	.hero p {
+		font-size: var(--text-lg);
+		color: var(--color-slate);
+		margin-bottom: var(--space-5);
+	}
+
+	.visually-hidden {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+	}
+
+	.stats {
+		background: var(--color-obsidian);
+		padding: var(--space-7) var(--space-4);
+	}
+
+	.stats__grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+		gap: var(--space-4);
+		max-width: 1000px;
+		margin: 0 auto;
+		list-style: none;
+		padding: 0;
+	}
+
+	.stats__card {
+		border: 1px solid var(--color-slate);
+		border-radius: 2px;
+		padding: var(--space-4);
+		text-align: center;
+	}
+
+	.stats__value {
+		font-family: var(--font-headline);
+		font-size: var(--text-3xl);
+		color: var(--color-bg);
+		margin: 0 0 var(--space-1);
+	}
+
+	.stats__label {
+		font-size: var(--text-sm);
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		color: var(--color-slate);
+		margin: 0;
+	}
+
+	.content-block {
+		max-width: 720px;
+		margin: 0 auto;
+		padding: var(--space-6) var(--space-4);
+	}
+
+	.content-block--closing {
+		text-align: center;
+	}
+
+	.services-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: var(--space-4);
+	}
+</style>

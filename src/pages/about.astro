@@ -1,0 +1,108 @@
+---
+import Base from '../layouts/Base.astro'
+import JsonLd from '../components/JsonLd.astro'
+import GeoCTA from '../components/GeoCTA.astro'
+import personSchema from '../data/person-professionalservice.json'
+---
+
+<Base
+	title="About Shafiq Hirani | Apartment Wealth Navigator"
+	description="Shafiq Hirani, Commercial Real Estate Advisor and Broker with RE/MAX Distinctive Commercial, licensed in DC, Virginia, and Maryland. CCIM, MBA, Professional Engineer."
+	canonical="https://apartmentwealthnavigator.com/about/"
+>
+	<JsonLd data={personSchema} />
+	<article class="about">
+		<h1>About Shafiq Hirani</h1>
+
+		<p>
+			Apartment owners hire me to raise net operating income (NOI), cut wasted expenses, and
+			position a building for a stronger refinance or sale.
+		</p>
+
+		<p>
+			I am a Commercial Real Estate Advisor and Broker with RE/MAX Distinctive Commercial. I hold
+			a real estate broker license in Washington DC, Virginia, and Maryland. My clients are small
+			and mid-sized apartment owners, both individuals and LLCs.
+		</p>
+
+		<h2>What changed for building owners</h2>
+		<p>
+			For years a rising market masked weak operating performance. Higher interest rates ended
+			that. A lender or a buyer today prices a building on the NOI it actually produces.
+		</p>
+		<p>
+			The market will no longer carry an underperforming building. The owner has to improve it,
+			deliberately and on a schedule. That is the work I do.
+		</p>
+
+		<h2>How I work</h2>
+		<p>
+			Before I recommend anything, I read your business plan, your goals for the property, and
+			your financials. Those three inputs decide whether the right move is a rent strategy, an
+			expense review, a refinance, or a sale.
+		</p>
+		<p>
+			An advisor who recommends a listing before reading your operating statements is guessing
+			with your equity.
+		</p>
+		<p>
+			I apply this same process to every property I advise on, whether the building needs real
+			repair or is already stable and looking for more upside. Smaller corrections to income and
+			expenses compound into a higher NOI and a higher valuation.
+		</p>
+
+		<h2>Also an owner</h2>
+		<p>
+			I advise apartment owners on NOI, refinance, and sale readiness. I have also been an owner
+			myself, and still am.
+		</p>
+		<p>
+			I currently own a mixed-use building in Dupont Circle, Washington DC. Across my career, I
+			have developed more than 20 mixed-use projects and owned more than $220 million in
+			commercial real estate throughout North America.
+		</p>
+		<p>That ownership shapes how I read your numbers. I am not reading your operating statement as an outsider.</p>
+
+		<h2>What I trained in</h2>
+		<p>
+			I hold the CCIM designation, an MBA, and a Professional Engineer license. The engineering
+			training shapes how I read a building: its systems, its condition, and its true operating
+			cost alongside the rent roll. The MBA and the CCIM training drive how I underwrite the
+			numbers.
+		</p>
+
+		<h2>Before your next lender conversation</h2>
+		<blockquote>
+			<p>
+				<strong
+					>If your loan matures inside two years, start the expense work this month rather than
+					at application. The numbers you book now set your refinance value.</strong
+				>
+			</p>
+			<p>
+				Pull the trailing twelve months of operating statements. Mark every expense line you have
+				not renegotiated in that period. That marked list is your NOI recovery plan. Work it while
+				the numbers can still change.
+			</p>
+		</blockquote>
+
+		<p>Request a building audit below. Bring the marked list.</p>
+
+		<GeoCTA />
+	</article>
+</Base>
+
+<style>
+	.about {
+		max-width: 720px;
+		margin: 0 auto;
+		padding: var(--space-6) var(--space-4);
+	}
+
+	.about blockquote {
+		border-left: 3px solid var(--color-accent);
+		margin: var(--space-5) 0;
+		padding: var(--space-1) var(--space-4);
+		color: var(--color-slate);
+	}
+</style>

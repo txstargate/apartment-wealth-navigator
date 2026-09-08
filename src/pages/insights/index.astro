@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content'
+import Base from '../../layouts/Base.astro'
+
+const universal = await getCollection('universal')
+const dc = await getCollection('dc')
+---
+
+<Base
+	title="Insights | Apartment Wealth Navigator"
+	description="NOI, refinance, and sale-readiness guides for apartment owners, with a DC, Virginia, and Maryland branch for local search."
+	canonical="https://apartmentwealthnavigator.com/insights/"
+>
+	<section class="insights">
+		<h1>Insights</h1>
+
+		<h2>Universal library</h2>
+		<ul class="insights__list">
+			{
+				universal.map((entry) => (
+					<li>
+						<a href={`/insights/${entry.id}`}>{entry.data.title}</a>
+					</li>
+				))
+			}
+		</ul>
+
+		<h2>DC, Virginia, and Maryland library</h2>
+		<ul class="insights__list">
+			{
+				dc.map((entry) => (
+					<li>
+						<a href={`/insights/${entry.id}`}>{entry.data.title}</a>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+</Base>
+
+<style>
+	.insights {
+		max-width: 720px;
+		margin: 0 auto;
+		padding: var(--space-6) var(--space-4);
+	}
+
+	.insights__list {
+		list-style: none;
+		margin: 0 0 var(--space-5);
+		padding: 0;
+	}
+
+	.insights__list li {
+		border-top: 1px solid var(--color-border);
+		padding: var(--space-3) 0;
+	}
+
+	.insights__list a {
+		color: var(--color-text);
+		text-decoration: none;
+	}
+
+	.insights__list a:hover {
+		color: var(--color-accent);
+	}
+</style>
