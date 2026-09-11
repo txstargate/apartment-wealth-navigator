@@ -8,10 +8,20 @@ test('header inlines the compass mark svg beside the wordmark, linking home', ()
   expect(header).toMatch(/<a class="site-nav__brand" href="\/">[\s\S]*<svg/)
 })
 
+test('header inlines the Wayfarer compass mark (broken ring + champagne arrow)', () => {
+  const header = readFileSync('src/components/Header.astro', 'utf8')
+  expect(header).toContain('52,12 26,20 36,30')
+})
+
 test('favicon asset is copied into public/ and referenced from Base head', () => {
   expect(existsSync('public/awn-favicon.svg')).toBe(true)
   const base = readFileSync('src/layouts/Base.astro', 'utf8')
   expect(base).toContain('<link rel="icon" type="image/svg+xml" href="/awn-favicon.svg">')
+})
+
+test('favicon uses the updated Wayfarer arrow points', () => {
+  const favicon = readFileSync('public/awn-favicon.svg', 'utf8')
+  expect(favicon).toContain('48,15 26,22 35,30')
 })
 
 test('footer carries the tracked champagne motto line', () => {
