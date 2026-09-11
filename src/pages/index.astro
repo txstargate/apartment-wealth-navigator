@@ -92,7 +92,7 @@ const stats = [
 		</p>
 	</section>
 
-	<section class="content-block">
+	<section class="content-block content-block--band">
 		<h2>Who reads your numbers</h2>
 		<p>
 			Commercial Real Estate Advisor and Broker with RE/MAX Distinctive Commercial, licensed in
@@ -180,11 +180,24 @@ const stats = [
 
 	.content-block--closing {
 		text-align: center;
+		background: var(--color-cream);
+		border-radius: 4px;
+	}
+
+	.content-block--band {
+		background: var(--color-cream);
+		border-radius: 4px;
 	}
 
 	.services-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 		gap: var(--space-4);
+	}
+
+	.services-grid > div {
+		background: var(--color-cream);
+		padding: var(--space-4);
+		border-radius: 4px;
 	}
 </style>
