@@ -1,8 +1,10 @@
 :root {
-  /* Editorial Black and Slate palette */
+  /* Apartment Wealth Navigator locked palette */
   --color-bg: #FFFFFF;
+  --color-navy: #12314F;
   --color-obsidian: #0A0D14;
-  --color-text: #0F172A;
+  --color-text: #0A0D14;
+  --color-champagne: #C5A880;
   --color-accent: #C5A880;
   --color-accent-deep: #A98C63;
   --color-cream: #F1EDE6;
@@ -60,4 +62,12 @@ h6 {
   font-family: var(--font-headline);
   color: var(--color-obsidian);
   line-height: 1.2;
+}
+
+a {
+  color: var(--color-navy);
+}
+
+a:hover {
+  color: var(--color-accent-deep);
 }

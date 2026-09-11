@@ -8,9 +8,10 @@ test('header inlines the compass mark svg beside the wordmark, linking home', ()
   expect(header).toMatch(/<a class="site-nav__brand" href="\/">[\s\S]*<svg/)
 })
 
-test('header inlines the Wayfarer compass mark (broken ring + champagne arrow)', () => {
+test('header inlines the Wayfarer compass mark (broken ring + champagne needle) in navy', () => {
   const header = readFileSync('src/components/Header.astro', 'utf8')
-  expect(header).toContain('52,12 26,20 36,30')
+  expect(header).toContain('44,18 30,32 33,35')
+  expect(header).toContain('#12314F')
 })
 
 test('favicon asset is copied into public/ and referenced from Base head', () => {
@@ -19,9 +20,9 @@ test('favicon asset is copied into public/ and referenced from Base head', () =>
   expect(base).toContain('<link rel="icon" type="image/svg+xml" href="/awn-favicon.svg">')
 })
 
-test('favicon uses the updated Wayfarer arrow points', () => {
+test('favicon uses the updated Wayfarer needle points', () => {
   const favicon = readFileSync('public/awn-favicon.svg', 'utf8')
-  expect(favicon).toContain('48,15 26,22 35,30')
+  expect(favicon).toContain('44,18 30,32 33,35')
 })
 
 test('footer carries the tracked champagne motto line', () => {
@@ -38,9 +39,10 @@ test('about page carries the origin story line from the brand spec', () => {
 
 test('tokens.css defines the full locked palette', () => {
   const css = readFileSync('src/styles/tokens.css', 'utf8')
+  expect(css).toContain('#12314F') // navy
   expect(css).toContain('#0A0D14') // obsidian
-  expect(css).toContain('#0F172A') // ink
   expect(css).toContain('#C5A880') // champagne
   expect(css).toContain('#A98C63') // champagne deep
   expect(css).toContain('#F1EDE6') // cream
+  expect(css).not.toContain('#0F172A') // ink merged into obsidian, no longer a standalone token value
 })
