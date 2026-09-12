@@ -5,10 +5,10 @@ import { z } from 'astro/zod'
 // Shared frontmatter shape for both content layers. See
 // content-architecture.md for why the site splits into universal
 // (reach + referral) and dc (search capture + Shafiq's own deals).
-const articleSchema = z.object({
+export const articleSchema = z.object({
   title: z.string(),
   description: z.string(),
-  pillar: z.enum(['noi', 'refinance', 'sale']),
+  pillar: z.enum(['valuation', 'noi', 'refinance', 'sale']),
   youtubeId: z.string().optional(),
   dcCounterpart: z.string().optional(),
   universalParent: z.string().optional(),

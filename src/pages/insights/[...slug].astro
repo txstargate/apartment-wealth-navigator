@@ -1,10 +1,11 @@
 ---
 import { getCollection, getEntry, render } from 'astro:content'
 import Article from '../../layouts/Article.astro'
+import { filterPublished } from '../../lib/content'
 
 export async function getStaticPaths() {
-  const universal = await getCollection('universal')
-  const dc = await getCollection('dc')
+  const universal = filterPublished(await getCollection('universal'))
+  const dc = filterPublished(await getCollection('dc'))
 
   return [
     ...universal.map((entry) => ({

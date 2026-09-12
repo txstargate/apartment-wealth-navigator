@@ -11,13 +11,42 @@ const STATE_PATTERNS: RegExp[] = [
   /\bmd\b/i,
 ]
 
+// Case-insensitive DC/VA/MD service-area city and town names, so a bare
+// city with no state or ZIP still routes local. See fable-plan-review.md C1.
+const SERVICE_AREA_CITIES: string[] = [
+  'washington',
+  'arlington',
+  'alexandria',
+  'fairfax',
+  'reston',
+  'herndon',
+  'ashburn',
+  'sterling',
+  'tysons',
+  'mclean',
+  'vienna',
+  'falls church',
+  'bethesda',
+  'silver spring',
+  'rockville',
+  'gaithersburg',
+  'chevy chase',
+  'hyattsville',
+  'college park',
+  'takoma park',
+  'laurel',
+  'bowie',
+  'annapolis',
+]
+
 // [min, max] ZIP prefix ranges (first three digits) that fall inside
 // the DC/VA/MD service area.
 const ZIP_PREFIX_RANGES: Array<[number, number]> = [
   [200, 200], // DC
-  [202, 202], // DC
-  [206, 219], // MD
+  [202, 205], // DC
+  [201, 201], // Northern Virginia (Reston, Herndon, Ashburn, Sterling...)
   [220, 246], // VA
+  [206, 219], // MD
 ]
 
 function zipInServiceArea(input: string): boolean {
@@ -31,9 +60,14 @@ function stateInServiceArea(input: string): boolean {
   return STATE_PATTERNS.some((pattern) => pattern.test(input))
 }
 
+function cityInServiceArea(input: string): boolean {
+  const lower = input.toLowerCase()
+  return SERVICE_AREA_CITIES.some((city) => new RegExp(`\\b${city}\\b`).test(lower))
+}
+
 export function routeByLocation(input: string): 'local' | 'referral' {
   const trimmed = input.trim()
-  if (zipInServiceArea(trimmed) || stateInServiceArea(trimmed)) {
+  if (zipInServiceArea(trimmed) || stateInServiceArea(trimmed) || cityInServiceArea(trimmed)) {
     return 'local'
   }
   return 'referral'

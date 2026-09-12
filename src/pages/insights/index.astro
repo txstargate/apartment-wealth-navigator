@@ -1,9 +1,10 @@
 ---
 import { getCollection } from 'astro:content'
 import Base from '../../layouts/Base.astro'
+import { filterPublished } from '../../lib/content'
 
-const universal = await getCollection('universal')
-const dc = await getCollection('dc')
+const universal = filterPublished(await getCollection('universal'))
+const dc = filterPublished(await getCollection('dc'))
 ---
 
 <Base
