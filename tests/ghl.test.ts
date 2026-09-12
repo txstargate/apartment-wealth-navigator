@@ -1,23 +1,58 @@
 import { test, expect, vi, beforeEach, afterEach } from 'vitest'
 import { buildLeadPayload, submitLead } from '../src/lib/ghl'
 
-test('buildLeadPayload maps fields and routes local for a DC address', () => {
+test('buildLeadPayload splits the name and maps every field for the NOI tool', () => {
   const payload = buildLeadPayload({
     name: 'Jane Owner',
     email: 'jane@example.com',
     phone: '2025551212',
     location: 'Washington, DC',
-    source: 'noi-check',
+    toolName: 'NOI Leak Audit',
+    sourcePage: '/tools/noi-check',
+    units: 12,
+    message: 'Refinancing in Q1, expenses climbing',
   })
 
   expect(payload).toEqual({
-    name: 'Jane Owner',
+    first_name: 'Jane',
+    last_name: 'Owner',
     email: 'jane@example.com',
     phone: '2025551212',
-    location: 'Washington, DC',
-    source: 'noi-check',
+    tool_name: 'NOI Leak Audit',
+    property_address: 'Washington, DC',
+    units: 12,
+    message: 'Refinancing in Q1, expenses climbing',
     route: 'local',
+    source_page: '/tools/noi-check',
   })
+})
+
+test('buildLeadPayload splits a multi-word last name into the remainder', () => {
+  const payload = buildLeadPayload({
+    name: 'Ana Maria Gutierrez',
+    email: 'ana@example.com',
+    phone: '3015551212',
+    location: 'Rockville',
+    toolName: 'Get a Read',
+    sourcePage: '/get-started',
+  })
+
+  expect(payload.first_name).toBe('Ana')
+  expect(payload.last_name).toBe('Maria Gutierrez')
+})
+
+test('buildLeadPayload leaves last_name empty for a single-token name', () => {
+  const payload = buildLeadPayload({
+    name: 'Cher',
+    email: 'cher@example.com',
+    phone: '2025551212',
+    location: 'Washington, DC',
+    toolName: 'Get a Read',
+    sourcePage: '/contact',
+  })
+
+  expect(payload.first_name).toBe('Cher')
+  expect(payload.last_name).toBe('')
 })
 
 test('buildLeadPayload routes advisory for an out-of-market address', () => {
@@ -26,22 +61,40 @@ test('buildLeadPayload routes advisory for an out-of-market address', () => {
     email: 'john@example.com',
     phone: '5551234567',
     location: 'Queens, NY',
-    source: 'get-started',
+    toolName: 'Get a Read',
+    sourcePage: '/get-started',
   })
 
   expect(payload.route).toBe('advisory')
 })
 
-test('buildLeadPayload routes local for a bare DMV city', () => {
+test('buildLeadPayload omits units on forms without it', () => {
   const payload = buildLeadPayload({
-    name: 'Ana Owner',
-    email: 'ana@example.com',
-    phone: '3015551212',
-    location: 'Rockville',
-    source: 'noi-check',
+    name: 'Jane Owner',
+    email: 'jane@example.com',
+    phone: '2025551212',
+    location: 'Washington, DC',
+    toolName: 'Get a Read',
+    sourcePage: '/get-started',
   })
 
-  expect(payload.route).toBe('local')
+  expect(payload).not.toHaveProperty('units')
+  expect(Object.keys(payload).sort()).toEqual(
+    ['email', 'first_name', 'last_name', 'message', 'phone', 'property_address', 'route', 'source_page', 'tool_name'].sort(),
+  )
+})
+
+test('buildLeadPayload defaults message to an empty string when not supplied', () => {
+  const payload = buildLeadPayload({
+    name: 'Jane Owner',
+    email: 'jane@example.com',
+    phone: '2025551212',
+    location: 'Washington, DC',
+    toolName: 'Get a Read',
+    sourcePage: '/get-started',
+  })
+
+  expect(payload.message).toBe('')
 })
 
 const originalFetch = global.fetch
@@ -61,7 +114,15 @@ test('submitLead posts to PUBLIC_GHL_WEBHOOK_URL when set', async () => {
   const fetchMock = vi.fn().mockResolvedValue({ ok: true })
   global.fetch = fetchMock as unknown as typeof fetch
 
-  const payload = { name: 'Jane', email: 'jane@example.com', phone: '2025551212', location: 'DC', source: 'noi-check', route: 'local' as const }
+  const payload = buildLeadPayload({
+    name: 'Jane Owner',
+    email: 'jane@example.com',
+    phone: '2025551212',
+    location: 'Washington, DC',
+    toolName: 'NOI Leak Audit',
+    sourcePage: '/tools/noi-check',
+    units: 12,
+  })
   await submitLead(payload)
 
   expect(fetchMock).toHaveBeenCalledWith(
@@ -79,7 +140,14 @@ test('submitLead no-ops with a console note when the webhook URL is unset', asyn
   global.fetch = fetchMock as unknown as typeof fetch
   const infoSpy = vi.spyOn(console, 'info').mockImplementation(() => {})
 
-  const payload = { name: 'Jane', email: 'jane@example.com', phone: '2025551212', location: 'DC', source: 'noi-check', route: 'local' as const }
+  const payload = buildLeadPayload({
+    name: 'Jane Owner',
+    email: 'jane@example.com',
+    phone: '2025551212',
+    location: 'Washington, DC',
+    toolName: 'Get a Read',
+    sourcePage: '/get-started',
+  })
   await submitLead(payload)
 
   expect(fetchMock).not.toHaveBeenCalled()

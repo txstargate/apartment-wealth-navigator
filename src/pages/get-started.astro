@@ -15,9 +15,22 @@ import Base from '../layouts/Base.astro'
 		</p>
 
 		<form id="location-form" class="location-form">
+			<label for="name">Name</label>
+			<input id="name" name="name" type="text" required />
+
+			<label for="email">Email</label>
+			<input id="email" name="email" type="email" required />
+
+			<label for="phone">Phone</label>
+			<input id="phone" name="phone" type="tel" required />
+
 			<label for="location">City, state, or ZIP</label>
 			<input id="location" name="location" type="text" placeholder="e.g. Washington, DC or 20009" required />
 			<button type="submit">Continue</button>
+			<p class="consent">
+				By submitting, you agree to be contacted by phone, text, or email about your inquiry.
+				Message and data rates may apply. Reply STOP to opt out.
+			</p>
 		</form>
 
 		<div id="local-panel" class="result-panel" hidden>
@@ -42,6 +55,7 @@ import Base from '../layouts/Base.astro'
 
 <script>
 	import { routeByLocation } from '../lib/geo'
+	import { buildLeadPayload, submitLead } from '../lib/ghl'
 
 	// TODO-Shafiq: set PUBLIC_GHL_BOOKING_URL to the real GoHighLevel booking form URL.
 	const GHL_BOOKING_URL = import.meta.env.PUBLIC_GHL_BOOKING_URL || 'TODO-Shafiq: GoHighLevel booking URL'
@@ -49,15 +63,28 @@ import Base from '../layouts/Base.astro'
 	const REFERRAL_INTAKE_URL = import.meta.env.PUBLIC_REFERRAL_INTAKE_URL || 'TODO-Shafiq: referral intake URL'
 
 	const form = document.getElementById('location-form') as HTMLFormElement
+	const nameInput = document.getElementById('name') as HTMLInputElement
+	const emailInput = document.getElementById('email') as HTMLInputElement
+	const phoneInput = document.getElementById('phone') as HTMLInputElement
 	const locationInput = document.getElementById('location') as HTMLInputElement
 	const localPanel = document.getElementById('local-panel') as HTMLElement
 	const referralPanel = document.getElementById('referral-panel') as HTMLElement
 	const localLink = document.getElementById('local-booking-link') as HTMLAnchorElement
 	const referralLink = document.getElementById('referral-intake-link') as HTMLAnchorElement
 
-	form.addEventListener('submit', (event) => {
+	form.addEventListener('submit', async (event) => {
 		event.preventDefault()
 		const route = routeByLocation(locationInput.value)
+
+		const payload = buildLeadPayload({
+			name: nameInput.value,
+			email: emailInput.value,
+			phone: phoneInput.value,
+			location: locationInput.value,
+			toolName: 'Get a Read',
+			sourcePage: window.location.pathname,
+		})
+		await submitLead(payload)
 
 		if (route === 'local') {
 			localLink.href = GHL_BOOKING_URL
@@ -111,6 +138,12 @@ import Base from '../layouts/Base.astro'
 	.location-form button:hover {
 		background: var(--color-accent);
 		color: var(--color-obsidian);
+	}
+
+	.consent {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+		margin-top: var(--space-1);
 	}
 
 	.result-panel {

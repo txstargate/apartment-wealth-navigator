@@ -139,6 +139,10 @@ const BENCHMARK_SOURCE = 'Apartment List national rent data'
 				<input id="leadPhone" type="tel" required />
 
 				<button type="submit">Send me the real numbers</button>
+				<p class="consent">
+					By submitting, you agree to be contacted by phone, text, or email about your inquiry.
+					Message and data rates may apply. Reply STOP to opt out.
+				</p>
 			</form>
 
 			<div id="lead-local-panel" class="result-panel" hidden>
@@ -284,7 +288,9 @@ const BENCHMARK_SOURCE = 'Apartment List national rent data'
 			email,
 			phone,
 			location: locationInput.value,
-			source: 'noi-check',
+			toolName: 'NOI Leak Audit',
+			sourcePage: window.location.pathname,
+			units: Number(unitsInput.value),
 		})
 
 		await submitLead(payload)
@@ -403,6 +409,12 @@ const BENCHMARK_SOURCE = 'Apartment List national rent data'
 	.disclaimer {
 		font-size: var(--text-sm);
 		color: var(--color-slate);
+	}
+
+	.consent {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+		margin-top: var(--space-1);
 	}
 
 	.lead-form {
