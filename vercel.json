@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    { "source": "/market-reports/", "destination": "/locations/", "permanent": true },
+    { "source": "/services/noi-optimization/", "destination": "/services/noi/", "permanent": true },
+    { "source": "/services/refinance-positioning/", "destination": "/services/refinance/", "permanent": true },
+    { "source": "/services/sale-readiness/", "destination": "/services/sale/", "permanent": true },
+    { "source": "/link-in-bio-mobile/", "destination": "/get-started/", "permanent": true }
+  ]
+}

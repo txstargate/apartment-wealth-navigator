@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content'
 import Base from '../../layouts/Base.astro'
 import GeoCTA from '../../components/GeoCTA.astro'
 import { filterPublished } from '../../lib/content'
+import { BENCHMARK_SOURCE_DMV, COSTAR_ATTRIBUTION_NOTE } from '../../lib/benchmark'
 
 const locations = filterPublished(await getCollection('locations'))
 ---
@@ -15,6 +16,9 @@ const locations = filterPublished(await getCollection('locations'))
 	<section class="locations">
 		<h1>DMV locations</h1>
 		<p>Local market reads for owners in Washington DC, Northern Virginia, and Maryland.</p>
+		<p class="locations__source">
+			Source: {BENCHMARK_SOURCE_DMV}. {COSTAR_ATTRIBUTION_NOTE}.
+		</p>
 
 		{
 			locations.length === 0 ? (
@@ -25,6 +29,12 @@ const locations = filterPublished(await getCollection('locations'))
 						<li>
 							<a href={`/locations/${entry.id}`}>{entry.data.name}</a>
 							<p>{entry.data.summary}</p>
+							<p class="locations__data-as-of">
+								{entry.data.dataAsOf
+									? `Data as of ${new Date(entry.data.dataAsOf).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}.`
+									: 'Data as of: pending the next remax-intel refresh.'}{' '}
+								Source: {BENCHMARK_SOURCE_DMV}.
+							</p>
 						</li>
 					))}
 				</ul>
@@ -61,5 +71,11 @@ const locations = filterPublished(await getCollection('locations'))
 
 	.locations__list a:hover {
 		color: var(--color-accent);
+	}
+
+	.locations__source,
+	.locations__data-as-of {
+		color: var(--color-slate);
+		font-size: var(--text-sm);
 	}
 </style>

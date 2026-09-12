@@ -4,6 +4,9 @@ const year = new Date().getFullYear()
 
 <footer class="site-footer">
 	<p class="site-footer__motto">Insula · Reditus · Exitus</p>
+	<p class="site-footer__brokerage">
+		RE/MAX Distinctive Commercial · Office <a href="tel:+12028003200">202-800-3200</a>
+	</p>
 	<nav class="site-footer__legal">
 		<a href="/privacy">Privacy Policy</a>
 		<a href="/terms">Terms of Use</a>
@@ -28,6 +31,14 @@ const year = new Date().getFullYear()
 		letter-spacing: 3px;
 		font-size: var(--text-sm);
 		margin: 0 0 var(--space-2);
+	}
+
+	.site-footer__brokerage {
+		margin: 0 0 var(--space-2);
+	}
+
+	.site-footer__brokerage a {
+		color: var(--color-slate);
 	}
 
 	.site-footer__legal {

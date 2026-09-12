@@ -1,0 +1,11 @@
+old_path,new_path,status,note
+/,/,301,same
+/about/,/about/,301,same
+/contact/,/contact/,301,exists on new site
+/insights/,/insights/,301,same
+/market-reports/,/locations/,301,DMV data hub until a market-reports collection exists
+/services/,/services/,301,same
+/services/noi-optimization/,/services/noi/,301,slug change
+/services/refinance-positioning/,/services/refinance/,301,slug change
+/services/sale-readiness/,/services/sale/,301,slug change
+/link-in-bio-mobile/,/get-started/,301,link-in-bio lands on the geo-router

@@ -1,11 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro'
-
-// TODO-Shafiq: the DMV rent benchmark source is CoStar via the remax-intel
-// engine, pending confirmation the license permits public citation. Until
-// that is confirmed, the tool names the free national source instead. See
-// noi-quick-check-spec.md, "Defaults and sources" (2026-09-12).
-const BENCHMARK_SOURCE = 'Apartment List national rent data'
+import { BENCHMARK_SOURCE_NATIONAL } from '../../lib/benchmark'
 ---
 
 <Base
@@ -67,10 +62,11 @@ const BENCHMARK_SOURCE = 'Apartment List national rent data'
 					<p class="noi-form__hint">This is your own input, not a figure the tool supplied.</p>
 				</div>
 				<p id="benchmarkNote" class="noi-form__hint">
-					Rent benchmark source: {BENCHMARK_SOURCE}. Leave this unchecked and the tool runs a
-					Health-check on your expense ratio instead of guessing your market rent; the full
-					benchmark for your ZIP comes in the follow-up.
+					<span id="benchmarkSourceLine">Source: {BENCHMARK_SOURCE_NATIONAL}</span>. Leave this
+					unchecked and the tool runs a Health-check on your expense ratio instead of guessing
+					your market rent; the full benchmark for your ZIP comes in the follow-up.
 				</p>
+				<p id="benchmarkAttribution" class="noi-form__hint" hidden></p>
 			</fieldset>
 
 			<label for="capRate">
@@ -116,10 +112,12 @@ const BENCHMARK_SOURCE = 'Apartment List national rent data'
 					<dd id="hc-flag"></dd>
 				</dl>
 				<p id="hc-sensitivity"></p>
-				<p class="noi-form__hint">
-					Rent benchmark source: {BENCHMARK_SOURCE}. Your building's market-rent benchmark and
-					full NOI gap arrive in the follow-up once you request it below.
+				<p id="hcBenchmarkNote" class="noi-form__hint">
+					<span id="hcBenchmarkSourceLine">Source: {BENCHMARK_SOURCE_NATIONAL}</span>. Your
+					building's market-rent benchmark and full NOI gap arrive in the follow-up once you
+					request it below.
 				</p>
+				<p id="hcBenchmarkAttribution" class="noi-form__hint" hidden></p>
 			</div>
 
 			<p class="disclaimer">
@@ -163,6 +161,7 @@ const BENCHMARK_SOURCE = 'Apartment List national rent data'
 <script>
 	import { computeNoi, healthCheck, valueSensitivity } from '../../lib/noi'
 	import { buildLeadPayload, submitLead } from '../../lib/ghl'
+	import { benchmarkSource } from '../../lib/benchmark'
 
 	const form = document.getElementById('noi-form') as HTMLFormElement
 	const unitsInput = document.getElementById('units') as HTMLInputElement
@@ -197,6 +196,11 @@ const BENCHMARK_SOURCE = 'Apartment List national rent data'
 	const hcFlagEl = document.getElementById('hc-flag') as HTMLElement
 	const hcSensitivityEl = document.getElementById('hc-sensitivity') as HTMLElement
 
+	const benchmarkSourceLineEl = document.getElementById('benchmarkSourceLine') as HTMLElement
+	const benchmarkAttributionEl = document.getElementById('benchmarkAttribution') as HTMLElement
+	const hcBenchmarkSourceLineEl = document.getElementById('hcBenchmarkSourceLine') as HTMLElement
+	const hcBenchmarkAttributionEl = document.getElementById('hcBenchmarkAttribution') as HTMLElement
+
 	const leadForm = document.getElementById('lead-form') as HTMLFormElement
 	const leadLocalPanel = document.getElementById('lead-local-panel') as HTMLElement
 	const leadAdvisoryPanel = document.getElementById('lead-advisory-panel') as HTMLElement
@@ -229,8 +233,23 @@ const BENCHMARK_SOURCE = 'Apartment List national rent data'
 		marketRentInput.required = knowMarketRent.checked
 	})
 
+	function updateBenchmarkSource(): void {
+		const { label, attribution } = benchmarkSource(locationInput.value)
+
+		benchmarkSourceLineEl.textContent = label
+		hcBenchmarkSourceLineEl.textContent = label
+
+		benchmarkAttributionEl.textContent = attribution ?? ''
+		benchmarkAttributionEl.hidden = !attribution
+		hcBenchmarkAttributionEl.textContent = attribution ?? ''
+		hcBenchmarkAttributionEl.hidden = !attribution
+	}
+
+	locationInput.addEventListener('input', updateBenchmarkSource)
+
 	form.addEventListener('submit', (event) => {
 		event.preventDefault()
+		updateBenchmarkSource()
 
 		const units = Number(unitsInput.value)
 		const rentPeriod = (form.querySelector('input[name="rentPeriod"]:checked') as HTMLInputElement).value

@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content'
 import Base from '../../layouts/Base.astro'
 import GeoCTA from '../../components/GeoCTA.astro'
 import { filterPublished } from '../../lib/content'
+import { BENCHMARK_SOURCE_DMV, COSTAR_ATTRIBUTION_NOTE } from '../../lib/benchmark'
 
 export async function getStaticPaths() {
   const locations = filterPublished(await getCollection('locations'))
@@ -27,8 +28,10 @@ const dataAsOf = entry.data.dataAsOf
 		<h1>{entry.data.name}</h1>
 
 		<p class="location__data-as-of">
-			{dataAsOf ? `Data as of ${dataAsOf}.` : 'Data as of: pending the next remax-intel refresh.'}
+			{dataAsOf ? `Data as of ${dataAsOf}.` : 'Data as of: pending the next remax-intel refresh.'}{' '}
+			Source: {BENCHMARK_SOURCE_DMV}.
 		</p>
+		<p class="location__attribution">{COSTAR_ATTRIBUTION_NOTE}.</p>
 
 		<div class="location__body">
 			<Content />
@@ -55,6 +58,12 @@ const dataAsOf = entry.data.dataAsOf
 	}
 
 	.location__data-as-of {
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+		margin-bottom: var(--space-1);
+	}
+
+	.location__attribution {
 		color: var(--color-slate);
 		font-size: var(--text-sm);
 		margin-bottom: var(--space-4);
