@@ -31,7 +31,7 @@
   --text-4xl: 3.5rem;
 
   /* Font stacks */
-  --font-headline: 'Lora', 'Playfair Display', Georgia, serif;
+  --font-headline: 'Playfair Display', Georgia, serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
