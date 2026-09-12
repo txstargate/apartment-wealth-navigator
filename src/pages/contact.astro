@@ -1,0 +1,137 @@
+---
+import Base from '../layouts/Base.astro'
+---
+
+<Base
+	title="Contact | Apartment Wealth Navigator"
+	description="Tell us where your building is. Owners in DC, Virginia, and Maryland book directly with Shafiq. Everywhere else routes to a referral."
+	canonical="https://apartmentwealthnavigator.com/contact"
+>
+	<section class="get-started">
+		<h1>Where is the building?</h1>
+		<p>
+			Your building's location determines the next step: a direct booking with Shafiq, or a
+			referral to a trusted partner in your market.
+		</p>
+
+		<form id="location-form" class="location-form">
+			<label for="location">City, state, or ZIP</label>
+			<input id="location" name="location" type="text" placeholder="e.g. Washington, DC or 20009" required />
+			<button type="submit">Continue</button>
+		</form>
+
+		<div id="local-panel" class="result-panel" hidden>
+			<h2>Book a time with Shafiq</h2>
+			<p>Your building is in the DC, Virginia, or Maryland service area.</p>
+			<!-- TODO-Shafiq: replace this link with the GoHighLevel booking embed once the URL is set -->
+			<a id="local-booking-link" class="result-link" href="#" target="_blank" rel="noopener">
+				Book your building review
+			</a>
+		</div>
+
+		<div id="referral-panel" class="result-panel" hidden>
+			<h2>Get matched with a local advisor</h2>
+			<p>Shafiq covers DC, Virginia, and Maryland. We will route your building to a trusted partner in your market.</p>
+			<!-- TODO-Shafiq: replace this link with the referral intake form URL once it's set -->
+			<a id="referral-intake-link" class="result-link" href="#" target="_blank" rel="noopener">
+				Start the referral intake
+			</a>
+		</div>
+	</section>
+</Base>
+
+<script>
+	import { routeByLocation } from '../lib/geo'
+
+	// TODO-Shafiq: set PUBLIC_GHL_BOOKING_URL to the real GoHighLevel booking form URL.
+	const GHL_BOOKING_URL = import.meta.env.PUBLIC_GHL_BOOKING_URL || 'TODO-Shafiq: GoHighLevel booking URL'
+	// TODO-Shafiq: set PUBLIC_REFERRAL_INTAKE_URL to the real referral intake form URL.
+	const REFERRAL_INTAKE_URL = import.meta.env.PUBLIC_REFERRAL_INTAKE_URL || 'TODO-Shafiq: referral intake URL'
+
+	const form = document.getElementById('location-form') as HTMLFormElement
+	const locationInput = document.getElementById('location') as HTMLInputElement
+	const localPanel = document.getElementById('local-panel') as HTMLElement
+	const referralPanel = document.getElementById('referral-panel') as HTMLElement
+	const localLink = document.getElementById('local-booking-link') as HTMLAnchorElement
+	const referralLink = document.getElementById('referral-intake-link') as HTMLAnchorElement
+
+	form.addEventListener('submit', (event) => {
+		event.preventDefault()
+		const route = routeByLocation(locationInput.value)
+
+		if (route === 'local') {
+			localLink.href = GHL_BOOKING_URL
+			localPanel.hidden = false
+			referralPanel.hidden = true
+		} else {
+			referralLink.href = REFERRAL_INTAKE_URL
+			referralPanel.hidden = false
+			localPanel.hidden = true
+		}
+	})
+</script>
+
+<style>
+	.get-started {
+		max-width: 600px;
+		margin: 0 auto;
+		padding: var(--space-6) var(--space-4);
+	}
+
+	.location-form {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		margin-top: var(--space-5);
+	}
+
+	.location-form label {
+		font-weight: 600;
+	}
+
+	.location-form input {
+		font-size: var(--text-base);
+		padding: var(--space-2);
+		border: 1px solid var(--color-border);
+		border-radius: 2px;
+	}
+
+	.location-form button {
+		align-self: flex-start;
+		background: var(--color-navy);
+		color: var(--color-bg);
+		border: none;
+		font-size: var(--text-base);
+		font-weight: 600;
+		padding: var(--space-2) var(--space-4);
+		border-radius: 2px;
+		cursor: pointer;
+	}
+
+	.location-form button:hover {
+		background: var(--color-accent);
+		color: var(--color-obsidian);
+	}
+
+	.result-panel {
+		margin-top: var(--space-6);
+		padding-top: var(--space-5);
+		border-top: 1px solid var(--color-border);
+	}
+
+	.result-link {
+		display: inline-block;
+		margin-top: var(--space-3);
+		background: var(--color-navy);
+		color: var(--color-bg);
+		text-decoration: none;
+		font-weight: 600;
+		padding: var(--space-2) var(--space-4);
+		border-radius: 2px;
+	}
+
+	.result-link:hover {
+		background: var(--color-accent);
+		color: var(--color-obsidian);
+	}
+</style>

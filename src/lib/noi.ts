@@ -39,3 +39,24 @@ export function computeNoi(input: NoiInput): NoiResult {
 
   return { currentNoi, potentialNoi, noiGap, valueImpact }
 }
+
+export interface OpexRatioRange {
+  low: number
+  high: number
+}
+
+// Health-check mode: when no market-rent benchmark exists for the ZIP,
+// compare the owner's expense ratio to a typical range instead of
+// claiming a specific market-rent gap. See noi-quick-check-spec.md.
+export function healthCheck(opexRatio: number, typicalRange: OpexRatioRange): 'high' | 'normal' | 'lean' {
+  if (opexRatio > typicalRange.high) return 'high'
+  if (opexRatio < typicalRange.low) return 'lean'
+  return 'normal'
+}
+
+// Value per $1,000 of annual NOI at a given cap rate, shown in
+// Health-check mode so the owner sees value sensitivity without a
+// fabricated market-rent gap.
+export function valueSensitivity(capRate: number): number {
+  return 1000 / capRate
+}

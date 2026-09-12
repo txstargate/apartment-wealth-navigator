@@ -1,5 +1,6 @@
 {
   "_comment": "Copied verbatim from ../../../schema/person-professionalservice.json (apartmentwealthnavigator/schema/), the confirmed source of truth outside the site repo. Keep this file and that one in sync if the identity facts change.",
+  "_todo_headshot": "TODO-Shafiq: drop in final headshot. public/shafiq-hirani.jpg is a 1x1 placeholder pixel, see public/TODO-shafiq-headshot.md",
   "@context": "https://schema.org",
   "@graph": [
     {
@@ -11,7 +12,7 @@
         "@id": "https://apartmentwealthnavigator.com/#organization"
       },
       "url": "https://apartmentwealthnavigator.com/about/",
-      "image": "https://apartmentwealthnavigator.com/wp-content/uploads/2026/08/ChatGPT-Image-Jun-20-2026-04_46_34-PM.png",
+      "image": "https://apartmentwealthnavigator.com/shafiq-hirani.jpg",
       "email": "shirani@enterprisere.com",
       "telephone": "+1-202-290-1055",
       "knowsAbout": [

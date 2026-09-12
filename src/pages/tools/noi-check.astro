@@ -1,5 +1,11 @@
 ---
 import Base from '../../layouts/Base.astro'
+
+// TODO-Shafiq: the DMV rent benchmark source is CoStar via the remax-intel
+// engine, pending confirmation the license permits public citation. Until
+// that is confirmed, the tool names the free national source instead. See
+// noi-quick-check-spec.md, "Defaults and sources" (2026-09-12).
+const BENCHMARK_SOURCE = 'Apartment List national rent data'
 ---
 
 <Base
@@ -30,30 +36,51 @@ import Base from '../../layouts/Base.astro'
 			<fieldset class="noi-form__group">
 				<legend>Current annual operating expenses</legend>
 				<label class="noi-form__checkbox">
-					<input id="notSureOpex" type="checkbox" />
+					<input id="notSureOpex" type="checkbox" checked />
 					Not sure, estimate from an expense ratio instead
 				</label>
-				<div id="opexAmountField">
+				<div id="opexAmountField" hidden>
 					<label for="annualOpex">Annual operating expenses</label>
 					<input id="annualOpex" type="number" min="0" step="1" />
 				</div>
-				<div id="opexRatioField" hidden>
+				<div id="opexRatioField">
 					<label for="opexRatio">
-						Operating expense ratio (0 to 1)
-						<!-- TODO-Shafiq: set the default operating-expense ratio for the "not sure" path. Left blank on purpose until you set it. -->
+						Operating expense ratio: <span id="opexRatioValue">45%</span>
 					</label>
-					<input id="opexRatio" type="number" min="0" max="1" step="0.01" placeholder="e.g. 0.40" />
+					<input id="opexRatio" type="range" min="0.35" max="0.55" step="0.01" value="0.45" />
+					<p class="noi-form__hint">
+						DMV 5-to-50-unit apartments typically run 35% to 55% of effective gross income
+						(excluding debt service), higher for older buildings with owner-paid utilities.
+					</p>
 				</div>
 			</fieldset>
 
-			<label for="marketRentPerUnit">Estimated market rent per unit (monthly)</label>
-			<input id="marketRentPerUnit" type="number" min="0" step="1" required />
+			<fieldset class="noi-form__group">
+				<legend>Market rent per unit (optional)</legend>
+				<label class="noi-form__checkbox">
+					<input id="knowMarketRent" type="checkbox" />
+					I know my market rent per unit and want to enter it myself
+				</label>
+				<div id="marketRentField" hidden>
+					<label for="marketRentPerUnit">Your estimate of market rent per unit (monthly)</label>
+					<input id="marketRentPerUnit" type="number" min="0" step="1" />
+					<p class="noi-form__hint">This is your own input, not a figure the tool supplied.</p>
+				</div>
+				<p id="benchmarkNote" class="noi-form__hint">
+					Rent benchmark source: {BENCHMARK_SOURCE}. Leave this unchecked and the tool runs a
+					Health-check on your expense ratio instead of guessing your market rent; the full
+					benchmark for your ZIP comes in the follow-up.
+				</p>
+			</fieldset>
 
 			<label for="capRate">
-				Representative cap rate (0 to 1)
-				<!-- TODO-Shafiq: set the representative cap rate default. Left blank on purpose until you set it. -->
+				Representative cap rate: <span id="capRateValue">6.0%</span>
+				<span class="noi-form__note">Market estimate. Moves with rates.</span>
 			</label>
-			<input id="capRate" type="number" min="0" max="1" step="0.001" placeholder="e.g. 0.06" required />
+			<input id="capRate" type="range" min="0.05" max="0.075" step="0.0025" value="0.06" />
+
+			<label for="location">Building location (ZIP or city)</label>
+			<input id="location" type="text" placeholder="e.g. Washington, DC or 20009" required />
 
 			<button type="submit">Calculate</button>
 		</form>
@@ -61,48 +88,114 @@ import Base from '../../layouts/Base.astro'
 		<div id="result-panel" class="result-panel" hidden>
 			<h2>Your result</h2>
 
-			<dl class="result-grid">
-				<dt>Current NOI</dt>
-				<dd id="current-noi"></dd>
+			<div id="full-result" hidden>
+				<dl class="result-grid">
+					<dt>Current NOI</dt>
+					<dd id="current-noi"></dd>
 
-				<dt>Potential NOI</dt>
-				<dd id="potential-noi"></dd>
+					<dt>Potential NOI</dt>
+					<dd id="potential-noi"></dd>
 
-				<dt>Annual NOI gap</dt>
-				<dd id="noi-gap"></dd>
+					<dt>Annual NOI gap</dt>
+					<dd id="noi-gap"></dd>
 
-				<dt>Estimated value impact</dt>
-				<dd id="value-impact"></dd>
-			</dl>
+					<dt>Estimated value impact</dt>
+					<dd id="value-impact"></dd>
+				</dl>
+			</div>
 
-			<p class="disclaimer"><strong>ESTIMATE.</strong> Label every output an ESTIMATE, not an appraisal or a valuation.</p>
+			<div id="health-check-result" hidden>
+				<dl class="result-grid">
+					<dt>Current NOI</dt>
+					<dd id="hc-current-noi"></dd>
+
+					<dt>Operating expense ratio</dt>
+					<dd id="hc-opex-ratio"></dd>
+
+					<dt>Where that lands</dt>
+					<dd id="hc-flag"></dd>
+				</dl>
+				<p id="hc-sensitivity"></p>
+				<p class="noi-form__hint">
+					Rent benchmark source: {BENCHMARK_SOURCE}. Your building's market-rent benchmark and
+					full NOI gap arrive in the follow-up once you request it below.
+				</p>
+			</div>
+
+			<p class="disclaimer">
+				This is an educational estimate, not an appraisal and not a broker opinion of value.
+			</p>
 			<p class="disclaimer">No PII stored on the site beyond the GoHighLevel submission.</p>
 
-			<a class="cta" href="/get-started">Get the real numbers on your building</a>
+			<form id="lead-form" class="lead-form">
+				<h3>Get the real numbers on your building</h3>
+				<label for="leadName">Name</label>
+				<input id="leadName" type="text" required />
+
+				<label for="leadEmail">Email</label>
+				<input id="leadEmail" type="email" required />
+
+				<label for="leadPhone">Phone</label>
+				<input id="leadPhone" type="tel" required />
+
+				<button type="submit">Send me the real numbers</button>
+			</form>
+
+			<div id="lead-local-panel" class="result-panel" hidden>
+				<h3>Book a time with Shafiq</h3>
+				<p>Your building is in the DC, Virginia, or Maryland service area.</p>
+				<a class="cta" href="/get-started">Continue to booking</a>
+			</div>
+
+			<div id="lead-advisory-panel" class="result-panel" hidden>
+				<h3>Get matched with a local advisor</h3>
+				<p>Shafiq covers DC, Virginia, and Maryland. We will route your building from here.</p>
+				<a class="cta" href="/get-started">Continue</a>
+			</div>
 		</div>
 	</section>
 </Base>
 
 <script>
-	import { computeNoi } from '../../lib/noi'
+	import { computeNoi, healthCheck, valueSensitivity } from '../../lib/noi'
+	import { buildLeadPayload, submitLead } from '../../lib/ghl'
 
 	const form = document.getElementById('noi-form') as HTMLFormElement
 	const unitsInput = document.getElementById('units') as HTMLInputElement
 	const grossRentInput = document.getElementById('grossRent') as HTMLInputElement
-	const marketRentInput = document.getElementById('marketRentPerUnit') as HTMLInputElement
-	const capRateInput = document.getElementById('capRate') as HTMLInputElement
+	const locationInput = document.getElementById('location') as HTMLInputElement
 
 	const notSureOpex = document.getElementById('notSureOpex') as HTMLInputElement
 	const opexAmountField = document.getElementById('opexAmountField') as HTMLElement
 	const opexRatioField = document.getElementById('opexRatioField') as HTMLElement
 	const annualOpexInput = document.getElementById('annualOpex') as HTMLInputElement
 	const opexRatioInput = document.getElementById('opexRatio') as HTMLInputElement
+	const opexRatioValue = document.getElementById('opexRatioValue') as HTMLElement
+
+	const knowMarketRent = document.getElementById('knowMarketRent') as HTMLInputElement
+	const marketRentField = document.getElementById('marketRentField') as HTMLElement
+	const marketRentInput = document.getElementById('marketRentPerUnit') as HTMLInputElement
+
+	const capRateInput = document.getElementById('capRate') as HTMLInputElement
+	const capRateValue = document.getElementById('capRateValue') as HTMLElement
 
 	const resultPanel = document.getElementById('result-panel') as HTMLElement
+	const fullResult = document.getElementById('full-result') as HTMLElement
+	const healthCheckResult = document.getElementById('health-check-result') as HTMLElement
+
 	const currentNoiEl = document.getElementById('current-noi') as HTMLElement
 	const potentialNoiEl = document.getElementById('potential-noi') as HTMLElement
 	const noiGapEl = document.getElementById('noi-gap') as HTMLElement
 	const valueImpactEl = document.getElementById('value-impact') as HTMLElement
+
+	const hcCurrentNoiEl = document.getElementById('hc-current-noi') as HTMLElement
+	const hcOpexRatioEl = document.getElementById('hc-opex-ratio') as HTMLElement
+	const hcFlagEl = document.getElementById('hc-flag') as HTMLElement
+	const hcSensitivityEl = document.getElementById('hc-sensitivity') as HTMLElement
+
+	const leadForm = document.getElementById('lead-form') as HTMLFormElement
+	const leadLocalPanel = document.getElementById('lead-local-panel') as HTMLElement
+	const leadAdvisoryPanel = document.getElementById('lead-advisory-panel') as HTMLElement
 
 	function formatCurrency(value: number): string {
 		return value.toLocaleString('en-US', {
@@ -117,7 +210,19 @@ import Base from '../../layouts/Base.astro'
 		opexAmountField.hidden = notSure
 		opexRatioField.hidden = !notSure
 		annualOpexInput.required = !notSure
-		opexRatioInput.required = notSure
+	})
+
+	opexRatioInput.addEventListener('input', () => {
+		opexRatioValue.textContent = `${Math.round(Number(opexRatioInput.value) * 100)}%`
+	})
+
+	capRateInput.addEventListener('input', () => {
+		capRateValue.textContent = `${(Number(capRateInput.value) * 100).toFixed(1)}%`
+	})
+
+	knowMarketRent.addEventListener('change', () => {
+		marketRentField.hidden = !knowMarketRent.checked
+		marketRentInput.required = knowMarketRent.checked
 	})
 
 	form.addEventListener('submit', (event) => {
@@ -127,31 +232,65 @@ import Base from '../../layouts/Base.astro'
 		const rentPeriod = (form.querySelector('input[name="rentPeriod"]:checked') as HTMLInputElement).value
 		const grossRentAmount = Number(grossRentInput.value)
 		const grossAnnualRent = rentPeriod === 'monthly' ? grossRentAmount * 12 : grossRentAmount
-		const marketRentPerUnit = Number(marketRentInput.value)
 		const capRate = Number(capRateInput.value)
 
-		const result = notSureOpex.checked
-			? computeNoi({
-					units,
-					grossAnnualRent,
-					marketRentPerUnit,
-					opexRatio: Number(opexRatioInput.value),
-					capRate,
-				})
-			: computeNoi({
-					units,
-					grossAnnualRent,
-					marketRentPerUnit,
-					annualOpex: Number(annualOpexInput.value),
-					capRate,
-				})
+		const annualOpex = notSureOpex.checked
+			? grossAnnualRent * Number(opexRatioInput.value)
+			: Number(annualOpexInput.value)
+		const opexRatio = annualOpex / grossAnnualRent
 
-		currentNoiEl.textContent = formatCurrency(result.currentNoi)
-		potentialNoiEl.textContent = formatCurrency(result.potentialNoi)
-		noiGapEl.textContent = formatCurrency(result.noiGap)
-		valueImpactEl.textContent = formatCurrency(result.valueImpact)
+		if (knowMarketRent.checked && marketRentInput.value) {
+			const result = computeNoi({
+				units,
+				grossAnnualRent,
+				annualOpex,
+				marketRentPerUnit: Number(marketRentInput.value),
+				capRate,
+			})
+
+			currentNoiEl.textContent = formatCurrency(result.currentNoi)
+			potentialNoiEl.textContent = formatCurrency(result.potentialNoi)
+			noiGapEl.textContent = formatCurrency(result.noiGap)
+			valueImpactEl.textContent = formatCurrency(result.valueImpact)
+
+			fullResult.hidden = false
+			healthCheckResult.hidden = true
+		} else {
+			const currentNoi = grossAnnualRent - annualOpex
+			const flag = healthCheck(opexRatio, { low: 0.35, high: 0.55 })
+			const sensitivity = valueSensitivity(capRate)
+
+			hcCurrentNoiEl.textContent = formatCurrency(currentNoi)
+			hcOpexRatioEl.textContent = `${Math.round(opexRatio * 100)}%`
+			hcFlagEl.textContent = flag === 'high' ? 'High' : flag === 'lean' ? 'Lean' : 'Normal'
+			hcSensitivityEl.textContent = `Each $1,000 of annual NOI is roughly ${formatCurrency(sensitivity)} of value at a ${(capRate * 100).toFixed(1)}% cap rate.`
+
+			fullResult.hidden = true
+			healthCheckResult.hidden = false
+		}
 
 		resultPanel.hidden = false
+	})
+
+	leadForm.addEventListener('submit', async (event) => {
+		event.preventDefault()
+
+		const name = (document.getElementById('leadName') as HTMLInputElement).value
+		const email = (document.getElementById('leadEmail') as HTMLInputElement).value
+		const phone = (document.getElementById('leadPhone') as HTMLInputElement).value
+
+		const payload = buildLeadPayload({
+			name,
+			email,
+			phone,
+			location: locationInput.value,
+			source: 'noi-check',
+		})
+
+		await submitLead(payload)
+
+		leadLocalPanel.hidden = payload.route !== 'local'
+		leadAdvisoryPanel.hidden = payload.route !== 'advisory'
 	})
 </script>
 
@@ -173,12 +312,32 @@ import Base from '../../layouts/Base.astro'
 		font-weight: 600;
 	}
 
-	.noi-form input[type='number'] {
+	.noi-form__note {
+		display: block;
+		font-weight: 400;
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+	}
+
+	.noi-form__hint {
+		font-weight: 400;
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+		margin: var(--space-1) 0 0;
+	}
+
+	.noi-form input[type='number'],
+	.noi-form input[type='text'] {
 		font-size: var(--text-base);
 		padding: var(--space-2);
 		border: 1px solid var(--color-border);
 		border-radius: 2px;
 		margin-bottom: var(--space-3);
+	}
+
+	.noi-form input[type='range'] {
+		width: 100%;
+		margin-bottom: var(--space-2);
 	}
 
 	.noi-form__group {
@@ -246,9 +405,41 @@ import Base from '../../layouts/Base.astro'
 		color: var(--color-slate);
 	}
 
+	.lead-form {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		margin-top: var(--space-5);
+	}
+
+	.lead-form input {
+		font-size: var(--text-base);
+		padding: var(--space-2);
+		border: 1px solid var(--color-border);
+		border-radius: 2px;
+		margin-bottom: var(--space-2);
+	}
+
+	.lead-form button {
+		align-self: flex-start;
+		background: var(--color-navy);
+		color: var(--color-bg);
+		border: none;
+		font-size: var(--text-base);
+		font-weight: 600;
+		padding: var(--space-2) var(--space-4);
+		border-radius: 2px;
+		cursor: pointer;
+	}
+
+	.lead-form button:hover {
+		background: var(--color-accent);
+		color: var(--color-obsidian);
+	}
+
 	.cta {
 		display: inline-block;
-		margin-top: var(--space-4);
+		margin-top: var(--space-3);
 		background: var(--color-navy);
 		color: var(--color-bg);
 		text-decoration: none;

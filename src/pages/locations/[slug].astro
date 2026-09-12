@@ -1,0 +1,66 @@
+---
+import { getCollection, render } from 'astro:content'
+import Base from '../../layouts/Base.astro'
+import GeoCTA from '../../components/GeoCTA.astro'
+import { filterPublished } from '../../lib/content'
+
+export async function getStaticPaths() {
+  const locations = filterPublished(await getCollection('locations'))
+
+  return locations.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }))
+}
+
+const { entry } = Astro.props
+const { Content } = await render(entry)
+const canonical = `https://apartmentwealthnavigator.com/locations/${entry.id}`
+const dataAsOf = entry.data.dataAsOf
+	? new Date(entry.data.dataAsOf).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+	: null
+---
+
+<Base title={`${entry.data.name} | Apartment Wealth Navigator`} description={entry.data.summary} canonical={canonical}>
+	<article class="location">
+		<p class="location__jurisdiction">{entry.data.jurisdiction}</p>
+		<h1>{entry.data.name}</h1>
+
+		<p class="location__data-as-of">
+			{dataAsOf ? `Data as of ${dataAsOf}.` : 'Data as of: pending the next remax-intel refresh.'}
+		</p>
+
+		<div class="location__body">
+			<Content />
+		</div>
+
+		<GeoCTA />
+	</article>
+</Base>
+
+<style>
+	.location {
+		max-width: 720px;
+		margin: 0 auto;
+		padding: var(--space-6) var(--space-4);
+	}
+
+	.location__jurisdiction {
+		font-family: var(--font-body);
+		font-size: var(--text-sm);
+		letter-spacing: 0.1em;
+		color: var(--color-accent);
+		text-transform: uppercase;
+		margin-bottom: var(--space-2);
+	}
+
+	.location__data-as-of {
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+		margin-bottom: var(--space-4);
+	}
+
+	.location__body {
+		margin-bottom: var(--space-5);
+	}
+</style>

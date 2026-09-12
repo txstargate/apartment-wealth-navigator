@@ -43,4 +43,22 @@ const services = defineCollection({
   schema: serviceSchema,
 })
 
-export const collections = { universal, dc, services }
+// DMV location pages: a plain-language market read per jurisdiction,
+// each carrying its own comps and a "data as of" date once the
+// remax-intel refresh loads them. See content-architecture.md, "DMV hub
+// and location pages", and build-plan.md Task 20.
+export const locationSchema = z.object({
+  name: z.string(),
+  slug: z.string(),
+  jurisdiction: z.string(),
+  summary: z.string(),
+  dataAsOf: z.coerce.date().optional(),
+  draft: z.boolean().default(false),
+})
+
+const locations = defineCollection({
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/locations' }),
+  schema: locationSchema,
+})
+
+export const collections = { universal, dc, services, locations }
