@@ -14,6 +14,14 @@ export const articleSchema = z.object({
   universalParent: z.string().optional(),
   publishDate: z.coerce.date(),
   draft: z.boolean().default(false),
+  // The body carries its own counterpart link and "Get a read" CTA, so the
+  // layout skips its generic crosslink and GeoCTA (review 2026-09-12).
+  inlineCtas: z.boolean().default(false),
+  // Mirrors the body's "Frequently asked questions" section so the page emits
+  // FAQPage JSON-LD (AEO, content-architecture.md). Keep in sync with the body.
+  faq: z
+    .array(z.object({ question: z.string(), answer: z.string() }))
+    .optional(),
 })
 
 const universal = defineCollection({

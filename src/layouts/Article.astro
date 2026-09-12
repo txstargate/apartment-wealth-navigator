@@ -2,7 +2,7 @@
 import Base from './Base.astro'
 import JsonLd from '../components/JsonLd.astro'
 import GeoCTA from '../components/GeoCTA.astro'
-import { buildArticleSchema, buildVideoSchema } from '../lib/schema'
+import { buildArticleSchema, buildVideoSchema, buildFaqSchema } from '../lib/schema'
 
 interface Props {
   entry: any
@@ -30,11 +30,15 @@ const videoSchema = entry.data.youtubeId
       embedUrl: `https://www.youtube.com/embed/${entry.data.youtubeId}`,
     })
   : null
+
+const faqSchema = entry.data.faq?.length ? buildFaqSchema(entry.data.faq) : null
+const inlineCtas = Boolean(entry.data.inlineCtas)
 ---
 
 <Base title={entry.data.title} description={entry.data.description} canonical={canonical}>
   <JsonLd data={articleSchema} />
   {videoSchema && <JsonLd data={videoSchema} />}
+  {faqSchema && <JsonLd data={faqSchema} />}
   <article class="article">
     <p class="article__pillar">{entry.data.pillar.toUpperCase()}</p>
     <h1>{entry.data.title}</h1>
@@ -57,7 +61,7 @@ const videoSchema = entry.data.youtubeId
     </div>
 
     {
-      counterpart && direction === 'down' && (
+      !inlineCtas && counterpart && direction === 'down' && (
         <p class="article__crosslink">
           Own a building in DC, Virginia, or Maryland?{' '}
           <a href={`/insights/${counterpart.id}`}>Read what this looks like in your market.</a>
@@ -66,7 +70,7 @@ const videoSchema = entry.data.youtubeId
     }
 
     {
-      counterpart && direction === 'up' && (
+      !inlineCtas && counterpart && direction === 'up' && (
         <p class="article__crosslink">
           Read the universal guide this article builds on:{' '}
           <a href={`/insights/${counterpart.id}`}>{counterpart.data.title}</a>
@@ -74,7 +78,7 @@ const videoSchema = entry.data.youtubeId
       )
     }
 
-    <GeoCTA />
+    {!inlineCtas && <GeoCTA />}
   </article>
 </Base>
 

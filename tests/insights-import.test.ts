@@ -3,7 +3,8 @@ import { test, expect } from 'vitest'
 import { articleSchema } from '../src/content.config'
 
 // The eight voice-gated articles from content/insights/, imported as
-// draft: true pending buyer review. See build-plan.md Task 19 Step 3.
+// draft: true on 2026-09-09 (build-plan.md Task 19 Step 3) and published
+// after Shafiq's review pass on 2026-09-12 (tests/articles-published.test.ts).
 const PAIRS: Array<{ universal: string; dc: string; pillar: 'valuation' | 'noi' | 'refinance' | 'sale' }> = [
   { universal: 'whats-my-apartment-building-worth', dc: 'dc-apartment-building-worth-2026', pillar: 'valuation' },
   { universal: 'how-to-increase-noi-small-apartment-building', dc: 'increase-noi-dc-apartment-building', pillar: 'noi' },
@@ -58,8 +59,8 @@ for (const pair of PAIRS) {
 
     expect(universalData.pillar).toBe(pair.pillar)
     expect(dcData.pillar).toBe(pair.pillar)
-    expect(universalData.draft).toBe('true')
-    expect(dcData.draft).toBe('true')
+    expect(universalData.draft).toBe('false')
+    expect(dcData.draft).toBe('false')
     expect(universalData.dcCounterpart).toBe(pair.dc)
     expect(dcData.universalParent).toBe(pair.universal)
   })
