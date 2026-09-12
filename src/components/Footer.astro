@@ -4,6 +4,11 @@ const year = new Date().getFullYear()
 
 <footer class="site-footer">
 	<p class="site-footer__motto">Insula · Reditus · Exitus</p>
+	<nav class="site-footer__legal">
+		<a href="/privacy">Privacy Policy</a>
+		<a href="/terms">Terms of Use</a>
+		<a href="/disclosures">Disclosures</a>
+	</nav>
 	<p>&copy; {year} Apartment Wealth Navigator. All rights reserved.</p>
 </footer>
 
@@ -23,5 +28,21 @@ const year = new Date().getFullYear()
 		letter-spacing: 3px;
 		font-size: var(--text-sm);
 		margin: 0 0 var(--space-2);
+	}
+
+	.site-footer__legal {
+		display: flex;
+		justify-content: center;
+		gap: var(--space-4);
+		margin: 0 0 var(--space-2);
+	}
+
+	.site-footer__legal a {
+		color: var(--color-slate);
+		text-decoration: none;
+	}
+
+	.site-footer__legal a:hover {
+		color: var(--color-accent);
 	}
 </style>
