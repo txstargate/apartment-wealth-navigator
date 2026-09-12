@@ -10,9 +10,12 @@ test('footer carries the brokerage name and office number as a tel link', () => 
   expect(footer).toContain('RE/MAX Distinctive Commercial')
   expect(footer).toContain('202-800-3200')
   expect(footer).toContain('href="tel:+12028003200"')
-  expect(footer).toContain('Insula · Reditus · Exitus')
-  // Shafiq (2026-09-12): a plain-English gloss sits under the Latin motto.
-  expect(footer).toContain('The building. The return. The exit.')
+  // Motto: each Latin word with its plain-English gloss directly beneath it,
+  // no periods (Shafiq, 2026-09-12).
+  for (const [latin, gloss] of [['Insula', 'The building'], ['Reditus', 'The return'], ['Exitus', 'The exit']]) {
+    expect(footer).toContain(`<span class="site-footer__latin">${latin}</span><span class="site-footer__gloss">${gloss}</span>`)
+  }
+  expect(footer).not.toContain('The building.')
 })
 
 test('disclosures page carries the same brokerage name and office number', () => {

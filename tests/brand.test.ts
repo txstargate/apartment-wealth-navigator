@@ -27,7 +27,12 @@ test('favicon uses the updated Wayfarer needle points', () => {
 
 test('footer carries the tracked champagne motto line', () => {
   const footer = readFileSync('src/components/Footer.astro', 'utf8')
-  expect(footer).toContain('Insula · Reditus · Exitus')
+  // The three Latin words render in the champagne motto style with a
+  // separator between them (each word carries its gloss beneath it).
+  for (const word of ['Insula', 'Reditus', 'Exitus']) {
+    expect(footer).toContain(`<span class="site-footer__latin">${word}</span>`)
+  }
+  expect(footer).toContain('class="site-footer__motto-sep"')
 })
 
 test('about page carries the origin story line from the brand spec', () => {
