@@ -57,13 +57,24 @@ export function buildLeadPayload(input: LeadInput): LeadPayload {
   return payload
 }
 
+// Live inbound webhook for the "NOI Tool Intake — Web" workflow in Shafiq's
+// GoHighLevel location yGq2yl5q6YBMPRf0W7j1 (handed over 2026-09-12). It is a
+// public endpoint baked into client JS, not a secret. Set
+// PUBLIC_GHL_WEBHOOK_URL to override it, or to "off" to disable submission
+// (local development, previews).
+export const DEFAULT_GHL_WEBHOOK_URL =
+  'https://services.leadconnectorhq.com/hooks/yGq2yl5q6YBMPRf0W7j1/webhook-trigger/7665ce69-2217-4fb7-84ce-03912b451268'
+
+export function resolveWebhookUrl(envValue?: string): string | null {
+  if (envValue === 'off') return null
+  return envValue && envValue.trim() !== '' ? envValue : DEFAULT_GHL_WEBHOOK_URL
+}
+
 export async function submitLead(payload: LeadPayload): Promise<void> {
-  const webhookUrl = import.meta.env.PUBLIC_GHL_WEBHOOK_URL
+  const webhookUrl = resolveWebhookUrl(import.meta.env.PUBLIC_GHL_WEBHOOK_URL)
 
   if (!webhookUrl) {
-    // TODO-Shafiq: set PUBLIC_GHL_WEBHOOK_URL to the real GoHighLevel
-    // inbound webhook once it exists (ghl-cowork-runbook.md Part C).
-    console.info('PUBLIC_GHL_WEBHOOK_URL is unset -- lead not submitted', payload)
+    console.info('PUBLIC_GHL_WEBHOOK_URL is off -- lead not submitted', payload)
     return
   }
 

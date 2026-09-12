@@ -134,8 +134,29 @@ test('submitLead posts to PUBLIC_GHL_WEBHOOK_URL when set', async () => {
   )
 })
 
-test('submitLead no-ops with a console note when the webhook URL is unset', async () => {
+test('submitLead falls back to the live GHL webhook when the env var is unset', async () => {
   import.meta.env.PUBLIC_GHL_WEBHOOK_URL = ''
+  const fetchMock = vi.fn().mockResolvedValue({ ok: true })
+  global.fetch = fetchMock as unknown as typeof fetch
+
+  const payload = buildLeadPayload({
+    name: 'Jane Owner',
+    email: 'jane@example.com',
+    phone: '2025551212',
+    location: 'Washington, DC',
+    toolName: 'NOI Leak Audit',
+    sourcePage: '/tools/noi-check',
+  })
+  await submitLead(payload)
+
+  expect(fetchMock).toHaveBeenCalledWith(
+    expect.stringMatching(/^https:\/\/services\.leadconnectorhq\.com\/hooks\/yGq2yl5q6YBMPRf0W7j1\//),
+    expect.objectContaining({ method: 'POST' }),
+  )
+})
+
+test('submitLead no-ops with a console note when the webhook URL is "off"', async () => {
+  import.meta.env.PUBLIC_GHL_WEBHOOK_URL = 'off'
   const fetchMock = vi.fn()
   global.fetch = fetchMock as unknown as typeof fetch
   const infoSpy = vi.spyOn(console, 'info').mockImplementation(() => {})
