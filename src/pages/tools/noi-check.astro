@@ -127,14 +127,17 @@ import { BENCHMARK_SOURCE_NATIONAL } from '../../lib/benchmark'
 
 			<form id="lead-form" class="lead-form">
 				<h3>Get the real numbers on your building</h3>
-				<label for="leadName">Name</label>
-				<input id="leadName" type="text" required />
+				<label for="leadFirstName">First name</label>
+				<input id="leadFirstName" type="text" autocomplete="given-name" required />
+
+				<label for="leadLastName">Last name</label>
+				<input id="leadLastName" type="text" autocomplete="family-name" required />
 
 				<label for="leadEmail">Email</label>
 				<input id="leadEmail" type="email" required />
 
-				<label for="leadPhone">Phone</label>
-				<input id="leadPhone" type="tel" required />
+				<label for="leadPhone">Mobile number</label>
+				<input id="leadPhone" type="tel" autocomplete="tel" required />
 
 				<button type="submit">Send me the real numbers</button>
 				<p class="consent">
@@ -142,6 +145,11 @@ import { BENCHMARK_SOURCE_NATIONAL } from '../../lib/benchmark'
 					Message and data rates may apply. Reply STOP to opt out.
 				</p>
 			</form>
+
+			<div id="lead-thank-you" class="result-panel" hidden>
+				<h3>Thank you, <span id="lead-thank-you-name"></span>.</h3>
+				<p>Your details are in. Here is the next step.</p>
+			</div>
 
 			<div id="lead-local-panel" class="result-panel" hidden>
 				<h3>Book a time with Shafiq</h3>
@@ -202,6 +210,8 @@ import { BENCHMARK_SOURCE_NATIONAL } from '../../lib/benchmark'
 	const hcBenchmarkAttributionEl = document.getElementById('hcBenchmarkAttribution') as HTMLElement
 
 	const leadForm = document.getElementById('lead-form') as HTMLFormElement
+	const leadThankYou = document.getElementById('lead-thank-you') as HTMLElement
+	const leadThankYouName = document.getElementById('lead-thank-you-name') as HTMLElement
 	const leadLocalPanel = document.getElementById('lead-local-panel') as HTMLElement
 	const leadAdvisoryPanel = document.getElementById('lead-advisory-panel') as HTMLElement
 
@@ -298,12 +308,14 @@ import { BENCHMARK_SOURCE_NATIONAL } from '../../lib/benchmark'
 	leadForm.addEventListener('submit', async (event) => {
 		event.preventDefault()
 
-		const name = (document.getElementById('leadName') as HTMLInputElement).value
+		const firstName = (document.getElementById('leadFirstName') as HTMLInputElement).value
+		const lastName = (document.getElementById('leadLastName') as HTMLInputElement).value
 		const email = (document.getElementById('leadEmail') as HTMLInputElement).value
 		const phone = (document.getElementById('leadPhone') as HTMLInputElement).value
 
 		const payload = buildLeadPayload({
-			name,
+			firstName,
+			lastName,
 			email,
 			phone,
 			location: locationInput.value,
@@ -314,6 +326,8 @@ import { BENCHMARK_SOURCE_NATIONAL } from '../../lib/benchmark'
 
 		await submitLead(payload)
 
+		leadThankYouName.textContent = payload.first_name
+		leadThankYou.hidden = false
 		leadLocalPanel.hidden = payload.route !== 'local'
 		leadAdvisoryPanel.hidden = payload.route !== 'advisory'
 	})

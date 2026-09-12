@@ -1,9 +1,10 @@
 import { test, expect, vi, beforeEach, afterEach } from 'vitest'
 import { buildLeadPayload, submitLead } from '../src/lib/ghl'
 
-test('buildLeadPayload splits the name and maps every field for the NOI tool', () => {
+test('buildLeadPayload maps every field for the NOI tool', () => {
   const payload = buildLeadPayload({
-    name: 'Jane Owner',
+    firstName: 'Jane',
+    lastName: 'Owner',
     email: 'jane@example.com',
     phone: '2025551212',
     location: 'Washington, DC',
@@ -27,9 +28,10 @@ test('buildLeadPayload splits the name and maps every field for the NOI tool', (
   })
 })
 
-test('buildLeadPayload splits a multi-word last name into the remainder', () => {
+test('buildLeadPayload passes first and last name through as separate fields, trimmed', () => {
   const payload = buildLeadPayload({
-    name: 'Ana Maria Gutierrez',
+    firstName: '  Ana Maria ',
+    lastName: ' Gutierrez ',
     email: 'ana@example.com',
     phone: '3015551212',
     location: 'Rockville',
@@ -37,27 +39,14 @@ test('buildLeadPayload splits a multi-word last name into the remainder', () => 
     sourcePage: '/get-started',
   })
 
-  expect(payload.first_name).toBe('Ana')
-  expect(payload.last_name).toBe('Maria Gutierrez')
-})
-
-test('buildLeadPayload leaves last_name empty for a single-token name', () => {
-  const payload = buildLeadPayload({
-    name: 'Cher',
-    email: 'cher@example.com',
-    phone: '2025551212',
-    location: 'Washington, DC',
-    toolName: 'Get a Read',
-    sourcePage: '/contact',
-  })
-
-  expect(payload.first_name).toBe('Cher')
-  expect(payload.last_name).toBe('')
+  expect(payload.first_name).toBe('Ana Maria')
+  expect(payload.last_name).toBe('Gutierrez')
 })
 
 test('buildLeadPayload routes advisory for an out-of-market address', () => {
   const payload = buildLeadPayload({
-    name: 'John Owner',
+    firstName: 'John',
+    lastName: 'Owner',
     email: 'john@example.com',
     phone: '5551234567',
     location: 'Queens, NY',
@@ -70,7 +59,8 @@ test('buildLeadPayload routes advisory for an out-of-market address', () => {
 
 test('buildLeadPayload omits units on forms without it', () => {
   const payload = buildLeadPayload({
-    name: 'Jane Owner',
+    firstName: 'Jane',
+    lastName: 'Owner',
     email: 'jane@example.com',
     phone: '2025551212',
     location: 'Washington, DC',
@@ -86,7 +76,8 @@ test('buildLeadPayload omits units on forms without it', () => {
 
 test('buildLeadPayload defaults message to an empty string when not supplied', () => {
   const payload = buildLeadPayload({
-    name: 'Jane Owner',
+    firstName: 'Jane',
+    lastName: 'Owner',
     email: 'jane@example.com',
     phone: '2025551212',
     location: 'Washington, DC',
@@ -115,7 +106,8 @@ test('submitLead posts to PUBLIC_GHL_WEBHOOK_URL when set', async () => {
   global.fetch = fetchMock as unknown as typeof fetch
 
   const payload = buildLeadPayload({
-    name: 'Jane Owner',
+    firstName: 'Jane',
+    lastName: 'Owner',
     email: 'jane@example.com',
     phone: '2025551212',
     location: 'Washington, DC',
@@ -140,7 +132,8 @@ test('submitLead falls back to the live GHL webhook when the env var is unset', 
   global.fetch = fetchMock as unknown as typeof fetch
 
   const payload = buildLeadPayload({
-    name: 'Jane Owner',
+    firstName: 'Jane',
+    lastName: 'Owner',
     email: 'jane@example.com',
     phone: '2025551212',
     location: 'Washington, DC',
@@ -162,7 +155,8 @@ test('submitLead no-ops with a console note when the webhook URL is "off"', asyn
   const infoSpy = vi.spyOn(console, 'info').mockImplementation(() => {})
 
   const payload = buildLeadPayload({
-    name: 'Jane Owner',
+    firstName: 'Jane',
+    lastName: 'Owner',
     email: 'jane@example.com',
     phone: '2025551212',
     location: 'Washington, DC',

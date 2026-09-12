@@ -6,7 +6,8 @@
 import { routeByLocation } from './geo'
 
 export interface LeadInput {
-  name: string
+  firstName: string
+  lastName: string
   email: string
   phone: string
   location: string
@@ -29,18 +30,14 @@ export interface LeadPayload {
   source_page: string
 }
 
-function splitName(name: string): { first_name: string; last_name: string } {
-  const [first_name = '', ...rest] = name.trim().split(/\s+/)
-  return { first_name, last_name: rest.join(' ') }
-}
-
+// First and last name are separate form fields (Shafiq, 2026-09-12) so they
+// map one-to-one onto GHL's first_name / last_name without guessing at a split.
 export function buildLeadPayload(input: LeadInput): LeadPayload {
-  const { first_name, last_name } = splitName(input.name)
   const route = routeByLocation(input.location) === 'local' ? 'local' : 'advisory'
 
   const payload: LeadPayload = {
-    first_name,
-    last_name,
+    first_name: input.firstName.trim(),
+    last_name: input.lastName.trim(),
     email: input.email,
     phone: input.phone,
     tool_name: input.toolName,

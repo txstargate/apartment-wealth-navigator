@@ -11,6 +11,8 @@ test('footer carries the brokerage name and office number as a tel link', () => 
   expect(footer).toContain('202-800-3200')
   expect(footer).toContain('href="tel:+12028003200"')
   expect(footer).toContain('Insula · Reditus · Exitus')
+  // Shafiq (2026-09-12): a plain-English gloss sits under the Latin motto.
+  expect(footer).toContain('The building. The return. The exit.')
 })
 
 test('disclosures page carries the same brokerage name and office number', () => {
