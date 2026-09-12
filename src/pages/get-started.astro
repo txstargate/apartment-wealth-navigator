@@ -36,7 +36,7 @@ import Base from '../layouts/Base.astro'
 		<div id="local-panel" class="result-panel" hidden>
 			<h2>Book a time with Shafiq</h2>
 			<p>Your building is in the DC, Virginia, or Maryland service area.</p>
-			<!-- TODO-Shafiq: replace this link with the GoHighLevel booking embed once the URL is set -->
+			<!-- Booking link is set by src/lib/booking.ts (live GHL widget). -->
 			<a id="local-booking-link" class="result-link" href="#" target="_blank" rel="noopener">
 				Book your building review
 			</a>
@@ -56,9 +56,9 @@ import Base from '../layouts/Base.astro'
 <script>
 	import { routeByLocation } from '../lib/geo'
 	import { buildLeadPayload, submitLead } from '../lib/ghl'
+	import { bookingUrl } from '../lib/booking'
 
-	// TODO-Shafiq: set PUBLIC_GHL_BOOKING_URL to the real GoHighLevel booking form URL.
-	const GHL_BOOKING_URL = import.meta.env.PUBLIC_GHL_BOOKING_URL || 'TODO-Shafiq: GoHighLevel booking URL'
+	const GHL_BOOKING_URL = bookingUrl(import.meta.env.PUBLIC_GHL_BOOKING_URL)
 	// TODO-Shafiq: set PUBLIC_REFERRAL_INTAKE_URL to the real referral intake form URL.
 	const REFERRAL_INTAKE_URL = import.meta.env.PUBLIC_REFERRAL_INTAKE_URL || 'TODO-Shafiq: referral intake URL'
 
