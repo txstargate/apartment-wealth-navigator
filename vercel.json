@@ -1,4 +1,5 @@
 {
+  "framework": "astro",
   "redirects": [
     { "source": "/market-reports/", "destination": "/locations/", "permanent": true },
     { "source": "/services/noi-optimization/", "destination": "/services/noi/", "permanent": true },
