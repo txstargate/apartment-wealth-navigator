@@ -45,6 +45,34 @@ body {
   padding: 0;
 }
 
+/* Responsive guards (mobile pass 2026-09-14). Nothing may widen the layout
+   viewport on a phone: media scales to its container, long tokens wrap, and
+   the type scale steps down under 640px. */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  overflow-wrap: anywhere;
+}
+
+img,
+svg,
+video,
+iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --text-4xl: 2.25rem;
+    --text-3xl: 1.85rem;
+    --text-2xl: 1.5rem;
+  }
+}
+
 body {
   background: var(--color-bg);
   color: var(--color-text);

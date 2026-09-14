@@ -89,6 +89,22 @@ const inlineCtas = Boolean(entry.data.inlineCtas)
     padding: var(--space-6) var(--space-4);
   }
 
+  /* Data tables (DC branches) scroll inside the column instead of pushing
+     the page wider than a phone screen. */
+  .article__body :global(table) {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+  }
+
+  .article__body :global(th),
+  .article__body :global(td) {
+    padding: var(--space-1) var(--space-2);
+    text-align: left;
+    white-space: nowrap;
+  }
+
   .article__pillar {
     font-family: var(--font-body);
     font-size: var(--text-sm);

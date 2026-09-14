@@ -36,18 +36,46 @@ const phoneHref = 'tel:+12022901055'
 			</svg>
 			<span class="site-nav__wordmark">Apartment Wealth Navigator</span>
 		</a>
-		<ul class="site-nav__links">
-			{
-				navItems.map((item) => (
-					<li>
-						<a href={item.href}>{item.label}</a>
-					</li>
-				))
-			}
-		</ul>
-		<a class="site-nav__phone" href={phoneHref}>{phoneNumber}</a>
+		<button
+			class="site-nav__toggle"
+			type="button"
+			aria-expanded="false"
+			aria-controls="site-nav-menu"
+			aria-label="Open menu"
+		>
+			<span class="site-nav__toggle-bar"></span>
+			<span class="site-nav__toggle-bar"></span>
+			<span class="site-nav__toggle-bar"></span>
+		</button>
+		<div class="site-nav__menu" id="site-nav-menu">
+			<ul class="site-nav__links">
+				{
+					navItems.map((item) => (
+						<li>
+							<a href={item.href}>{item.label}</a>
+						</li>
+					))
+				}
+			</ul>
+			<a class="site-nav__phone" href={phoneHref}>{phoneNumber}</a>
+		</div>
 	</nav>
 </header>
+
+<script>
+	// Mobile menu toggle (responsive pass 2026-09-14). Desktop shows the links
+	// inline; under 900px they collapse behind the button.
+	const toggle = document.querySelector('.site-nav__toggle') as HTMLButtonElement | null
+	const menu = document.getElementById('site-nav-menu')
+	if (toggle && menu) {
+		toggle.addEventListener('click', () => {
+			const open = toggle.getAttribute('aria-expanded') === 'true'
+			toggle.setAttribute('aria-expanded', String(!open))
+			toggle.setAttribute('aria-label', open ? 'Open menu' : 'Close menu')
+			menu.classList.toggle('is-open', !open)
+		})
+	}
+</script>
 
 <style>
 	.site-header {
@@ -88,6 +116,33 @@ const phoneHref = 'tel:+12022901055'
 		line-height: 1;
 	}
 
+	.site-nav__toggle {
+		display: none;
+		flex-direction: column;
+		justify-content: center;
+		gap: 5px;
+		width: 44px;
+		height: 44px;
+		padding: 10px;
+		background: transparent;
+		border: 1px solid var(--color-border);
+		border-radius: 2px;
+		cursor: pointer;
+	}
+
+	.site-nav__toggle-bar {
+		display: block;
+		height: 2px;
+		background: var(--color-navy);
+	}
+
+	.site-nav__menu {
+		display: flex;
+		align-items: center;
+		gap: var(--space-4);
+		min-width: 0;
+	}
+
 	.site-nav__links {
 		display: flex;
 		gap: var(--space-4);
@@ -111,5 +166,65 @@ const phoneHref = 'tel:+12022901055'
 		text-decoration: none;
 		font-size: var(--text-sm);
 		white-space: nowrap;
+	}
+
+	/* Phones and small tablets: brand + menu button on one row, links in a
+	   panel below. The row never exceeds the viewport width. */
+	@media (max-width: 900px) {
+		.site-nav {
+			flex-wrap: wrap;
+			gap: var(--space-2) var(--space-3);
+			padding: var(--space-2) var(--space-3);
+		}
+
+		.site-nav__brand {
+			flex: 1 1 auto;
+			min-width: 0;
+			white-space: normal;
+			font-size: 0.95rem;
+			line-height: 1.15;
+		}
+
+		.site-nav__mark {
+			width: 28px;
+			height: 28px;
+		}
+
+		.site-nav__toggle {
+			display: flex;
+		}
+
+		.site-nav__menu {
+			display: none;
+			flex: 1 0 100%;
+			flex-direction: column;
+			align-items: stretch;
+			gap: 0;
+			padding: var(--space-2) 0 var(--space-3);
+			border-top: 1px solid var(--color-border);
+		}
+
+		.site-nav__menu.is-open {
+			display: flex;
+		}
+
+		.site-nav__links {
+			flex-direction: column;
+			gap: 0;
+		}
+
+		.site-nav__links a,
+		.site-nav__phone {
+			display: block;
+			padding: var(--space-2) var(--space-1);
+			font-size: var(--text-base);
+		}
+
+		.site-nav__phone {
+			margin-top: var(--space-1);
+			border-top: 1px solid var(--color-border);
+			padding-top: var(--space-3);
+			font-weight: 600;
+		}
 	}
 </style>
