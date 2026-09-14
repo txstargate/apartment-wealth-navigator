@@ -10,6 +10,13 @@ test('footer carries the brokerage name and office number as a tel link', () => 
   expect(footer).toContain('RE/MAX Distinctive Commercial')
   expect(footer).toContain('202-800-3200')
   expect(footer).toContain('href="tel:+12028003200"')
+  // Email lives in the footer and on the Contact page, not the header
+  // (Shafiq, 2026-09-14).
+  expect(footer).toContain('href="mailto:shirani@enterprisere.com"')
+  const contact = readFileSync('src/pages/contact.astro', 'utf8')
+  expect(contact).toContain('href="mailto:shirani@enterprisere.com"')
+  const header = readFileSync('src/components/Header.astro', 'utf8')
+  expect(header).not.toContain('mailto:')
   // Motto: each Latin word with its plain-English gloss directly beneath it,
   // no periods (Shafiq, 2026-09-12).
   for (const [latin, gloss] of [['Insula', 'The building'], ['Reditus', 'The return'], ['Exitus', 'The exit']]) {

@@ -36,6 +36,10 @@ import Base from '../layouts/Base.astro'
 			</p>
 		</form>
 
+		<p class="direct-contact">
+			Prefer to write? <a href="mailto:shirani@enterprisere.com">shirani@enterprisere.com</a>
+		</p>
+
 		<div id="thank-you" class="result-panel" hidden>
 			<h2>Thank you, <span id="thank-you-name"></span>.</h2>
 			<p>Your details are in. Here is the next step.</p>
@@ -159,6 +163,12 @@ import Base from '../layouts/Base.astro'
 		font-size: var(--text-sm);
 		color: var(--color-slate);
 		margin-top: var(--space-1);
+	}
+
+	.direct-contact {
+		margin-top: var(--space-4);
+		font-size: var(--text-sm);
+		color: var(--color-slate);
 	}
 
 	.result-panel {
