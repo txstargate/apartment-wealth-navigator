@@ -53,6 +53,27 @@ test('about page renders a faceless header image through astro:assets', () => {
   expect(existsSync('src/assets/about-header.jpg')).toBe(true)
 })
 
+test('homepage hero carries a silent loop that only loads on wide, motion-allowed screens', () => {
+  const index = readFileSync('src/pages/index.astro', 'utf8')
+  expect(index).toMatch(/<video[\s\S]*class="hero__video"[\s\S]*data-src="\/video\/awn-hero-loop\.mp4"[\s\S]*muted[\s\S]*loop[\s\S]*playsinline[\s\S]*preload="none"/)
+  expect(index).toContain("import { attachLoopVideos } from '../lib/loop-video'")
+  expect(index).toMatch(/@media \(max-width: 640px\), \(prefers-reduced-motion: reduce\) \{\s*\.hero__video \{\s*display: none;/)
+  expect(existsSync('public/video/awn-hero-loop.mp4')).toBe(true)
+  const loader = readFileSync('src/lib/loop-video.ts', 'utf8')
+  expect(loader).toContain("'(min-width: 641px) and (prefers-reduced-motion: no-preference)'")
+})
+
+test('location pages with a finished loop declare it and the file exists', () => {
+  for (const slug of ['washington-dc', 'arlington-va', 'alexandria-va', 'montgomery-county-md', 'prince-georges-county-md']) {
+    const fm = readFileSync(`src/content/locations/${slug}.mdx`, 'utf8').split('\n---\n')[0]
+    expect(fm).toContain(`headerVideo: /video/locations/${slug}.mp4`)
+    expect(existsSync(`public/video/locations/${slug}.mp4`)).toBe(true)
+  }
+  const page = readFileSync('src/pages/locations/[slug].astro', 'utf8')
+  expect(page).toMatch(/entry\.data\.headerVideo && \([\s\S]*<video[\s\S]*data-src=\{entry\.data\.headerVideo\}/)
+  expect(page).toContain("import { attachLoopVideos } from '../../lib/loop-video'")
+})
+
 test('location template renders the header image above the article', () => {
   const page = readFileSync('src/pages/locations/[slug].astro', 'utf8')
   expect(page).toContain("import { Image } from 'astro:assets'")

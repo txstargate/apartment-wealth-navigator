@@ -78,6 +78,9 @@ export const locationSchemaWithImage = ({ image }: { image: () => z.ZodTypeAny }
   locationSchema.extend({
     headerImage: image().optional(),
     headerAlt: z.string().optional(),
+    // Public path to a silent loop (public/video/locations/<slug>.mp4) that
+    // plays over the header image on wide screens; the image is its poster.
+    headerVideo: z.string().optional(),
   })
 
 const locations = defineCollection({
