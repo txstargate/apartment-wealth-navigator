@@ -64,9 +64,19 @@ export const locationSchema = z.object({
   draft: z.boolean().default(false),
 })
 
+// Header photograph per location page (design pass, 2026-09-17). The
+// image() helper resolves the path relative to the content file and lets
+// <Image> generate responsive sizes. Alt text stays generic by rule: these
+// are DC-style buildings, not a named block.
+export const locationSchemaWithImage = ({ image }: { image: () => z.ZodTypeAny }) =>
+  locationSchema.extend({
+    headerImage: image().optional(),
+    headerAlt: z.string().optional(),
+  })
+
 const locations = defineCollection({
   loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/locations' }),
-  schema: locationSchema,
+  schema: locationSchemaWithImage,
 })
 
 export const collections = { universal, dc, services, locations }
