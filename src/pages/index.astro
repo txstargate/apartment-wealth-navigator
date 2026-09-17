@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets'
+import { Image, getImage } from 'astro:assets'
 import Base from '../layouts/Base.astro'
 import GeoCTA from '../components/GeoCTA.astro'
 // Homepage hero photograph (design pass, 2026-09-17): picked from Friday's
@@ -7,6 +7,46 @@ import GeoCTA from '../components/GeoCTA.astro'
 // project_awn_site_imagery. Caption stays generic: it is a DC-style street,
 // not a named block.
 import heroImage from '../assets/hero-dc-rowhouses.jpg'
+import noiHeader from '../assets/services/noi.jpg'
+import saleHeader from '../assets/services/sale.jpg'
+import refinanceHeader from '../assets/services/refinance.jpg'
+
+// Hero playlist order: the rowhouse loop first, then each DMV area in
+// turn. Files live in public/video (1080p) and public/video/mobile (720p).
+const heroPlaylist = [
+	{ src: '/video/awn-hero-loop.mp4', mobile: '/video/mobile/awn-hero-loop.mp4' },
+	{ src: '/video/locations/washington-dc.mp4', mobile: '/video/mobile/washington-dc.mp4' },
+	{ src: '/video/locations/arlington-va.mp4', mobile: '/video/mobile/arlington-va.mp4' },
+	{ src: '/video/locations/alexandria-va.mp4', mobile: '/video/mobile/alexandria-va.mp4' },
+	{ src: '/video/locations/montgomery-county-md.mp4', mobile: '/video/mobile/montgomery-county-md.mp4' },
+	{ src: '/video/locations/prince-georges-county-md.mp4', mobile: '/video/mobile/prince-georges-county-md.mp4' },
+]
+
+const ogHero = await getImage({ src: heroImage, width: 1200, format: 'jpg' })
+
+const serviceTiles = [
+	{
+		href: '/services/noi',
+		title: 'NOI Optimization and Expense Review',
+		blurb: 'Read the income and expense lines a lender or a buyer will price, then work them in an order that holds up.',
+		image: noiHeader,
+		alt: 'A rent roll, utility bills, and a calculator on a desk by a window',
+	},
+	{
+		href: '/services/sale',
+		title: 'Sale Readiness and Disposition Advisory',
+		blurb: "Get the building, the numbers, and the document file ready before a buyer's underwriter reads them.",
+		image: saleHeader,
+		alt: 'A well-kept brick apartment building at golden hour',
+	},
+	{
+		href: '/services/refinance',
+		title: 'Refinance Positioning',
+		blurb: 'Work the numbers your next lender will size the loan on, while those numbers can still change.',
+		image: refinanceHeader,
+		alt: 'A lender-ready package laid out on a conference table',
+	},
+]
 
 const stats = [
 	{ value: '225+', label: 'Owners helped improve NOI' },
@@ -20,6 +60,7 @@ const stats = [
 	title="Apartment Wealth Navigator | Shafiq Hirani, Apartment NOI and Sale Advisory"
 	description="DC, Virginia, and Maryland apartment building owners: find the NOI leak, decide whether to refinance or sell, and get a read on your building."
 	canonical="https://apartmentwealthnavigator.com/"
+	ogImage={ogHero.src}
 >
 	<section class="hero">
 		<Image
@@ -31,22 +72,19 @@ const stats = [
 			loading="eager"
 			fetchpriority="high"
 		/>
-		<!-- Silent 5-second loop animated from the same still (1080p, ~5 MB).
-		     The still above is the poster and the only thing phones and
-		     reduced-motion visitors see; the script below attaches the source
-		     only on wider screens with motion allowed, so nothing downloads
-		     where it will not play. -->
-		<video
-			class="hero__video"
-			data-src="/video/awn-hero-loop.mp4"
-			muted
-			loop
-			playsinline
-			autoplay
-			preload="none"
+		<!-- Silent loops, played as a playlist that crossfades through every
+		     area: the rowhouse hero first, then DC, Arlington, Alexandria,
+		     Montgomery County, Prince George's, and round again. Two stacked
+		     <video> layers; src/lib/loop-video.ts drives them. Phones get the
+		     lighter 720p files; reduced-motion visitors keep the still. -->
+		<div
+			class="hero__stage"
+			data-playlist={JSON.stringify(heroPlaylist)}
 			aria-hidden="true"
-			tabindex="-1"
-		></video>
+		>
+			<video class="hero__video" muted playsinline preload="none" tabindex="-1"></video>
+			<video class="hero__video" muted playsinline preload="none" tabindex="-1"></video>
+		</div>
 		<div class="hero__overlay" aria-hidden="true"></div>
 		<div class="hero__content">
 			<h1>Raise your building's NOI before a lender or a buyer sets its value for you</h1>
@@ -100,21 +138,22 @@ const stats = [
 	<section class="content-block">
 		<h2>Three ways I work with owners</h2>
 		<div class="services-grid">
-			<div>
-				<h3><a href="/services/noi">NOI Optimization and Expense Review</a></h3>
-				<p>
-					Read the income and expense lines a lender or a buyer will price, then work them in an
-					order that holds up.
-				</p>
-			</div>
-			<div>
-				<h3><a href="/services/sale">Sale Readiness and Disposition Advisory</a></h3>
-				<p>Get the building, the numbers, and the document file ready before a buyer's underwriter reads them.</p>
-			</div>
-			<div>
-				<h3><a href="/services/refinance">Refinance Positioning</a></h3>
-				<p>Work the numbers your next lender will size the loan on, while those numbers can still change.</p>
-			</div>
+			{
+				serviceTiles.map((tile) => (
+					<a class="service-tile" href={tile.href}>
+						<Image
+							class="service-tile__image"
+							src={tile.image}
+							alt={tile.alt}
+							widths={[480, 800, 1200]}
+							sizes="(max-width: 640px) 100vw, 33vw"
+							loading="lazy"
+						/>
+						<h3>{tile.title}</h3>
+						<p>{tile.blurb}</p>
+					</a>
+				))
+			}
 		</div>
 	</section>
 
@@ -168,6 +207,12 @@ const stats = [
 		z-index: -2;
 	}
 
+	.hero__stage {
+		position: absolute;
+		inset: 0;
+		z-index: -2;
+	}
+
 	.hero__video {
 		position: absolute;
 		inset: 0;
@@ -175,17 +220,16 @@ const stats = [
 		height: 100%;
 		object-fit: cover;
 		object-position: center 40%;
-		z-index: -2;
 		opacity: 0;
-		transition: opacity 600ms ease;
+		transition: opacity 700ms ease;
 	}
 
 	.hero__video.is-playing {
 		opacity: 1;
 	}
 
-	@media (max-width: 640px), (prefers-reduced-motion: reduce) {
-		.hero__video {
+	@media (prefers-reduced-motion: reduce) {
+		.hero__stage {
 			display: none;
 		}
 	}
@@ -290,8 +334,40 @@ const stats = [
 
 	.services-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 		gap: var(--space-4);
+	}
+
+	.service-tile {
+		display: block;
+		color: inherit;
+		text-decoration: none;
+		border: 1px solid var(--color-border);
+		border-radius: 4px;
+		overflow: hidden;
+		background: var(--color-bg);
+	}
+
+	.service-tile__image {
+		display: block;
+		width: 100%;
+		aspect-ratio: 16 / 10;
+		object-fit: cover;
+	}
+
+	.service-tile h3 {
+		font-size: var(--text-lg);
+		margin: var(--space-3) var(--space-3) var(--space-1);
+		color: var(--color-navy);
+	}
+
+	.service-tile p {
+		margin: 0 var(--space-3) var(--space-3);
+		color: var(--color-slate);
+	}
+
+	.service-tile:hover h3 {
+		color: var(--color-accent-deep);
 	}
 
 	.services-grid > div {

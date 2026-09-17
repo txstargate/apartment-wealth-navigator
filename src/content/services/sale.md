@@ -3,6 +3,9 @@ title: Sale Readiness and Disposition Advisory
 description: Prepare your apartment building, your numbers, and your document file for the way a buyer's underwriter will read them.
 pillar: sale
 headerImage: ../../assets/services/sale.jpg
+bodyImage: ../../assets/services/body/sale.jpg
+bodyAlt: "A clipboard checklist with every box ticked beside a rent roll, captioned ready to list"
+bodyCaption: "The deal-killer list, cleared before you list."
 headerAlt: "A well-kept three-story brick apartment building at golden hour, hedges trimmed and railings freshly painted"
 faq:
   - question: What does "sale ready" actually mean?

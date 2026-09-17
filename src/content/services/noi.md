@@ -3,6 +3,9 @@ title: NOI Optimization and Expense Review
 description: A line-by-line read of your building's income and expenses, done to raise net operating income before a lender or a buyer prices it.
 pillar: noi
 headerImage: ../../assets/services/noi.jpg
+bodyImage: ../../assets/services/body/noi.jpg
+bodyAlt: "A whiteboard diagram of the five levers that feed NOI, and NOI feeding value"
+bodyCaption: "The five levers, in the order I work them."
 headerAlt: "A rent roll, utility bills, and a calculator on a desk by a window"
 faq:
   - question: What is NOI, in plain language?

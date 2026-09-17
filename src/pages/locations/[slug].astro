@@ -41,6 +41,7 @@ const dataAsOf = entry.data.dataAsOf
 						<video
 							class="location__header-video"
 							data-src={entry.data.headerVideo}
+							data-src-mobile={entry.data.headerVideo.replace('/video/locations/', '/video/mobile/')}
 							muted
 							loop
 							playsinline
@@ -98,7 +99,7 @@ const dataAsOf = entry.data.dataAsOf
 		opacity: 1;
 	}
 
-	@media (max-width: 640px), (prefers-reduced-motion: reduce) {
+	@media (prefers-reduced-motion: reduce) {
 		.location__header-video {
 			display: none;
 		}

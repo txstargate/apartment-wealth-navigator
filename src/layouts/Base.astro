@@ -9,9 +9,13 @@ interface Props {
   title: string
   description: string
   canonical: string
+  /** Site-relative or absolute image URL for social share cards (og:image). */
+  ogImage?: string
 }
 
-const { title, description, canonical } = Astro.props
+const { title, description, canonical, ogImage } = Astro.props
+const site = 'https://apartmentwealthnavigator.com'
+const ogImageUrl = ogImage ? (ogImage.startsWith('http') ? ogImage : `${site}${ogImage}`) : undefined
 ---
 
 <html lang="en">
@@ -37,6 +41,9 @@ const { title, description, canonical } = Astro.props
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonical} />
+		{ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+		{ogImageUrl && <meta name="twitter:card" content="summary_large_image" />}
+		{ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
 
 		<!-- Vercel Web Analytics (Pro, enabled 2026-09-12). Cookieless, so it
 		     runs outside the consent gate that holds GA4 and the Meta Pixel. -->

@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content'
+import { Image } from 'astro:assets'
 import Base from '../../layouts/Base.astro'
 import { filterPublished } from '../../lib/content'
 
@@ -20,7 +21,22 @@ const dc = filterPublished(await getCollection('dc'))
 			{
 				universal.map((entry) => (
 					<li>
-						<a href={`/insights/${entry.id}`}>{entry.data.title}</a>
+						<a class="insights__item" href={`/insights/${entry.id}`}>
+							{entry.data.coverImage && (
+								<Image
+									class="insights__thumb"
+									src={entry.data.coverImage}
+									alt=""
+									widths={[320, 640]}
+									sizes="(max-width: 640px) 100vw, 200px"
+									loading="lazy"
+								/>
+							)}
+							<span class="insights__text">
+								<span class="insights__title">{entry.data.title}</span>
+								<span class="insights__description">{entry.data.description}</span>
+							</span>
+						</a>
 					</li>
 				))
 			}
@@ -31,7 +47,22 @@ const dc = filterPublished(await getCollection('dc'))
 			{
 				dc.map((entry) => (
 					<li>
-						<a href={`/insights/${entry.id}`}>{entry.data.title}</a>
+						<a class="insights__item" href={`/insights/${entry.id}`}>
+							{entry.data.coverImage && (
+								<Image
+									class="insights__thumb"
+									src={entry.data.coverImage}
+									alt=""
+									widths={[320, 640]}
+									sizes="(max-width: 640px) 100vw, 200px"
+									loading="lazy"
+								/>
+							)}
+							<span class="insights__text">
+								<span class="insights__title">{entry.data.title}</span>
+								<span class="insights__description">{entry.data.description}</span>
+							</span>
+						</a>
 					</li>
 				))
 			}
@@ -57,12 +88,49 @@ const dc = filterPublished(await getCollection('dc'))
 		padding: var(--space-3) 0;
 	}
 
-	.insights__list a {
+	.insights__item {
+		display: grid;
+		grid-template-columns: 200px 1fr;
+		gap: var(--space-4);
+		align-items: start;
 		color: var(--color-text);
 		text-decoration: none;
 	}
 
-	.insights__list a:hover {
-		color: var(--color-accent);
+	.insights__thumb {
+		display: block;
+		width: 100%;
+		aspect-ratio: 16 / 10;
+		object-fit: cover;
+		border-radius: 4px;
+	}
+
+	.insights__text {
+		display: block;
+	}
+
+	.insights__title {
+		display: block;
+		font-family: var(--font-headline);
+		font-size: var(--text-lg);
+		font-weight: 600;
+		color: var(--color-navy);
+		margin-bottom: var(--space-1);
+	}
+
+	.insights__description {
+		display: block;
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+	}
+
+	.insights__item:hover .insights__title {
+		color: var(--color-accent-deep);
+	}
+
+	@media (max-width: 640px) {
+		.insights__item {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>

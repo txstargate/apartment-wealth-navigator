@@ -43,6 +43,22 @@ const faqSchema = buildFaqSchema(entry.data.faq)
       <Content />
     </div>
 
+    {
+      entry.data.bodyImage && (
+        <figure class="service__figure">
+          <Image
+            class="service__figure-image"
+            src={entry.data.bodyImage}
+            alt={entry.data.bodyAlt ?? ''}
+            widths={[640, 1024, 1440]}
+            sizes="(max-width: 760px) 100vw, 720px"
+            loading="lazy"
+          />
+          {entry.data.bodyCaption && <figcaption>{entry.data.bodyCaption}</figcaption>}
+        </figure>
+      )
+    }
+
     <section class="service__faq">
       <h2>Common questions</h2>
       {
@@ -86,6 +102,24 @@ const faqSchema = buildFaqSchema(entry.data.faq)
 
   .service__body {
     margin-bottom: var(--space-6);
+  }
+
+  .service__figure {
+    margin: 0 0 var(--space-6);
+  }
+
+  .service__figure-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  .service__figure figcaption {
+    margin-top: var(--space-2);
+    color: var(--color-slate);
+    font-size: var(--text-sm);
   }
 
   .service__faq {

@@ -24,14 +24,23 @@ export const articleSchema = z.object({
     .optional(),
 })
 
+// Cover image per article (design pass, 2026-09-17): shown under the title,
+// as the Insights thumbnail, and as the social share image. Alt text stays
+// generic by rule.
+const articleSchemaWithImage = ({ image }: { image: () => z.ZodTypeAny }) =>
+  articleSchema.extend({
+    coverImage: image().optional(),
+    coverAlt: z.string().optional(),
+  })
+
 const universal = defineCollection({
   loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/universal' }),
-  schema: articleSchema,
+  schema: articleSchemaWithImage,
 })
 
 const dc = defineCollection({
   loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/dc' }),
-  schema: articleSchema,
+  schema: articleSchemaWithImage,
 })
 
 const serviceSchema = z.object({
@@ -54,6 +63,10 @@ const services = defineCollection({
     serviceSchema.extend({
       headerImage: image().optional(),
       headerAlt: z.string().optional(),
+      // One illustrative figure between the body and the FAQ.
+      bodyImage: image().optional(),
+      bodyAlt: z.string().optional(),
+      bodyCaption: z.string().optional(),
     }),
 })
 

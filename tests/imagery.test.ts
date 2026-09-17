@@ -7,7 +7,7 @@ import { test, expect } from 'vitest'
 
 test('homepage renders the hero photograph through astro:assets with responsive widths', () => {
   const index = readFileSync('src/pages/index.astro', 'utf8')
-  expect(index).toContain("import { Image } from 'astro:assets'")
+  expect(index).toMatch(/import \{ Image(, getImage)? \} from 'astro:assets'/)
   expect(index).toContain("import heroImage from '../assets/hero-dc-rowhouses.jpg'")
   expect(index).toMatch(/<Image[\s\S]*class="hero__image"[\s\S]*src=\{heroImage\}[\s\S]*widths=\{\[640, 1024, 1600, 1920\]\}/)
   expect(index).toContain('loading="eager"')
@@ -53,14 +53,60 @@ test('about page renders a faceless header image through astro:assets', () => {
   expect(existsSync('src/assets/about-header.jpg')).toBe(true)
 })
 
-test('homepage hero carries a silent loop that only loads on wide, motion-allowed screens', () => {
+test('homepage hero plays a crossfading playlist of all six loops, hero first, phones included', () => {
   const index = readFileSync('src/pages/index.astro', 'utf8')
-  expect(index).toMatch(/<video[\s\S]*class="hero__video"[\s\S]*data-src="\/video\/awn-hero-loop\.mp4"[\s\S]*muted[\s\S]*loop[\s\S]*playsinline[\s\S]*preload="none"/)
+  expect(index).toMatch(/const heroPlaylist = \[\s*\{ src: '\/video\/awn-hero-loop\.mp4', mobile: '\/video\/mobile\/awn-hero-loop\.mp4' \}/)
+  for (const slug of ['washington-dc', 'arlington-va', 'alexandria-va', 'montgomery-county-md', 'prince-georges-county-md']) {
+    expect(index).toContain(`{ src: '/video/locations/${slug}.mp4', mobile: '/video/mobile/${slug}.mp4' }`)
+    expect(existsSync(`public/video/mobile/${slug}.mp4`)).toBe(true)
+  }
+  expect(index).toMatch(/<div[\s\S]*class="hero__stage"[\s\S]*data-playlist=\{JSON\.stringify\(heroPlaylist\)\}/)
+  expect((index.match(/<video class="hero__video" muted playsinline preload="none"/g) ?? []).length).toBe(2)
   expect(index).toContain("import { attachLoopVideos } from '../lib/loop-video'")
-  expect(index).toMatch(/@media \(max-width: 640px\), \(prefers-reduced-motion: reduce\) \{\s*\.hero__video \{\s*display: none;/)
+  // Only reduced motion hides the stage; phones play the mobile files.
+  expect(index).toMatch(/@media \(prefers-reduced-motion: reduce\) \{\s*\.hero__stage \{\s*display: none;/)
+  expect(index).not.toMatch(/max-width: 640px\)[^}]*\.hero__stage/)
   expect(existsSync('public/video/awn-hero-loop.mp4')).toBe(true)
-  const loader = readFileSync('src/lib/loop-video.ts', 'utf8')
-  expect(loader).toContain("'(min-width: 641px) and (prefers-reduced-motion: no-preference)'")
+  expect(existsSync('public/video/mobile/awn-hero-loop.mp4')).toBe(true)
+})
+
+test('every published article has a cover that exists, and the layout renders it as the share image', () => {
+  const covered = [
+    'universal/whats-my-apartment-building-worth',
+    'universal/how-to-increase-noi-small-apartment-building',
+    'universal/how-to-refinance-small-apartment-building',
+    'universal/how-to-prepare-apartment-building-for-sale',
+    'dc/dc-apartment-building-worth-2026',
+    'dc/increase-noi-dc-apartment-building',
+    'dc/refinance-dc-apartment-building',
+    'dc/selling-dc-apartment-building-topa',
+  ]
+  for (const path of covered) {
+    const slug = path.split('/')[1]
+    const fm = readFileSync(`src/content/${path}.mdx`, 'utf8').split('\n---\n')[0]
+    expect(fm).toContain(`coverImage: ../../assets/covers/${slug}.jpg`)
+    expect(fm).toMatch(/coverAlt: ".{20,}"/)
+    expect(existsSync(`src/assets/covers/${slug}.jpg`)).toBe(true)
+  }
+  const layout = readFileSync('src/layouts/Article.astro', 'utf8')
+  expect(layout).toMatch(/entry\.data\.coverImage && \([\s\S]*<Image[\s\S]*class="article__cover"/)
+  expect(layout).toContain('ogImage={ogCover?.src}')
+  const base = readFileSync('src/layouts/Base.astro', 'utf8')
+  expect(base).toContain('<meta property="og:image" content={ogImageUrl} />')
+})
+
+test('homepage service tiles and the DMV hub tiles carry the header photographs', () => {
+  const index = readFileSync('src/pages/index.astro', 'utf8')
+  expect(index).toMatch(/serviceTiles\.map\(\(tile\) => \([\s\S]*<a class="service-tile" href=\{tile\.href\}>[\s\S]*<Image[\s\S]*src=\{tile\.image\}/)
+  const hub = readFileSync('src/pages/locations/index.astro', 'utf8')
+  expect(hub).toMatch(/<Tag class="location-tile" href=\{published \? `\/locations\/\$\{entry\.id\}` : undefined\}>/)
+  expect(hub).toContain("'Market read in progress.'")
+  const service = readFileSync('src/pages/services/[service].astro', 'utf8')
+  expect(service).toMatch(/entry\.data\.bodyImage && \([\s\S]*<figure class="service__figure">/)
+  for (const slug of ['noi', 'refinance', 'sale']) {
+    expect(existsSync(`src/assets/services/body/${slug}.jpg`)).toBe(true)
+    expect(readFileSync(`src/content/services/${slug}.md`, 'utf8')).toContain(`bodyImage: ../../assets/services/body/${slug}.jpg`)
+  }
 })
 
 test('location pages with a finished loop declare it and the file exists', () => {

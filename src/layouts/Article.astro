@@ -1,4 +1,5 @@
 ---
+import { Image, getImage } from 'astro:assets'
 import Base from './Base.astro'
 import JsonLd from '../components/JsonLd.astro'
 import GeoCTA from '../components/GeoCTA.astro'
@@ -33,15 +34,38 @@ const videoSchema = entry.data.youtubeId
 
 const faqSchema = entry.data.faq?.length ? buildFaqSchema(entry.data.faq) : null
 const inlineCtas = Boolean(entry.data.inlineCtas)
+// The cover doubles as the share card (og:image) at 1200 wide.
+const ogCover = entry.data.coverImage
+  ? await getImage({ src: entry.data.coverImage, width: 1200, format: 'jpg' })
+  : null
 ---
 
-<Base title={entry.data.title} description={entry.data.description} canonical={canonical}>
+<Base
+  title={entry.data.title}
+  description={entry.data.description}
+  canonical={canonical}
+  ogImage={ogCover?.src}
+>
   <JsonLd data={articleSchema} />
   {videoSchema && <JsonLd data={videoSchema} />}
   {faqSchema && <JsonLd data={faqSchema} />}
   <article class="article">
     <p class="article__pillar">{entry.data.pillar.toUpperCase()}</p>
     <h1>{entry.data.title}</h1>
+
+    {
+      entry.data.coverImage && (
+        <Image
+          class="article__cover"
+          src={entry.data.coverImage}
+          alt={entry.data.coverAlt ?? ''}
+          widths={[640, 1024, 1440]}
+          sizes="(max-width: 760px) 100vw, 720px"
+          loading="eager"
+          fetchpriority="high"
+        />
+      )
+    }
 
     {
       entry.data.youtubeId && (
@@ -103,6 +127,15 @@ const inlineCtas = Boolean(entry.data.inlineCtas)
     padding: var(--space-1) var(--space-2);
     text-align: left;
     white-space: nowrap;
+  }
+
+  .article__cover {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 4px;
+    margin: var(--space-4) 0 var(--space-5);
   }
 
   .article__pillar {
