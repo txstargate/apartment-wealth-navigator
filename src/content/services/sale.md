@@ -2,6 +2,8 @@
 title: Sale Readiness and Disposition Advisory
 description: Prepare your apartment building, your numbers, and your document file for the way a buyer's underwriter will read them.
 pillar: sale
+headerImage: ../../assets/services/sale.jpg
+headerAlt: "A well-kept three-story brick apartment building at golden hour, hedges trimmed and railings freshly painted"
 faq:
   - question: What does "sale ready" actually mean?
     answer: It means a buyer's underwriter can verify your income and your expenses from the documents you hand over, without discounting for uncertainty. Readiness is a documentation and operating standard, not a cosmetic one.

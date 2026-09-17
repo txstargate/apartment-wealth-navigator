@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content'
+import { Image } from 'astro:assets'
 import Base from '../../layouts/Base.astro'
 import JsonLd from '../../components/JsonLd.astro'
 import GeoCTA from '../../components/GeoCTA.astro'
@@ -21,6 +22,21 @@ const faqSchema = buildFaqSchema(entry.data.faq)
 
 <Base title={entry.data.title} description={entry.data.description} canonical={canonical}>
   <JsonLd data={faqSchema} />
+  {
+    entry.data.headerImage && (
+      <div class="service__header">
+        <Image
+          class="service__header-image"
+          src={entry.data.headerImage}
+          alt={entry.data.headerAlt ?? entry.data.title}
+          widths={[640, 1024, 1600, 1920]}
+          sizes="100vw"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+    )
+  }
   <article class="service">
     <h1>{entry.data.title}</h1>
     <div class="service__body">
@@ -44,6 +60,24 @@ const faqSchema = buildFaqSchema(entry.data.faq)
 </Base>
 
 <style>
+  /* Full-width header band above the article column, cropped to a wide
+     banner, never wider than the viewport. */
+  .service__header {
+    width: 100%;
+    max-height: 46vh;
+    overflow: hidden;
+    background: var(--color-navy);
+  }
+
+  .service__header-image {
+    display: block;
+    width: 100%;
+    height: 46vh;
+    max-height: 520px;
+    object-fit: cover;
+    object-position: center 45%;
+  }
+
   .service {
     max-width: 720px;
     margin: 0 auto;

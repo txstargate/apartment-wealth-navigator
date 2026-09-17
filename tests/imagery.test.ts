@@ -33,6 +33,26 @@ test('every location page declares a header image that exists on disk', () => {
   }
 })
 
+test('every service page declares a header image that exists on disk', () => {
+  for (const slug of ['noi', 'refinance', 'sale']) {
+    const fm = readFileSync(`src/content/services/${slug}.md`, 'utf8').split('\n---\n')[0]
+    expect(fm).toContain(`headerImage: ../../assets/services/${slug}.jpg`)
+    expect(fm).toMatch(/headerAlt: ".{20,}"/)
+    expect(existsSync(`src/assets/services/${slug}.jpg`)).toBe(true)
+  }
+  const page = readFileSync('src/pages/services/[service].astro', 'utf8')
+  expect(page).toMatch(/entry\.data\.headerImage && \([\s\S]*<Image[\s\S]*src=\{entry\.data\.headerImage\}/)
+  const config = readFileSync('src/content.config.ts', 'utf8')
+  expect(config).toMatch(/serviceSchema\.extend\(\{[\s\S]*headerImage: image\(\)\.optional\(\)/)
+})
+
+test('about page renders a faceless header image through astro:assets', () => {
+  const about = readFileSync('src/pages/about.astro', 'utf8')
+  expect(about).toContain("import aboutHeader from '../assets/about-header.jpg'")
+  expect(about).toMatch(/<Image[\s\S]*class="about__header-image"[\s\S]*src=\{aboutHeader\}/)
+  expect(existsSync('src/assets/about-header.jpg')).toBe(true)
+})
+
 test('location template renders the header image above the article', () => {
   const page = readFileSync('src/pages/locations/[slug].astro', 'utf8')
   expect(page).toContain("import { Image } from 'astro:assets'")

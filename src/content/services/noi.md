@@ -2,6 +2,8 @@
 title: NOI Optimization and Expense Review
 description: A line-by-line read of your building's income and expenses, done to raise net operating income before a lender or a buyer prices it.
 pillar: noi
+headerImage: ../../assets/services/noi.jpg
+headerAlt: "A rent roll, utility bills, and a calculator on a desk by a window"
 faq:
   - question: What is NOI, in plain language?
     answer: Net operating income is what the building collects in a year minus what it costs to operate for that year, before your mortgage payment. It is the number a lender sizes a loan on and the number a buyer applies a cap rate to.

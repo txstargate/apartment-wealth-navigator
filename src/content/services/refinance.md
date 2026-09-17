@@ -2,6 +2,8 @@
 title: Refinance Positioning
 description: Work the operating numbers your next lender will size the loan on, in the window before you apply.
 pillar: refinance
+headerImage: ../../assets/services/refinance.jpg
+headerAlt: "A lender-ready package laid out on a conference table: reports, a rent roll, a calculator, and a closed laptop"
 faq:
   - question: When should I start refinance positioning, relative to my loan maturity?
     answer: If your loan matures inside two years, start now. Lenders size on trailing performance, so the value of this work runs down as the application date gets closer.

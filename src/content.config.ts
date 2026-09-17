@@ -46,9 +46,15 @@ const serviceSchema = z.object({
   ),
 })
 
+// Header photograph per service page (design pass, 2026-09-17), same
+// shape as the location pages.
 const services = defineCollection({
   loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/services' }),
-  schema: serviceSchema,
+  schema: ({ image }) =>
+    serviceSchema.extend({
+      headerImage: image().optional(),
+      headerAlt: z.string().optional(),
+    }),
 })
 
 // DMV location pages: a plain-language market read per jurisdiction,
