@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets'
 import Base from '../layouts/Base.astro'
+import portrait from '../assets/shafiq/contact-portrait.jpg'
 ---
 
 <Base
@@ -9,10 +11,20 @@ import Base from '../layouts/Base.astro'
 >
 	<section class="get-started">
 		<h1>Where is the building?</h1>
-		<p>
-			Your building's location determines the next step: a direct booking with Shafiq, or a
-			referral to a trusted partner in your market.
-		</p>
+		<div class="contact__intro">
+			<Image
+				class="contact__portrait"
+				src={portrait}
+				alt="Shafiq Hirani at a table with a notebook and a coffee"
+				widths={[240, 480]}
+				sizes="140px"
+				loading="eager"
+			/>
+			<p>
+				Your building's location determines the next step: a direct booking with Shafiq, or a
+				referral to a trusted partner in your market.
+			</p>
+		</div>
 
 		<form id="location-form" class="location-form">
 			<label for="firstName">First name</label>
@@ -122,6 +134,21 @@ import Base from '../layouts/Base.astro'
 		max-width: 600px;
 		margin: 0 auto;
 		padding: var(--space-6) var(--space-4);
+	}
+
+	.contact__intro {
+		display: grid;
+		grid-template-columns: 140px 1fr;
+		gap: var(--space-4);
+		align-items: center;
+	}
+
+	.contact__portrait {
+		display: block;
+		width: 100%;
+		aspect-ratio: 4 / 5;
+		object-fit: cover;
+		border-radius: 4px;
 	}
 
 	.location-form {

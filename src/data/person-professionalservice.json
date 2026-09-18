@@ -1,6 +1,5 @@
 {
   "_comment": "Copied verbatim from ../../../schema/person-professionalservice.json (apartmentwealthnavigator/schema/), the confirmed source of truth outside the site repo. Keep this file and that one in sync if the identity facts change.",
-  "_todo_headshot": "TODO-Shafiq: drop in final headshot. public/shafiq-hirani.jpg is a 1x1 placeholder pixel, see public/TODO-shafiq-headshot.md",
   "@context": "https://schema.org",
   "@graph": [
     {
@@ -27,21 +26,30 @@
           "credentialCategory": "license",
           "name": "Real Estate Broker License",
           "identifier": "BR98379340",
-          "recognizedBy": { "@type": "GovernmentOrganization", "name": "District of Columbia Real Estate Commission" }
+          "recognizedBy": {
+            "@type": "GovernmentOrganization",
+            "name": "District of Columbia Real Estate Commission"
+          }
         },
         {
           "@type": "EducationalOccupationalCredential",
           "credentialCategory": "license",
           "name": "Real Estate Broker License",
           "identifier": "0225230181",
-          "recognizedBy": { "@type": "GovernmentOrganization", "name": "Virginia Real Estate Board" }
+          "recognizedBy": {
+            "@type": "GovernmentOrganization",
+            "name": "Virginia Real Estate Board"
+          }
         },
         {
           "@type": "EducationalOccupationalCredential",
           "credentialCategory": "license",
           "name": "Real Estate Broker License",
           "identifier": "663088",
-          "recognizedBy": { "@type": "GovernmentOrganization", "name": "Maryland Real Estate Commission" }
+          "recognizedBy": {
+            "@type": "GovernmentOrganization",
+            "name": "Maryland Real Estate Commission"
+          }
         },
         {
           "@type": "EducationalOccupationalCredential",
@@ -64,7 +72,10 @@
       ]
     },
     {
-      "@type": ["RealEstateAgent", "ProfessionalService"],
+      "@type": [
+        "RealEstateAgent",
+        "ProfessionalService"
+      ],
       "@id": "https://apartmentwealthnavigator.com/#organization",
       "name": "Apartment Wealth Navigator",
       "url": "https://apartmentwealthnavigator.com/",
@@ -72,9 +83,18 @@
         "@id": "https://apartmentwealthnavigator.com/#person"
       },
       "areaServed": [
-        { "@type": "State", "name": "District of Columbia" },
-        { "@type": "State", "name": "Virginia" },
-        { "@type": "State", "name": "Maryland" }
+        {
+          "@type": "State",
+          "name": "District of Columbia"
+        },
+        {
+          "@type": "State",
+          "name": "Virginia"
+        },
+        {
+          "@type": "State",
+          "name": "Maryland"
+        }
       ],
       "description": "Commercial real estate advisory for apartment owners on NOI optimization, refinance positioning, and sale readiness, licensed in DC, Virginia, and Maryland.",
       "telephone": "+1-202-800-3200",

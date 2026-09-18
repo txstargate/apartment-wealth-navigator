@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readFileSync, statSync } from 'node:fs'
 import { test, expect } from 'vitest'
 
 // Design pass 2026-09-17: the homepage hero and the five location headers
@@ -46,11 +46,25 @@ test('every service page declares a header image that exists on disk', () => {
   expect(config).toMatch(/serviceSchema\.extend\(\{[\s\S]*headerImage: image\(\)\.optional\(\)/)
 })
 
-test('about page renders a faceless header image through astro:assets', () => {
+test('about page renders the header, the portrait, and the compass figure through astro:assets', () => {
   const about = readFileSync('src/pages/about.astro', 'utf8')
   expect(about).toContain("import aboutHeader from '../assets/about-header.jpg'")
   expect(about).toMatch(/<Image[\s\S]*class="about__header-image"[\s\S]*src=\{aboutHeader\}/)
+  expect(about).toMatch(/<Image[\s\S]*class="about__portrait"[\s\S]*src=\{portrait\}/)
   expect(existsSync('src/assets/about-header.jpg')).toBe(true)
+  expect(existsSync('src/assets/shafiq/portrait-cream.jpg')).toBe(true)
+})
+
+test("Shafiq's portraits are placed (2026-09-18) and the schema headshot is no longer a placeholder", () => {
+  expect(existsSync('src/assets/shafiq/portrait-navy.jpg')).toBe(true)
+  expect(existsSync('src/assets/shafiq/contact-portrait.jpg')).toBe(true)
+  expect(readFileSync('src/pages/contact.astro', 'utf8')).toMatch(/<Image[\s\S]*class="contact__portrait"/)
+  expect(readFileSync('src/pages/index.astro', 'utf8')).toMatch(/<Image[\s\S]*class="who__portrait"[\s\S]*src=\{portraitNavy\}/)
+  const schema = readFileSync('src/data/person-professionalservice.json', 'utf8')
+  expect(schema).not.toContain('_todo_headshot')
+  expect(schema).toContain('https://apartmentwealthnavigator.com/shafiq-hirani.jpg')
+  expect(statSync('public/shafiq-hirani.jpg').size).toBeGreaterThan(50_000)
+  expect(existsSync('public/TODO-shafiq-headshot.md')).toBe(false)
 })
 
 test('homepage hero plays a crossfading playlist of all six loops, hero first, phones included', () => {

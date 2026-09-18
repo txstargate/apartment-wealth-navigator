@@ -6,7 +6,7 @@ headerImage: ../../assets/services/refinance.jpg
 bodyImage: ../../assets/services/body/refinance.jpg
 bodyAlt: "An illustration of a brick building beside two gauges labelled value and coverage"
 bodyCaption: "A lender runs two tests and takes the lower number."
-headerAlt: "A lender-ready package laid out on a conference table: reports, a rent roll, a calculator, and a closed laptop"
+headerAlt: "Shafiq Hirani at a table with a laptop, walking through the numbers"
 faq:
   - question: When should I start refinance positioning, relative to my loan maturity?
     answer: If your loan matures inside two years, start now. Lenders size on trailing performance, so the value of this work runs down as the application date gets closer.

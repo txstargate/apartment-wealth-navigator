@@ -10,6 +10,7 @@ import heroImage from '../assets/hero-dc-rowhouses.jpg'
 import noiHeader from '../assets/services/noi.jpg'
 import saleHeader from '../assets/services/sale.jpg'
 import refinanceHeader from '../assets/services/refinance.jpg'
+import portraitNavy from '../assets/shafiq/portrait-navy.jpg'
 
 // Hero playlist order: the rowhouse loop first, then each DMV area in
 // turn. Files live in public/video (1080p) and public/video/mobile (720p).
@@ -30,7 +31,7 @@ const serviceTiles = [
 		title: 'NOI Optimization and Expense Review',
 		blurb: 'Read the income and expense lines a lender or a buyer will price, then work them in an order that holds up.',
 		image: noiHeader,
-		alt: 'A rent roll, utility bills, and a calculator on a desk by a window',
+		alt: 'Shafiq Hirani reviewing a rent roll on a tablet at a brick apartment building',
 	},
 	{
 		href: '/services/sale',
@@ -44,7 +45,7 @@ const serviceTiles = [
 		title: 'Refinance Positioning',
 		blurb: 'Work the numbers your next lender will size the loan on, while those numbers can still change.',
 		image: refinanceHeader,
-		alt: 'A lender-ready package laid out on a conference table',
+		alt: 'Shafiq Hirani at a table with a laptop, walking through the numbers',
 	},
 ]
 
@@ -166,12 +167,24 @@ const stats = [
 	</section>
 
 	<section class="content-block content-block--band">
-		<h2>Who reads your numbers</h2>
-		<p>
-			Commercial Real Estate Advisor and Broker with RE/MAX Distinctive Commercial, licensed in
-			Washington DC, Virginia, and Maryland. CCIM, MBA, and Professional Engineer.
-		</p>
-		<p><a href="/about">More about how I work</a></p>
+		<div class="who">
+			<Image
+				class="who__portrait"
+				src={portraitNavy}
+				alt="Shafiq Hirani, portrait"
+				widths={[240, 480]}
+				sizes="160px"
+				loading="lazy"
+			/>
+			<div>
+				<h2>Who reads your numbers</h2>
+				<p>
+					Commercial Real Estate Advisor and Broker with RE/MAX Distinctive Commercial, licensed in
+					Washington DC, Virginia, and Maryland. CCIM, MBA, and Professional Engineer.
+				</p>
+				<p><a href="/about">More about how I work</a></p>
+			</div>
+		</div>
 	</section>
 
 	<section class="content-block content-block--closing">
@@ -330,6 +343,31 @@ const stats = [
 	.content-block--band {
 		background: var(--color-cream);
 		border-radius: 4px;
+	}
+
+	.who {
+		display: grid;
+		grid-template-columns: 160px 1fr;
+		gap: var(--space-4);
+		align-items: center;
+	}
+
+	.who__portrait {
+		display: block;
+		width: 100%;
+		aspect-ratio: 4 / 5;
+		object-fit: cover;
+		border-radius: 4px;
+	}
+
+	@media (max-width: 640px) {
+		.who {
+			grid-template-columns: 1fr;
+		}
+
+		.who__portrait {
+			max-width: 50%;
+		}
 	}
 
 	.services-grid {

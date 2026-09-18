@@ -6,7 +6,7 @@ headerImage: ../../assets/services/noi.jpg
 bodyImage: ../../assets/services/body/noi.jpg
 bodyAlt: "A whiteboard diagram of the five levers that feed NOI, and NOI feeding value"
 bodyCaption: "The five levers, in the order I work them."
-headerAlt: "A rent roll, utility bills, and a calculator on a desk by a window"
+headerAlt: "Shafiq Hirani reviewing a rent roll on a tablet at the entrance of a brick apartment building"
 faq:
   - question: What is NOI, in plain language?
     answer: Net operating income is what the building collects in a year minus what it costs to operate for that year, before your mortgage payment. It is the number a lender sizes a loan on and the number a buyer applies a cap rate to.

@@ -4,10 +4,12 @@ import Base from '../layouts/Base.astro'
 import JsonLd from '../components/JsonLd.astro'
 import GeoCTA from '../components/GeoCTA.astro'
 import personSchema from '../data/person-professionalservice.json'
-// About header (design pass, 2026-09-17): an advisor seen from behind
-// reading a building. A faceless stand-in until the photographer's real
-// shots of Shafiq arrive; then this slot takes the real photo.
+// About imagery (2026-09-18): Shafiq's portrait set from the Wedite Building
+// folder. Header is Shafiq in front of a bay-front block; the portrait sits
+// beside the intro; the compass and notebook still moves to the method section.
 import aboutHeader from '../assets/about-header.jpg'
+import portrait from '../assets/shafiq/portrait-cream.jpg'
+import compass from '../assets/about-compass.jpg'
 ---
 
 <Base
@@ -20,7 +22,7 @@ import aboutHeader from '../assets/about-header.jpg'
 		<Image
 			class="about__header-image"
 			src={aboutHeader}
-			alt="An advisor on a tree-lined sidewalk looking up at a red brick apartment building"
+			alt="Shafiq Hirani on a tree-lined street in front of a row of brick apartment buildings"
 			widths={[640, 1024, 1600, 1920]}
 			sizes="100vw"
 			loading="eager"
@@ -30,10 +32,20 @@ import aboutHeader from '../assets/about-header.jpg'
 	<article class="about">
 		<h1>About Shafiq Hirani</h1>
 
-		<p>
-			Apartment owners hire me to raise net operating income (NOI), cut wasted expenses, and
-			position a building for a stronger refinance or sale.
-		</p>
+		<div class="about__intro">
+			<Image
+				class="about__portrait"
+				src={portrait}
+				alt="Shafiq Hirani, portrait"
+				widths={[320, 480, 720]}
+				sizes="(max-width: 640px) 60vw, 220px"
+				loading="eager"
+			/>
+			<p>
+				Apartment owners hire me to raise net operating income (NOI), cut wasted expenses, and
+				position a building for a stronger refinance or sale.
+			</p>
+		</div>
 
 		<p>
 			I am a Commercial Real Estate Advisor and Broker with RE/MAX Distinctive Commercial. I hold
@@ -57,6 +69,14 @@ import aboutHeader from '../assets/about-header.jpg'
 		</p>
 
 		<h2>How I work</h2>
+		<Image
+			class="about__figure"
+			src={compass}
+			alt="An engineer's notebook, a brass compass, and a mechanical pencil over a rent roll"
+			widths={[640, 1024, 1440]}
+			sizes="(max-width: 760px) 100vw, 720px"
+			loading="lazy"
+		/>
 		<p>
 			Before I recommend anything, I read your business plan, your goals for the property, and
 			your financials. Those three inputs decide whether the right move is a rent strategy, an
@@ -135,6 +155,41 @@ import aboutHeader from '../assets/about-header.jpg'
 		max-width: 720px;
 		margin: 0 auto;
 		padding: var(--space-6) var(--space-4);
+	}
+
+	.about__intro {
+		display: grid;
+		grid-template-columns: 220px 1fr;
+		gap: var(--space-4);
+		align-items: start;
+		margin-bottom: var(--space-4);
+	}
+
+	.about__portrait {
+		display: block;
+		width: 100%;
+		aspect-ratio: 4 / 5;
+		object-fit: cover;
+		border-radius: 4px;
+	}
+
+	.about__figure {
+		display: block;
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+		border-radius: 4px;
+		margin: var(--space-3) 0 var(--space-4);
+	}
+
+	@media (max-width: 640px) {
+		.about__intro {
+			grid-template-columns: 1fr;
+		}
+
+		.about__portrait {
+			max-width: 60%;
+		}
 	}
 
 	.about__motto {
