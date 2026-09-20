@@ -2,10 +2,10 @@
 import { getCollection } from 'astro:content'
 import { Image } from 'astro:assets'
 import Base from '../../layouts/Base.astro'
-import { filterPublished } from '../../lib/content'
+import { filterPublished, orderInsights } from '../../lib/content'
 
-const universal = filterPublished(await getCollection('universal'))
-const dc = filterPublished(await getCollection('dc'))
+const universal = orderInsights(filterPublished(await getCollection('universal')))
+const dc = orderInsights(filterPublished(await getCollection('dc')))
 ---
 
 <Base
