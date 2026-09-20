@@ -35,6 +35,7 @@ test('the facade injects the player only on click and never hides YouTube chrome
 test('the article layout uses the facade and feeds the VideoObject a thumbnail', () => {
   const layout = readFileSync('src/layouts/Article.astro', 'utf8')
   expect(layout).toMatch(/<YouTubeFacade id=\{entry\.data\.youtubeId\} title=\{entry\.data\.title\} \/>/)
-  expect(layout).toContain("thumbnailUrl: youtubeThumbnailUrl(entry.data.youtubeId, 'maxresdefault')")
+  expect(layout).toContain("youtubeThumbnailUrl(entry.data.youtubeId, 'sddefault')")
+  expect(layout).not.toContain("'maxresdefault'")
   expect(layout).not.toContain('https://www.youtube.com/embed/')
 })

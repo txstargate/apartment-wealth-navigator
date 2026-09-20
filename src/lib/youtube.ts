@@ -25,7 +25,7 @@ export function youtubeEmbedUrl(id: string, opts: { autoplay?: boolean } = {}): 
 }
 
 /** Poster image for the facade and the VideoObject thumbnailUrl. */
-export function youtubeThumbnailUrl(id: string, size: 'hqdefault' | 'maxresdefault' = 'hqdefault'): string {
+export function youtubeThumbnailUrl(id: string, size: 'hqdefault' | 'sddefault' | 'maxresdefault' = 'hqdefault'): string {
   return `https://i.ytimg.com/vi/${id}/${size}.jpg`
 }
 
