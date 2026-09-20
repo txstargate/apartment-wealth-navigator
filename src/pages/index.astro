@@ -250,13 +250,12 @@ const stats = [
 	.hero__overlay {
 		position: absolute;
 		inset: 0;
-		background: linear-gradient(
-			to top,
-			rgba(18, 49, 79, 0.92) 0%,
-			rgba(18, 49, 79, 0.62) 45%,
-			rgba(10, 13, 20, 0.28) 100%
-		);
 		z-index: -1;
+		/* Sharpen pass 2026-09-20: a neutral vignette behind the copy instead of a
+		   full-frame navy wash, so the loops keep their colour and edge detail. */
+		background:
+			radial-gradient(ellipse 70% 80% at 50% 55%, rgba(10, 13, 20, 0.5) 0%, rgba(10, 13, 20, 0.3) 55%, rgba(10, 13, 20, 0) 100%),
+			linear-gradient(180deg, rgba(10, 13, 20, 0.28) 0%, rgba(10, 13, 20, 0.08) 40%, rgba(10, 13, 20, 0.34) 100%);
 	}
 
 	.hero__content {
@@ -268,12 +267,27 @@ const stats = [
 		font-size: var(--text-3xl);
 		color: var(--color-bg);
 		margin-bottom: var(--space-4);
-		text-shadow: 0 1px 12px rgba(10, 13, 20, 0.35);
+		text-shadow: 0 2px 18px rgba(10, 13, 20, 0.6), 0 1px 3px rgba(10, 13, 20, 0.5);
+	}
+
+	/* On the dark hero the shared navy button vanished; a cream button with navy
+	   text is the highest-contrast pairing in the palette. */
+	.hero :global(.geo-cta) {
+		background: var(--color-cream);
+		color: var(--color-navy);
+		font-weight: 600;
+		box-shadow: 0 6px 24px rgba(10, 13, 20, 0.35);
+	}
+
+	.hero :global(.geo-cta:hover) {
+		background: #ffffff;
+		color: var(--color-navy);
 	}
 
 	.hero p {
 		font-size: var(--text-lg);
-		color: var(--color-cream);
+		color: #ffffff;
+		text-shadow: 0 1px 10px rgba(10, 13, 20, 0.55);
 		margin-bottom: var(--space-5);
 	}
 
@@ -307,7 +321,7 @@ const stats = [
 	}
 
 	.stats__card {
-		border: 1px solid var(--color-slate);
+		border: 1px solid rgba(241, 237, 230, 0.22);
 		border-radius: 2px;
 		padding: var(--space-4);
 		text-align: center;
@@ -324,7 +338,7 @@ const stats = [
 		font-size: var(--text-sm);
 		letter-spacing: 0.05em;
 		text-transform: uppercase;
-		color: var(--color-slate);
+		color: rgba(241, 237, 230, 0.82);
 		margin: 0;
 	}
 
