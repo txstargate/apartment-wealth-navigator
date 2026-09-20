@@ -1,5 +1,29 @@
 ---
+import { Image } from 'astro:assets'
 import Base from '../../layouts/Base.astro'
+import GeoCTA from '../../components/GeoCTA.astro'
+import toolImage from '../../assets/services/body/noi.jpg'
+import metersImage from '../../assets/shafiq/noi-audit-meters.jpg'
+
+// Inputs and outputs mirror the form and result panel on /tools/noi-check.
+const inputs = [
+	'Number of units',
+	'Gross rent, annual or monthly',
+	'Operating expenses, or an expense ratio if you are not sure',
+	'Your estimate of market rent per unit, optional',
+	'A cap rate, preset to 6 percent',
+	'The building location, ZIP or city',
+]
+const outputs = [
+	{ label: 'Current NOI', note: 'Collected income minus operating expenses, before debt service.' },
+	{ label: 'Annual NOI gap', note: 'How far the building sits below what the same units should produce.' },
+	{ label: 'Estimated value impact', note: 'The gap capitalized at your cap rate. What the leak costs in building value.' },
+]
+const reading = [
+	{ href: '/insights/how-to-increase-noi-small-apartment-building/', title: 'How to Increase NOI on a Small Apartment Building', note: 'The five levers, and the 20-minute audit.' },
+	{ href: '/insights/revenue-capture-recover-noi-without-raising-rent/', title: 'Revenue Capture', note: 'The fastest lever. Billing what the leases already allow.' },
+	{ href: '/insights/utility-leaks-the-silent-noi-killer/', title: 'Utility Leaks', note: 'The 15 percent test on your water and sewer bills.' },
+]
 ---
 
 <Base
@@ -7,45 +31,315 @@ import Base from '../../layouts/Base.astro'
 	description="Free tools for apartment owners: a fast, transparent read on NOI and building value."
 	canonical="https://apartmentwealthnavigator.com/tools/"
 >
-	<section class="tools">
-		<h1>Tools</h1>
-		<ul class="tools__list">
-			<li>
-				<a href="/tools/noi-check">NOI Quick Check</a>
-				<p>
-					See your current NOI, an estimated NOI gap, and the value that gap represents, in a
-					few minutes.
-				</p>
-			</li>
+	<section class="tools-hero">
+		<div class="tools-hero__copy">
+			<p class="tools-hero__kicker">TOOLS</p>
+			<h1>Run the numbers before a lender or a buyer runs them for you</h1>
+			<p class="tools-hero__lede">
+				One free tool today, built on the same arithmetic I use in a building review. No account, no
+				download. Your inputs stay on this page until you choose to send them.
+			</p>
+		</div>
+		<Image
+			class="tools-hero__image"
+			src={metersImage}
+			alt="Shafiq Hirani reading a bank of water meters in an apartment building utility room"
+			widths={[640, 960, 1280]}
+			sizes="(max-width: 900px) 100vw, 50vw"
+			loading="eager"
+		/>
+	</section>
+
+	<section class="tool-card">
+		<a class="tool-card__media" href="/tools/noi-check" aria-hidden="true" tabindex="-1">
+			<Image
+				src={toolImage}
+				alt=""
+				widths={[640, 960]}
+				sizes="(max-width: 900px) 100vw, 40vw"
+				loading="lazy"
+			/>
+		</a>
+		<div class="tool-card__body">
+			<p class="tool-card__meta">Free · A few minutes · Educational estimate</p>
+			<h2><a href="/tools/noi-check">NOI Quick Check</a></h2>
+			<p>
+				See your current NOI, an estimated NOI gap, and the value that gap represents. Every
+				assumption is visible, and you can change it before you see a result.
+			</p>
+			<div class="tool-card__cols">
+				<div>
+					<h3>What you enter</h3>
+					<ul>
+						{inputs.map((item) => <li>{item}</li>)}
+					</ul>
+				</div>
+				<div>
+					<h3>What you get</h3>
+					<dl>
+						{
+							outputs.map((o) => (
+								<>
+									<dt>{o.label}</dt>
+									<dd>{o.note}</dd>
+								</>
+							))
+						}
+					</dl>
+				</div>
+			</div>
+			<a class="tool-card__button" href="/tools/noi-check">Run the NOI Quick Check</a>
+			<p class="tool-card__note">
+				This is an educational estimate, not an appraisal and not a broker opinion of value.
+			</p>
+		</div>
+	</section>
+
+	<section class="tools-reading">
+		<h2>Read alongside the tool</h2>
+		<ul class="tools-reading__list">
+			{
+				reading.map((r) => (
+					<li>
+						<a href={r.href}>{r.title}</a>
+						<p>{r.note}</p>
+					</li>
+				))
+			}
 		</ul>
+	</section>
+
+	<section class="tools-close">
+		<h2>Want the full read?</h2>
+		<p>
+			The tool sizes the gap. A building audit finds where it lives: the rent roll, the leases, the
+			contracts, the utility bills, and the tax and insurance lines.
+		</p>
+		<GeoCTA />
 	</section>
 </Base>
 
 <style>
-	.tools {
-		max-width: 640px;
+	.tools-hero {
+		max-width: 1100px;
 		margin: 0 auto;
-		padding: var(--space-6) var(--space-4);
+		padding: var(--space-6) var(--space-4) 0;
+		display: grid;
+		grid-template-columns: 1.1fr 1fr;
+		gap: var(--space-6);
+		align-items: center;
 	}
 
-	.tools__list {
-		list-style: none;
-		margin: var(--space-5) 0 0;
-		padding: 0;
+	.tools-hero__kicker {
+		font-size: var(--text-sm);
+		letter-spacing: 0.12em;
+		color: var(--color-accent-deep);
+		margin: 0 0 var(--space-2);
 	}
 
-	.tools__list li {
-		border-top: 1px solid var(--color-border);
-		padding: var(--space-3) 0;
+	.tools-hero h1 {
+		font-size: var(--text-2xl);
+		margin: 0 0 var(--space-3);
 	}
 
-	.tools__list a {
-		font-weight: 600;
-		color: var(--color-text);
+	.tools-hero__lede {
+		font-size: var(--text-lg);
+		color: var(--color-slate);
+		margin: 0;
+	}
+
+	.tools-hero__image {
+		display: block;
+		width: 100%;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+		border-radius: 4px;
+	}
+
+	.tool-card {
+		max-width: 1100px;
+		margin: var(--space-7) auto 0;
+		padding: 0 var(--space-4);
+		display: grid;
+		grid-template-columns: 2fr 3fr;
+		border: 1px solid var(--color-border);
+		border-radius: 4px;
+		overflow: hidden;
+		background: var(--color-bg);
+	}
+
+	.tool-card__media {
+		display: block;
+		background: var(--color-cream);
+	}
+
+	.tool-card__media :global(img) {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: left center;
+	}
+
+	.tool-card__body {
+		padding: var(--space-5);
+	}
+
+	.tool-card__meta {
+		font-size: var(--text-sm);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--color-accent-deep);
+		margin: 0 0 var(--space-2);
+	}
+
+	.tool-card h2 {
+		font-size: var(--text-xl);
+		margin: 0 0 var(--space-2);
+	}
+
+	.tool-card h2 a {
+		color: var(--color-obsidian);
 		text-decoration: none;
 	}
 
-	.tools__list a:hover {
-		color: var(--color-accent);
+	.tool-card__cols {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: var(--space-4);
+		margin: var(--space-4) 0;
+	}
+
+	.tool-card h3 {
+		font-family: var(--font-body);
+		font-size: var(--text-sm);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--color-slate);
+		margin: 0 0 var(--space-2);
+	}
+
+	.tool-card ul {
+		margin: 0;
+		padding-left: 1.1rem;
+	}
+
+	.tool-card li {
+		margin-bottom: var(--space-1);
+	}
+
+	.tool-card dl {
+		margin: 0;
+	}
+
+	.tool-card dt {
+		font-weight: 600;
+		color: var(--color-navy);
+	}
+
+	.tool-card dd {
+		margin: 0 0 var(--space-2);
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+	}
+
+	.tool-card__button {
+		display: inline-block;
+		background: var(--color-navy);
+		color: var(--color-bg);
+		font-weight: 600;
+		text-decoration: none;
+		padding: var(--space-2) var(--space-4);
+		border-radius: 2px;
+	}
+
+	.tool-card__button:hover {
+		background: var(--color-accent);
+		color: var(--color-obsidian);
+	}
+
+	.tool-card__note {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+		margin: var(--space-3) 0 0;
+	}
+
+	.tools-reading {
+		max-width: 1100px;
+		margin: var(--space-7) auto 0;
+		padding: 0 var(--space-4);
+	}
+
+	.tools-reading h2 {
+		font-size: var(--text-xl);
+		margin: 0 0 var(--space-3);
+	}
+
+	.tools-reading__list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: var(--space-4);
+	}
+
+	.tools-reading__list li {
+		border-top: 2px solid var(--color-accent);
+		padding-top: var(--space-3);
+	}
+
+	.tools-reading__list a {
+		font-family: var(--font-headline);
+		font-size: var(--text-lg);
+		color: var(--color-obsidian);
+		text-decoration: none;
+	}
+
+	.tools-reading__list a:hover {
+		color: var(--color-accent-deep);
+	}
+
+	.tools-reading__list p {
+		margin: var(--space-1) 0 0;
+		color: var(--color-slate);
+	}
+
+	.tools-close {
+		max-width: 760px;
+		margin: var(--space-7) auto 0;
+		padding: var(--space-6) var(--space-4) var(--space-7);
+		background: var(--color-cream);
+		border-radius: 4px;
+	}
+
+	.tools-close h2 {
+		font-size: var(--text-xl);
+		margin: 0 0 var(--space-2);
+	}
+
+	@media (max-width: 900px) {
+		.tools-hero,
+		.tool-card,
+		.tool-card__cols {
+			grid-template-columns: 1fr;
+		}
+
+		.tool-card {
+			margin-left: var(--space-4);
+			margin-right: var(--space-4);
+			padding: 0;
+		}
+
+		.tool-card__media :global(img) {
+			aspect-ratio: 16 / 9;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.tools-close {
+			margin-left: var(--space-4);
+			margin-right: var(--space-4);
+		}
 	}
 </style>

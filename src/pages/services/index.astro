@@ -1,10 +1,44 @@
 ---
 import { getCollection } from 'astro:content'
+import { Image } from 'astro:assets'
 import Base from '../../layouts/Base.astro'
+import GeoCTA from '../../components/GeoCTA.astro'
 
 const services = await getCollection('services')
 const order = ['noi', 'refinance', 'sale']
 const sorted = [...services].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id))
+
+// One line of "where the work goes" per service, lifted from each service
+// page so the index never says something the page does not.
+const focus: Record<string, { when: string; points: string[] }> = {
+	noi: {
+		when: 'Any time. Before a refinance or a sale, or when the building runs well and you want it to run better.',
+		points: [
+			'Rents against the current market, lease terms, and renewal timing',
+			'Ancillary income the building could bill for and does not',
+			'Contracts, insurance, and a tax assessment nobody has revisited',
+			'Utility billing errors and turnover costs above what the work should cost',
+		],
+	},
+	refinance: {
+		when: 'Twelve to twenty-four months before your loan matures, while the trailing numbers are still yours to change.',
+		points: [
+			'The trailing statements read the way an underwriter reads them',
+			'Expense work timed to land inside the period the lender will use',
+			'The rent roll and lease file that support the income you claim',
+			'A package that answers the underwriter in the underwriter’s order',
+		],
+	},
+	sale: {
+		when: 'Before the building goes to market, while you can still change the numbers instead of defending them.',
+		points: [
+			'Whether to sell at all, and when, against your plan and your goals',
+			'Trailing income and expense restated the way a buyer will restate them',
+			'Leases, renewals, deposits, contracts, and capital history in one file',
+			'Deferred maintenance found before an inspector finds it',
+		],
+	},
+}
 ---
 
 <Base
@@ -12,47 +46,260 @@ const sorted = [...services].sort((a, b) => order.indexOf(a.id) - order.indexOf(
 	description="Three ways Shafiq Hirani works with apartment owners: NOI optimization, refinance positioning, and sale readiness."
 	canonical="https://apartmentwealthnavigator.com/services/"
 >
-	<section class="services">
+	<section class="services-intro">
+		<p class="services-intro__kicker">SERVICES</p>
 		<h1>Three ways I work with owners</h1>
-		<ul class="services__list">
-			{
-				sorted.map((service) => (
-					<li>
-						<a href={`/services/${service.id}`}>{service.data.title}</a>
-						<p>{service.data.description}</p>
-					</li>
-				))
-			}
-		</ul>
+		<p class="services-intro__lede">
+			The read comes first. I recommend nothing until your rent roll, your leases, and your trailing
+			twelve months have been through it. Every engagement starts from the same three inputs: your
+			business plan for the property, your goals for it, and your financials.
+		</p>
+	</section>
+
+	<section class="services-rows">
+		{
+			sorted.map((service, i) => (
+				<article class:list={['service-row', { 'service-row--flip': i % 2 === 1 }]}>
+					{service.data.headerImage && (
+						<a class="service-row__media" href={`/services/${service.id}`} aria-hidden="true" tabindex="-1">
+							<Image
+								src={service.data.headerImage}
+								alt={service.data.headerAlt ?? ''}
+								widths={[640, 960, 1280]}
+								sizes="(max-width: 900px) 100vw, 50vw"
+								loading={i === 0 ? 'eager' : 'lazy'}
+							/>
+						</a>
+					)}
+					<div class="service-row__body">
+						<p class="service-row__index">0{i + 1}</p>
+						<h2>
+							<a href={`/services/${service.id}`}>{service.data.title}</a>
+						</h2>
+						<p class="service-row__description">{service.data.description}</p>
+						<p class="service-row__when">
+							<strong>When:</strong> {focus[service.id].when}
+						</p>
+						<ul class="service-row__points">
+							{focus[service.id].points.map((point) => (
+								<li>{point}</li>
+							))}
+						</ul>
+						<a class="service-row__link" href={`/services/${service.id}`}>
+							How {service.data.pillar === 'noi' ? 'the review' : service.data.pillar === 'refinance' ? 'positioning' : 'sale readiness'} works
+						</a>
+					</div>
+				</article>
+			))
+		}
+	</section>
+
+	<section class="services-start">
+		<h2>How every engagement starts</h2>
+		<ol class="services-start__steps">
+			<li>
+				<strong>Send the file.</strong> The property address and your last twelve months of operating
+				statements. For a refinance, add the loan maturity date.
+			</li>
+			<li>
+				<strong>I read before we speak.</strong> The rent roll, the leases behind it, the tax bill, the
+				insurance declarations, and the service contracts.
+			</li>
+			<li>
+				<strong>You get a read, then a plan.</strong> What the numbers say today, what a lender or a buyer
+				will do to them, and the order to work the gaps.
+			</li>
+		</ol>
+		<p class="services-start__tool">
+			Not sure where to start? Run the <a href="/tools/noi-check">NOI Quick Check</a> first. It takes a
+			few minutes and shows the size of the gap.
+		</p>
+		<GeoCTA />
 	</section>
 </Base>
 
 <style>
-	.services {
-		max-width: 720px;
+	.services-intro {
+		max-width: 760px;
 		margin: 0 auto;
-		padding: var(--space-6) var(--space-4);
+		padding: var(--space-7) var(--space-4) var(--space-5);
 	}
 
-	.services__list {
-		list-style: none;
+	.services-intro__kicker {
+		font-size: var(--text-sm);
+		letter-spacing: 0.12em;
+		color: var(--color-accent-deep);
+		margin: 0 0 var(--space-2);
+	}
+
+	.services-intro h1 {
+		font-size: var(--text-3xl);
+		margin: 0 0 var(--space-3);
+	}
+
+	.services-intro__lede {
+		font-size: var(--text-lg);
+		color: var(--color-slate);
 		margin: 0;
-		padding: 0;
 	}
 
-	.services__list li {
-		border-top: 1px solid var(--color-border);
-		padding: var(--space-4) 0;
+	.services-rows {
+		max-width: 1100px;
+		margin: 0 auto;
+		padding: 0 var(--space-4);
+		display: grid;
+		gap: var(--space-6);
 	}
 
-	.services__list a {
+	.service-row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: var(--space-5);
+		align-items: center;
+		border: 1px solid var(--color-border);
+		border-radius: 4px;
+		overflow: hidden;
+		background: var(--color-bg);
+	}
+
+	.service-row--flip .service-row__media {
+		order: 2;
+	}
+
+	.service-row__media {
+		display: block;
+		height: 100%;
+		min-height: 320px;
+	}
+
+	.service-row__media :global(img) {
+		display: block;
+		width: 100%;
+		height: 100%;
+		min-height: 320px;
+		object-fit: cover;
+	}
+
+	.service-row__body {
+		padding: var(--space-5) var(--space-5) var(--space-5) 0;
+	}
+
+	.service-row--flip .service-row__body {
+		padding: var(--space-5) 0 var(--space-5) var(--space-5);
+	}
+
+	.service-row__index {
 		font-family: var(--font-headline);
+		font-size: var(--text-sm);
+		letter-spacing: 0.12em;
+		color: var(--color-accent-deep);
+		margin: 0 0 var(--space-2);
+	}
+
+	.service-row h2 {
 		font-size: var(--text-xl);
+		margin: 0 0 var(--space-2);
+	}
+
+	.service-row h2 a {
 		color: var(--color-obsidian);
 		text-decoration: none;
 	}
 
-	.services__list a:hover {
-		color: var(--color-accent);
+	.service-row h2 a:hover {
+		color: var(--color-accent-deep);
+	}
+
+	.service-row__description {
+		margin: 0 0 var(--space-3);
+	}
+
+	.service-row__when {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+		border-left: 3px solid var(--color-accent);
+		padding-left: var(--space-3);
+		margin: 0 0 var(--space-3);
+	}
+
+	.service-row__points {
+		margin: 0 0 var(--space-4);
+		padding-left: 1.1rem;
+		color: var(--color-text);
+	}
+
+	.service-row__points li {
+		margin-bottom: var(--space-1);
+	}
+
+	.service-row__link {
+		display: inline-block;
+		background: var(--color-navy);
+		color: var(--color-bg);
+		font-weight: 600;
+		text-decoration: none;
+		padding: var(--space-2) var(--space-4);
+		border-radius: 2px;
+	}
+
+	.service-row__link:hover {
+		background: var(--color-accent);
+		color: var(--color-obsidian);
+	}
+
+	.services-start {
+		max-width: 760px;
+		margin: var(--space-7) auto 0;
+		padding: var(--space-6) var(--space-4) var(--space-7);
+		background: var(--color-cream);
+		border-radius: 4px;
+	}
+
+	.services-start h2 {
+		font-size: var(--text-xl);
+		margin: 0 0 var(--space-3);
+	}
+
+	.services-start__steps {
+		margin: 0 0 var(--space-4);
+		padding-left: 1.4rem;
+	}
+
+	.services-start__steps li {
+		margin-bottom: var(--space-2);
+	}
+
+	.services-start__tool {
+		margin: 0 0 var(--space-3);
+	}
+
+	@media (max-width: 900px) {
+		.service-row,
+		.service-row--flip {
+			grid-template-columns: 1fr;
+			gap: 0;
+		}
+
+		.service-row--flip .service-row__media {
+			order: 0;
+		}
+
+		.service-row__media,
+		.service-row__media :global(img) {
+			min-height: 0;
+			aspect-ratio: 16 / 9;
+		}
+
+		.service-row__body,
+		.service-row--flip .service-row__body {
+			padding: var(--space-4);
+		}
+	}
+
+	@media (max-width: 640px) {
+		.services-start {
+			margin-left: var(--space-4);
+			margin-right: var(--space-4);
+		}
 	}
 </style>
