@@ -1,6 +1,10 @@
 ---
+import { Image } from 'astro:assets'
 import Base from '../../layouts/Base.astro'
 import { BENCHMARK_SOURCE_NATIONAL } from '../../lib/benchmark'
+// Shafiq at a bank of water meters (clean redo, 2026-09-20): the NOI Leak
+// Audit in one picture, placed above the calculator.
+import metersPhoto from '../../assets/shafiq/noi-audit-meters.jpg'
 ---
 
 <Base
@@ -10,6 +14,14 @@ import { BENCHMARK_SOURCE_NATIONAL } from '../../lib/benchmark'
 >
 	<section class="noi-check">
 		<h1>NOI Quick Check</h1>
+		<Image
+			class="noi-check__photo"
+			src={metersPhoto}
+			alt="Shafiq Hirani pointing out a bank of water meters to a building manager holding a tablet"
+			widths={[640, 1024, 1280]}
+			sizes="(max-width: 680px) 100vw, 640px"
+			loading="eager"
+		/>
 		<p>
 			Enter what you already know about the building. Every assumption below is visible and you
 			can change it before you see a result.
@@ -338,6 +350,15 @@ import { BENCHMARK_SOURCE_NATIONAL } from '../../lib/benchmark'
 		max-width: 640px;
 		margin: 0 auto;
 		padding: var(--space-6) var(--space-4);
+	}
+
+	.noi-check__photo {
+		display: block;
+		width: 100%;
+		aspect-ratio: 3 / 2;
+		object-fit: cover;
+		border-radius: 4px;
+		margin: var(--space-3) 0 var(--space-4);
 	}
 
 	.noi-form {
