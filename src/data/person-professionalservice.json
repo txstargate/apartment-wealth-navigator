@@ -68,7 +68,11 @@
         }
       ],
       "sameAs": [
-        "https://www.linkedin.com/in/shafiqhirani/"
+        "https://www.linkedin.com/in/shafiqhirani/",
+        "https://www.youtube.com/@ShafiqHiraniCRE",
+        "https://www.loopnet.com/commercial-real-estate-brokers/profile/shafiq-hirani/gwsxd3xb",
+        "https://global.remax.com/en/agents/usa/washington/shafiq-s-hirani/1014392001",
+        "https://www.zillow.com/profile/shafiqhirani"
       ]
     },
     {
@@ -98,7 +102,35 @@
       ],
       "description": "Commercial real estate advisory for apartment owners on NOI optimization, refinance positioning, and sale readiness, licensed in DC, Virginia, and Maryland.",
       "telephone": "+1-202-800-3200",
-      "email": "shirani@enterprisere.com"
+      "email": "shirani@enterprisere.com",
+      "logo": "https://apartmentwealthnavigator.com/awn-favicon.svg",
+      "image": "https://apartmentwealthnavigator.com/shafiq-hirani.jpg",
+      "sameAs": [
+        "https://www.youtube.com/@ShafiqHiraniCRE",
+        "https://www.linkedin.com/in/shafiqhirani/"
+      ],
+      "parentOrganization": {
+        "@type": "RealEstateAgent",
+        "name": "RE/MAX Distinctive Commercial",
+        "telephone": "+1-202-800-3200"
+      },
+      "knowsAbout": [
+        "Apartment building NOI optimization",
+        "Multifamily refinance positioning",
+        "Apartment building sale readiness",
+        "Commercial real estate market analysis"
+      ],
+      "slogan": "Insula. Reditus. Exitus."
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://apartmentwealthnavigator.com/#website",
+      "url": "https://apartmentwealthnavigator.com/",
+      "name": "Apartment Wealth Navigator",
+      "publisher": {
+        "@id": "https://apartmentwealthnavigator.com/#organization"
+      },
+      "inLanguage": "en-US"
     }
   ]
 }

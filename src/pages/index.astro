@@ -1,6 +1,8 @@
 ---
 import { Image, getImage } from 'astro:assets'
 import Base from '../layouts/Base.astro'
+import JsonLd from '../components/JsonLd.astro'
+import siteSchema from '../data/person-professionalservice.json'
 import GeoCTA from '../components/GeoCTA.astro'
 // Homepage hero photograph (design pass, 2026-09-17): picked from Friday's
 // image-ideation run, see projects/apartmentwealthnavigator memory
@@ -63,6 +65,7 @@ const stats = [
 	canonical="https://apartmentwealthnavigator.com/"
 	ogImage={ogHero.src}
 >
+	<JsonLd data={siteSchema} />
 	<section class="hero">
 		<Image
 			class="hero__image"
