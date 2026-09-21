@@ -50,6 +50,6 @@ You feel the rate because the rate is the visible part. The part you can still a
 
 Send the property address, your loan maturity date, and your last twelve months of operating statements. I read them before we speak.
 
-TODO-Shafiq: embed the GoHighLevel booking form here once the form URL is confirmed.
+[Request a building audit](/get-started/) and pick a time on the next screen.
 
 Mobile 202-290-1055. Office 202-800-3200. Email shirani@enterprisere.com.

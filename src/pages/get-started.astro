@@ -53,7 +53,6 @@ import Base from '../layouts/Base.astro'
 		<div id="referral-panel" class="result-panel" hidden>
 			<h2>Get matched with a local advisor</h2>
 			<p>Shafiq covers DC, Virginia, and Maryland. We will route your building to a trusted partner in your market.</p>
-			<!-- TODO-Shafiq: replace this link with the referral intake form URL once it's set -->
 			<a id="referral-intake-link" class="result-link" href="#" target="_blank" rel="noopener">
 				Start the referral intake
 			</a>
@@ -65,10 +64,10 @@ import Base from '../layouts/Base.astro'
 	import { routeByLocation } from '../lib/geo'
 	import { buildLeadPayload, submitLead } from '../lib/ghl'
 	import { bookingUrl } from '../lib/booking'
+	import { referralIntakeUrl } from '../lib/referral'
 
 	const GHL_BOOKING_URL = bookingUrl(import.meta.env.PUBLIC_GHL_BOOKING_URL)
-	// TODO-Shafiq: set PUBLIC_REFERRAL_INTAKE_URL to the real referral intake form URL.
-	const REFERRAL_INTAKE_URL = import.meta.env.PUBLIC_REFERRAL_INTAKE_URL || 'TODO-Shafiq: referral intake URL'
+	const REFERRAL_INTAKE_URL = referralIntakeUrl(import.meta.env.PUBLIC_REFERRAL_INTAKE_URL)
 
 	const form = document.getElementById('location-form') as HTMLFormElement
 	const firstNameInput = document.getElementById('firstName') as HTMLInputElement

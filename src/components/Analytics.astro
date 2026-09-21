@@ -2,9 +2,9 @@
 // GA4 + Meta Pixel, consent-gated. Renders nothing until both an ID is
 // set and the visitor has granted consent via the banner below.
 //
-// TODO-Shafiq: set PUBLIC_GA4_ID to the real GA4 measurement ID (format G-XXXXXXXXXX).
+// Owner Shafiq: set PUBLIC_GA4_ID to the real GA4 measurement ID (format G-XXXXXXXXXX) when a campaign needs it.
 const GA4_ID = import.meta.env.PUBLIC_GA4_ID
-// TODO-Shafiq: set PUBLIC_META_PIXEL_ID to the real Meta Pixel ID.
+// Owner Shafiq: set PUBLIC_META_PIXEL_ID to the real Meta Pixel ID when a campaign needs it.
 const META_PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID
 
 const hasGa4 = Boolean(GA4_ID)

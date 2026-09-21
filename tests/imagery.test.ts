@@ -113,8 +113,10 @@ test('homepage service tiles and the DMV hub tiles carry the header photographs'
   const index = readFileSync('src/pages/index.astro', 'utf8')
   expect(index).toMatch(/serviceTiles\.map\(\(tile\) => \([\s\S]*<a class="service-tile" href=\{tile\.href\}>[\s\S]*<Image[\s\S]*src=\{tile\.image\}/)
   const hub = readFileSync('src/pages/locations/index.astro', 'utf8')
-  expect(hub).toMatch(/<Tag class="location-tile" href=\{published \? `\/locations\/\$\{entry\.id\}` : undefined\}>/)
-  expect(hub).toContain("'Market read in progress.'")
+  // Hub rebuilt 2026-09-21: tiles keep the header photographs, link only when published, promise nothing.
+  expect(hub).toMatch(/<Tag class="dmv-tile" href=\{published \? `\/locations\/\$\{id\}` : undefined\}>/)
+  expect(hub).toContain('src={entry.data.headerImage}')
+  expect(hub).not.toContain('in progress')
   const service = readFileSync('src/pages/services/[service].astro', 'utf8')
   expect(service).toMatch(/entry\.data\.bodyImage && \([\s\S]*<figure class="service__figure">/)
   for (const slug of ['noi', 'refinance', 'sale']) {

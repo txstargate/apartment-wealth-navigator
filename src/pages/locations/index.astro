@@ -3,138 +3,238 @@ import { getCollection } from 'astro:content'
 import { Image } from 'astro:assets'
 import Base from '../../layouts/Base.astro'
 import GeoCTA from '../../components/GeoCTA.astro'
-import { filterPublished } from '../../lib/content'
+import { filterPublished, orderInsights } from '../../lib/content'
 import { BENCHMARK_SOURCE_DMV, COSTAR_ATTRIBUTION_NOTE } from '../../lib/benchmark'
 
-// Every area shows as a tile with its header photograph. Published pages
-// link; draft pages (waiting on the remax-intel data) show the tile with a
-// "market read in progress" line and no link, so the hub never 404s.
-const all = await getCollection('locations')
-const publishedIds = new Set(filterPublished(all).map((entry) => entry.id))
-const order = ['washington-dc', 'arlington-va', 'alexandria-va', 'montgomery-county-md', 'prince-georges-county-md']
-const locations = [...all].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id))
+// DMV hub, rebuilt 2026-09-21 after Greg's review: no stub tiles and no
+// unfinished-market promises. Three jurisdiction blocks. DC links the published
+// DC-branch articles (real data); Virginia and Maryland state the licence,
+// the areas covered, and the guides that apply everywhere. A location page
+// appears here only once it is published.
+const locations = await getCollection('locations')
+const byId = new Map(locations.map((l) => [l.id, l]))
+const publishedIds = new Set(filterPublished(locations).map((l) => l.id))
+const dc = orderInsights(filterPublished(await getCollection('dc')))
+const universal = orderInsights(filterPublished(await getCollection('universal'))).filter((e) => e.data.dcCounterpart)
+
+const blocks = [
+	{
+		id: 'dc',
+		name: 'Washington, DC',
+		licence: 'DC broker licence BR98379340',
+		areas: ['Capitol Hill', 'Columbia Heights', 'Petworth', 'Brightwood', 'Anacostia', 'Trinidad'],
+		tiles: ['washington-dc'],
+		note: 'The DC branch of every guide, with cap rates, price per unit, and TOPA timing from reported sales.',
+	},
+	{
+		id: 'va',
+		name: 'Northern Virginia',
+		licence: 'Virginia broker licence 0225230181',
+		areas: ['Arlington', 'Alexandria', 'Falls Church', 'Fairfax County'],
+		tiles: ['arlington-va', 'alexandria-va'],
+		note: 'Same review, same underwriting. The guides below apply as written; a Virginia branch follows as the sales data is compiled.',
+	},
+	{
+		id: 'md',
+		name: 'Maryland',
+		licence: 'Maryland broker licence 663088',
+		areas: ['Montgomery County', "Prince George's County", 'Silver Spring', 'Takoma Park', 'Hyattsville'],
+		tiles: ['montgomery-county-md', 'prince-georges-county-md'],
+		note: 'Same review, same underwriting. The guides below apply as written; a Maryland branch follows as the sales data is compiled.',
+	},
+]
 ---
 
 <Base
-	title="DMV Locations | Apartment Wealth Navigator"
-	description="Market reads for apartment owners in Washington DC, Northern Virginia, and Maryland."
+	title="DMV Coverage | Apartment Wealth Navigator"
+	description="Where Shafiq Hirani works: Washington DC, Northern Virginia, and Maryland, licensed as a broker in all three, with the DC market read published first."
 	canonical="https://apartmentwealthnavigator.com/locations/"
 >
-	<section class="locations">
-		<h1>DMV locations</h1>
-		<p>Local market reads for owners in Washington DC, Northern Virginia, and Maryland.</p>
-		<p class="locations__source">
-			Source: {BENCHMARK_SOURCE_DMV}. {COSTAR_ATTRIBUTION_NOTE}.
+	<section class="dmv-intro">
+		<p class="dmv-intro__kicker">DMV</p>
+		<h1>Three jurisdictions, one review</h1>
+		<p class="dmv-intro__lede">
+			I hold a broker licence in Washington DC, Virginia, and Maryland, and the building review runs the
+			same way in each. What changes is the data underneath it: cap rates, price per unit, tax
+			treatment, and in DC the tenant purchase rights that set a sale's timeline.
 		</p>
+		<p class="dmv-intro__source">Source: {BENCHMARK_SOURCE_DMV}. {COSTAR_ATTRIBUTION_NOTE}.</p>
+	</section>
 
-		<ul class="locations__grid">
-			{
-				locations.map((entry) => {
-					const published = publishedIds.has(entry.id)
-					const Tag = published ? 'a' : 'div'
-					return (
-						<li>
-							<Tag class="location-tile" href={published ? `/locations/${entry.id}` : undefined}>
-								{entry.data.headerImage && (
-									<Image
-										class="location-tile__image"
-										src={entry.data.headerImage}
-										alt={entry.data.headerAlt ?? entry.data.name}
-										widths={[480, 800, 1200]}
-										sizes="(max-width: 640px) 100vw, 50vw"
-										loading="lazy"
-									/>
-								)}
-								<span class="location-tile__text">
-									<span class="location-tile__jurisdiction">{entry.data.jurisdiction}</span>
-									<span class="location-tile__name">{entry.data.name}</span>
-									<span class="location-tile__status">
-										{published
-											? entry.data.dataAsOf
-												? `Data as of ${new Date(entry.data.dataAsOf).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}.`
-												: 'Market read available.'
-											: 'Market read in progress.'}
-									</span>
-								</span>
+	{
+		blocks.map((b) => (
+			<section class="dmv-block" id={b.id}>
+				<div class="dmv-block__media">
+					{b.tiles.map((id) => {
+						const entry = byId.get(id)
+						if (!entry?.data.headerImage) return null
+						const published = publishedIds.has(id)
+						const Tag = published ? 'a' : 'div'
+						return (
+							<Tag class="dmv-tile" href={published ? `/locations/${id}` : undefined}>
+								<Image
+									src={entry.data.headerImage}
+									alt={entry.data.headerAlt ?? entry.data.name}
+									widths={[480, 800, 1200]}
+									sizes="(max-width: 900px) 100vw, 40vw"
+									loading="lazy"
+								/>
+								<span class="dmv-tile__name">{entry.data.name}</span>
 							</Tag>
-						</li>
-					)
-				})
-			}
-		</ul>
+						)
+					})}
+				</div>
+				<div class="dmv-block__body">
+					<h2>{b.name}</h2>
+					<p class="dmv-block__licence">{b.licence}</p>
+					<p class="dmv-block__areas">{b.areas.join(' · ')}</p>
+					<p>{b.note}</p>
+					<ul class="dmv-block__links">
+						{(b.id === 'dc' ? dc : universal).map((a) => (
+							<li>
+								<a href={`/insights/${a.id}/`}>{a.data.title}</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			</section>
+		))
+	}
 
+	<section class="dmv-close">
+		<h2>Outside these three?</h2>
+		<p>
+			Tell me where the building is on the next screen. Inside DC, Virginia, or Maryland you book
+			directly. Anywhere else, I connect you with an advisor in your market and say so up front.
+		</p>
 		<GeoCTA />
 	</section>
 </Base>
 
 <style>
-	.locations {
-		max-width: 960px;
+	.dmv-intro {
+		max-width: 760px;
 		margin: 0 auto;
-		padding: var(--space-6) var(--space-4);
+		padding: var(--space-7) var(--space-4) var(--space-5);
 	}
 
-	.locations__grid {
-		list-style: none;
-		margin: var(--space-5) 0;
-		padding: 0;
+	.dmv-intro__kicker {
+		font-size: var(--text-sm);
+		letter-spacing: 0.12em;
+		color: var(--color-accent-deep);
+		margin: 0 0 var(--space-2);
+	}
+
+	.dmv-intro h1 {
+		font-size: var(--text-3xl);
+		margin: 0 0 var(--space-3);
+	}
+
+	.dmv-intro__lede {
+		font-size: var(--text-lg);
+		color: var(--color-slate);
+		margin: 0 0 var(--space-3);
+	}
+
+	.dmv-intro__source {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+		margin: 0;
+	}
+
+	.dmv-block {
+		max-width: 1100px;
+		margin: 0 auto var(--space-6);
+		padding: 0 var(--space-4);
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-		gap: var(--space-4);
+		grid-template-columns: 2fr 3fr;
+		gap: var(--space-5);
+		align-items: start;
 	}
 
-	.location-tile {
+	.dmv-block__media {
+		display: grid;
+		gap: var(--space-3);
+	}
+
+	.dmv-tile {
+		position: relative;
 		display: block;
-		color: inherit;
-		text-decoration: none;
-		border: 1px solid var(--color-border);
 		border-radius: 4px;
 		overflow: hidden;
-		background: var(--color-bg);
+		color: inherit;
+		text-decoration: none;
 	}
 
-	.location-tile__image {
+	.dmv-tile :global(img) {
 		display: block;
 		width: 100%;
-		aspect-ratio: 16 / 10;
+		aspect-ratio: 16 / 9;
 		object-fit: cover;
 	}
 
-	.location-tile__text {
-		display: block;
-		padding: var(--space-3);
-	}
-
-	.location-tile__jurisdiction {
-		display: block;
-		font-size: var(--text-sm);
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
-		color: var(--color-accent);
-	}
-
-	.location-tile__name {
-		display: block;
-		font-family: var(--font-headline);
-		font-size: var(--text-lg);
+	.dmv-tile__name {
+		position: absolute;
+		left: var(--space-3);
+		bottom: var(--space-2);
+		color: #fff;
 		font-weight: 600;
-		color: var(--color-navy);
-		margin: var(--space-1) 0;
+		text-shadow: 0 1px 8px rgba(10, 13, 20, 0.7);
 	}
 
-	.location-tile__status {
-		display: block;
+	.dmv-block h2 {
+		font-size: var(--text-xl);
+		margin: 0 0 var(--space-1);
+	}
+
+	.dmv-block__licence {
 		font-size: var(--text-sm);
-		color: var(--color-slate);
-	}
-
-	a.location-tile:hover .location-tile__name {
 		color: var(--color-accent-deep);
+		letter-spacing: 0.04em;
+		margin: 0 0 var(--space-2);
 	}
 
-	.locations__source,
-	.locations__data-as-of {
+	.dmv-block__areas {
 		color: var(--color-slate);
-		font-size: var(--text-sm);
+		margin: 0 0 var(--space-3);
+	}
+
+	.dmv-block__links {
+		margin: var(--space-3) 0 0;
+		padding-left: 1.1rem;
+	}
+
+	.dmv-block__links li {
+		margin-bottom: var(--space-1);
+	}
+
+	.dmv-block__links a {
+		color: var(--color-navy);
+	}
+
+	.dmv-close {
+		max-width: 760px;
+		margin: var(--space-7) auto 0;
+		padding: var(--space-6) var(--space-4) var(--space-7);
+		background: var(--color-cream);
+		border-radius: 4px;
+	}
+
+	.dmv-close h2 {
+		font-size: var(--text-xl);
+		margin: 0 0 var(--space-2);
+	}
+
+	@media (max-width: 900px) {
+		.dmv-block {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.dmv-close {
+			margin-left: var(--space-4);
+			margin-right: var(--space-4);
+		}
 	}
 </style>
