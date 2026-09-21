@@ -76,7 +76,8 @@
         "https://x.com/shafiqhirani",
         "https://www.facebook.com/shafiq.hirani/",
         "https://www.instagram.com/shafiqhirani/",
-        "https://www.tiktok.com/@shafiqhirani"
+        "https://www.tiktok.com/@shafiqhirani",
+        "https://www.remax.com/real-estate-agents/shafiq-hirani-washington-dc/100057325"
       ]
     },
     {
@@ -115,7 +116,8 @@
         "https://x.com/shafiqhirani",
         "https://www.facebook.com/shafiq.hirani/",
         "https://www.instagram.com/shafiqhirani/",
-        "https://www.tiktok.com/@shafiqhirani"
+        "https://www.tiktok.com/@shafiqhirani",
+        "https://www.google.com/search?kgmid=/g/11t7zp73t1"
       ],
       "parentOrganization": {
         "@type": "RealEstateAgent",
@@ -128,7 +130,9 @@
         "Apartment building sale readiness",
         "Commercial real estate market analysis"
       ],
-      "slogan": "Insula. Reditus. Exitus."
+      "slogan": "Insula. Reditus. Exitus.",
+      "hasMap": "https://www.google.com/search?kgmid=/g/11t7zp73t1",
+      "alternateName": "Shafiq Hirani, Real Estate"
     },
     {
       "@type": "WebSite",
