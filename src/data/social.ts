@@ -13,7 +13,7 @@ export const SOCIAL_PROFILES: SocialProfile[] = [
   { id: 'linkedin', label: 'LinkedIn', url: 'https://www.linkedin.com/in/shafiqhirani/' },
   { id: 'youtube', label: 'YouTube', url: 'https://www.youtube.com/@ShafiqHiraniCRE' },
   { id: 'x', label: 'X', url: 'https://x.com/shafiqhirani' },
-  { id: 'facebook', label: 'Facebook', url: 'https://www.facebook.com/shafiq.hirani/' },
+  { id: 'facebook', label: 'Facebook', url: 'https://www.facebook.com/ShafiqHiraniCRE' },
   { id: 'instagram', label: 'Instagram', url: 'https://www.instagram.com/shafiqhirani/' },
   { id: 'tiktok', label: 'TikTok', url: 'https://www.tiktok.com/@shafiqhirani' },
 ]
