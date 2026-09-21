@@ -50,7 +50,7 @@ I start where I always start: your business plan for the property, your goals, a
 
 ## Request a building audit
 
-Send the property address and your last twelve months of operating statements. I read them before we speak.
+Send the property address and your last twelve months of operating statements. I read them before we speak. The first call is free. Any engagement after it is scoped and quoted in writing before work starts.
 
 [Request a building audit](/get-started/) and pick a time on the next screen.
 

@@ -3,6 +3,7 @@ import { Image, getImage } from 'astro:assets'
 import Base from '../layouts/Base.astro'
 import JsonLd from '../components/JsonLd.astro'
 import siteSchema from '../data/person-professionalservice.json'
+import { RESULTS, RESULTS_NOTE } from '../data/results'
 import GeoCTA from '../components/GeoCTA.astro'
 // Homepage hero photograph (design pass, 2026-09-17): picked from Friday's
 // image-ideation run, see projects/apartmentwealthnavigator memory
@@ -113,6 +114,23 @@ const stats = [
 				))
 			}
 		</ul>
+	</section>
+
+	<section class="content-block results-band">
+		<h2>What the work produced</h2>
+		<ul class="results-band__list">
+			{
+				RESULTS.map((r) => (
+					<li>
+						<a href={`/results/#${r.id}`}>
+							<span class="results-band__headline">{r.headline}</span>
+							<span class="results-band__building">{r.building}</span>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+		<p class="results-band__note">{RESULTS_NOTE} <a href="/results/">Read the three write-ups.</a></p>
 	</section>
 
 	<section class="content-block">
@@ -349,6 +367,51 @@ const stats = [
 		max-width: 720px;
 		margin: 0 auto;
 		padding: var(--space-6) var(--space-4);
+	}
+
+	.results-band {
+		max-width: 1000px;
+	}
+
+	.results-band__list {
+		list-style: none;
+		margin: var(--space-4) 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: var(--space-4);
+	}
+
+	.results-band__list a {
+		display: block;
+		height: 100%;
+		border-top: 3px solid var(--color-accent);
+		padding-top: var(--space-3);
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.results-band__list a:hover .results-band__headline {
+		color: var(--color-accent-deep);
+	}
+
+	.results-band__headline {
+		display: block;
+		font-family: var(--font-headline);
+		font-size: var(--text-lg);
+		color: var(--color-navy);
+		margin-bottom: var(--space-2);
+	}
+
+	.results-band__building {
+		display: block;
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+	}
+
+	.results-band__note {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
 	}
 
 	.content-block--closing {

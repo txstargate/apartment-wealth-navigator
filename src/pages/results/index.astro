@@ -1,0 +1,176 @@
+---
+import Base from '../../layouts/Base.astro'
+import GeoCTA from '../../components/GeoCTA.astro'
+import { RESULTS, RESULTS_NOTE } from '../../data/results'
+import { serviceForPillar } from '../../lib/pillar-service'
+---
+
+<Base
+	title="Results | Apartment Wealth Navigator"
+	description="Three apartment-owner engagements in Washington DC, written up by building, situation, advice and outcome, with names withheld."
+	canonical="https://apartmentwealthnavigator.com/results/"
+>
+	<section class="results-intro">
+		<p class="results-intro__kicker">RESULTS</p>
+		<h1>What the work produced</h1>
+		<p class="results-intro__lede">
+			Three owners, three buildings, three outcomes with the numbers attached. Each write-up follows
+			the same shape: what the owner walked in with, what I advised, and what happened.
+		</p>
+		<p class="results-intro__note">{RESULTS_NOTE}</p>
+	</section>
+
+	<section class="results-list">
+		{
+			RESULTS.map((r, i) => {
+				const service = serviceForPillar(r.pillar)
+				return (
+					<article class="case" id={r.id}>
+						<p class="case__index">0{i + 1}{r.year ? ` · ${r.year}` : ''}</p>
+						<h2>{r.headline}</h2>
+						<p class="case__building">{r.building}</p>
+						<dl class="case__grid">
+							<dt>The situation</dt>
+							<dd>{r.situation}</dd>
+							<dt>What I advised</dt>
+							<dd>{r.advice}</dd>
+							<dt>The outcome</dt>
+							<dd>{r.outcome}</dd>
+						</dl>
+						<p class="case__lesson">{r.lesson}</p>
+						<a class="case__service" href={service.href}>
+							The work behind it: {service.title}
+						</a>
+					</article>
+				)
+			})
+		}
+	</section>
+
+	<section class="results-close">
+		<h2>Your building next</h2>
+		<p>
+			The first call is free. Send the address and your last twelve months of operating statements,
+			and I read them before we speak. Any engagement after that is scoped and quoted in writing
+			before work starts.
+		</p>
+		<GeoCTA />
+	</section>
+</Base>
+
+<style>
+	.results-intro {
+		max-width: 760px;
+		margin: 0 auto;
+		padding: var(--space-7) var(--space-4) var(--space-5);
+	}
+
+	.results-intro__kicker {
+		font-size: var(--text-sm);
+		letter-spacing: 0.12em;
+		color: var(--color-accent-deep);
+		margin: 0 0 var(--space-2);
+	}
+
+	.results-intro h1 {
+		font-size: var(--text-3xl);
+		margin: 0 0 var(--space-3);
+	}
+
+	.results-intro__lede {
+		font-size: var(--text-lg);
+		color: var(--color-slate);
+		margin: 0 0 var(--space-3);
+	}
+
+	.results-intro__note {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+		border-left: 3px solid var(--color-accent);
+		padding-left: var(--space-3);
+		margin: 0;
+	}
+
+	.results-list {
+		max-width: 760px;
+		margin: 0 auto;
+		padding: 0 var(--space-4);
+		display: grid;
+		gap: var(--space-6);
+	}
+
+	.case {
+		border: 1px solid var(--color-border);
+		border-radius: 4px;
+		padding: var(--space-5);
+		background: var(--color-bg);
+	}
+
+	.case__index {
+		font-family: var(--font-headline);
+		font-size: var(--text-sm);
+		letter-spacing: 0.12em;
+		color: var(--color-accent-deep);
+		margin: 0 0 var(--space-2);
+	}
+
+	.case h2 {
+		font-size: var(--text-xl);
+		margin: 0 0 var(--space-2);
+	}
+
+	.case__building {
+		color: var(--color-slate);
+		margin: 0 0 var(--space-4);
+	}
+
+	.case__grid {
+		margin: 0 0 var(--space-4);
+	}
+
+	.case__grid dt {
+		font-size: var(--text-sm);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--color-slate);
+		margin-top: var(--space-3);
+	}
+
+	.case__grid dd {
+		margin: var(--space-1) 0 0;
+	}
+
+	.case__lesson {
+		font-family: var(--font-headline);
+		font-size: var(--text-lg);
+		color: var(--color-navy);
+		border-left: 3px solid var(--color-accent);
+		padding-left: var(--space-3);
+		margin: 0 0 var(--space-4);
+	}
+
+	.case__service {
+		color: var(--color-navy);
+		font-weight: 600;
+	}
+
+	.results-close {
+		max-width: 760px;
+		margin: var(--space-7) auto 0;
+		padding: var(--space-6) var(--space-4) var(--space-7);
+		background: var(--color-cream);
+		border-radius: 4px;
+	}
+
+	.results-close h2 {
+		font-size: var(--text-xl);
+		margin: 0 0 var(--space-2);
+	}
+
+	@media (max-width: 640px) {
+		.results-close {
+			margin-left: var(--space-4);
+			margin-right: var(--space-4);
+		}
+	}
+</style>

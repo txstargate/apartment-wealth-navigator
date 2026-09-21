@@ -48,7 +48,7 @@ You feel the rate because the rate is the visible part. The part you can still a
 
 ## Request a building audit
 
-Send the property address, your loan maturity date, and your last twelve months of operating statements. I read them before we speak.
+Send the property address, your loan maturity date, and your last twelve months of operating statements. I read them before we speak. The first call is free. Any engagement after it is scoped and quoted in writing before work starts.
 
 [Request a building audit](/get-started/) and pick a time on the next screen.
 

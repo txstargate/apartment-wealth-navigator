@@ -62,9 +62,10 @@ export function collectLastmodSources(root: string): LastmodSources {
     '/services/refinance': 'src/content/services/refinance.md',
     '/services/sale': 'src/content/services/sale.md',
     '/tools': 'src/pages/tools/index.astro',
+    '/results': 'src/pages/results/index.astro',
     '/tools/noi-check': 'src/pages/tools/noi-check.astro',
     '/insights': 'src/pages/insights/index.astro',
-    '/dmv': 'src/pages/locations/index.astro',
+    '/locations': 'src/pages/locations/index.astro',
     '/privacy': 'src/pages/privacy.astro',
   }
   const pageDates: Record<string, string> = {}
