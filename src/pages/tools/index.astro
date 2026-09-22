@@ -19,6 +19,15 @@ const outputs = [
 	{ label: 'Annual NOI gap', note: 'How far the building sits below what the same units should produce.' },
 	{ label: 'Estimated value impact', note: 'The gap capitalized at your cap rate. What the leak costs in building value.' },
 ]
+// The four free navigators moved onto the site 2026-09-22 (formerly the
+// GoHighLevel funnels). Each hands over its file on submit.
+const navigators = [
+	{ href: '/noi-navigator/', title: 'NOI Leak Audit', kicker: 'NOI Navigator', promise: 'Five questions, one per lever. Finds the two levers draining NOI on your building in about 20 minutes.', file: 'One-page checklist' },
+	{ href: '/refinance-readiness/', title: 'Lender-Ready Package Checklist', kicker: 'Refinance Readiness', promise: 'Score your readiness in 60 seconds and get the file that answers the underwriter in the underwriter\u2019s order.', file: 'One-page checklist' },
+	{ href: '/sale-readiness/', title: 'Sale Readiness Scorecard', kicker: 'Sale Readiness', promise: 'Two halves: is anything forcing the decision, and would the file survive a buyer\u2019s diligence. Ten minutes.', file: 'One-page scorecard' },
+	{ href: '/value-navigator/', title: 'Value range for your building', kicker: 'Value Navigator', promise: 'A conservative, base, and optimistic value prepared by Shafiq from your rent roll and trailing 12 months, plus the worksheet to run the haircut yourself.', file: 'Worksheet, then the range by email' },
+]
+
 const reading = [
 	{ href: '/insights/how-to-increase-noi-small-apartment-building/', title: 'How to Increase NOI on a Small Apartment Building', note: 'The five levers, and the 20-minute audit.' },
 	{ href: '/insights/revenue-capture-recover-noi-without-raising-rent/', title: 'Revenue Capture', note: 'The fastest lever. Billing what the leases already allow.' },
@@ -28,7 +37,7 @@ const reading = [
 
 <Base
 	title="Tools | Apartment Wealth Navigator"
-	description="Free tools for apartment owners: a fast, transparent read on NOI and building value."
+	description="Free tools for apartment owners: the NOI Quick Check plus four navigators for NOI leaks, refinance readiness, sale readiness, and building value."
 	canonical="https://apartmentwealthnavigator.com/tools/"
 >
 	<section class="tools-hero">
@@ -36,8 +45,9 @@ const reading = [
 			<p class="tools-hero__kicker">TOOLS</p>
 			<h1>Run the numbers before a lender or a buyer runs them for you</h1>
 			<p class="tools-hero__lede">
-				One free tool today, built on the same arithmetic I use in a building review. No account, no
-				download. Your inputs stay on this page until you choose to send them.
+				Five free tools, built on the same arithmetic I use in a building review. The Quick Check runs
+				in your browser with no account. The four navigators each hand you a printable file the
+				moment you ask for it.
 			</p>
 		</div>
 		<Image
@@ -93,6 +103,25 @@ const reading = [
 				This is an educational estimate, not an appraisal and not a broker opinion of value.
 			</p>
 		</div>
+	</section>
+
+	<section class="navigators">
+		<h2>Four free navigators</h2>
+		<p class="navigators__lede">Each one is a short assessment and a printable file, delivered the moment you ask for it. Free, and the first call after it is free too.</p>
+		<ul class="navigators__list">
+			{
+				navigators.map((n) => (
+					<li>
+						<a href={n.href}>
+							<span class="navigators__kicker">{n.kicker}</span>
+							<span class="navigators__title">{n.title}</span>
+							<span class="navigators__promise">{n.promise}</span>
+							<span class="navigators__file">{n.file}</span>
+						</a>
+					</li>
+				))
+			}
+		</ul>
 	</section>
 
 	<section class="tools-reading">
@@ -262,6 +291,73 @@ const reading = [
 		font-size: var(--text-sm);
 		color: var(--color-slate);
 		margin: var(--space-3) 0 0;
+	}
+
+	.navigators {
+		max-width: 1100px;
+		margin: var(--space-7) auto 0;
+		padding: 0 var(--space-4);
+	}
+
+	.navigators h2 {
+		font-size: var(--text-xl);
+		margin: 0 0 var(--space-2);
+	}
+
+	.navigators__lede {
+		color: var(--color-slate);
+		margin: 0 0 var(--space-4);
+	}
+
+	.navigators__list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: var(--space-4);
+	}
+
+	.navigators__list a {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		height: 100%;
+		border: 1px solid var(--color-border);
+		border-top: 3px solid var(--color-accent);
+		border-radius: 4px;
+		padding: var(--space-4);
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.navigators__list a:hover .navigators__title {
+		color: var(--color-accent-deep);
+	}
+
+	.navigators__kicker {
+		font-size: var(--text-sm);
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--color-accent-deep);
+	}
+
+	.navigators__title {
+		font-family: var(--font-headline);
+		font-size: var(--text-lg);
+		color: var(--color-navy);
+	}
+
+	.navigators__promise {
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+		flex: 1;
+	}
+
+	.navigators__file {
+		font-size: var(--text-sm);
+		font-weight: 600;
+		color: var(--color-navy);
 	}
 
 	.tools-reading {

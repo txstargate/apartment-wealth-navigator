@@ -19,6 +19,14 @@ const year = new Date().getFullYear()
 		<a href="mailto:shirani@enterprisere.com">shirani@enterprisere.com</a>
 	</p>
 	<SocialLinks />
+	<nav class="site-footer__resources" aria-label="Free resources">
+		<span class="site-footer__resources-label">Free resources</span>
+		<a href="/noi-navigator/">NOI Leak Audit</a>
+		<a href="/refinance-readiness/">Refinance Readiness</a>
+		<a href="/sale-readiness/">Sale Readiness Scorecard</a>
+		<a href="/value-navigator/">Value Range</a>
+		<a href="/tools/noi-check/">NOI Quick Check</a>
+	</nav>
 	<nav class="site-footer__legal">
 		<a href="/privacy">Privacy Policy</a>
 		<a href="/terms">Terms of Use</a>
@@ -86,6 +94,31 @@ const year = new Date().getFullYear()
 
 	.site-footer__brokerage a {
 		color: var(--color-slate);
+	}
+
+	.site-footer__resources {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: var(--space-2) var(--space-4);
+		margin: 0 0 var(--space-3);
+	}
+
+	.site-footer__resources-label {
+		color: var(--color-accent-deep);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		font-size: var(--text-xs, 0.75rem);
+		align-self: center;
+	}
+
+	.site-footer__resources a {
+		color: var(--color-navy);
+		text-decoration: none;
+	}
+
+	.site-footer__resources a:hover {
+		color: var(--color-accent-deep);
 	}
 
 	.site-footer__legal {
