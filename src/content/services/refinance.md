@@ -46,6 +46,10 @@ You feel the rate because the rate is the visible part. The part you can still a
 
 **The presentation.** A package that answers the underwriter's questions in the underwriter's order, rather than making them hunt.
 
+## Start with the free checklist
+
+Score your readiness in 60 seconds and get the [Lender-Ready Package Checklist](/refinance-readiness/), the file that answers the underwriter's questions in the underwriter's order.
+
 ## Request a building audit
 
 Send the property address, your loan maturity date, and your last twelve months of operating statements. I read them before we speak. The first call is free. Any engagement after it is scoped and quoted in writing before work starts.

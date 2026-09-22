@@ -1,0 +1,788 @@
+---
+// Refinance Readiness: the second GoHighLevel lead-magnet funnel moved onto
+// the site (2026-09-22). Same landing discipline as /noi-navigator/: brand
+// and phone header, form in the hero, the five-question readiness score
+// answered on the page, the Lender-Ready Package Checklist delivered on
+// submit, proof, FAQ with schema, one closing CTA.
+import Base from '../layouts/Base.astro'
+import JsonLd from '../components/JsonLd.astro'
+import { Image } from 'astro:assets'
+import { buildFaqSchema } from '../lib/schema'
+import { RESULTS } from '../data/results'
+import { TESTIMONIALS } from '../data/testimonials'
+import laptopImage from '../assets/shafiq/refinance-laptop.jpg'
+import packageImage from '../assets/services/refinance.jpg'
+
+export const KIT_PATH = '/downloads/lender-ready-package-checklist.pdf'
+
+// The five readiness statements, verbatim from the funnel's quiz, scored
+// 1 (not at all) to 5 (very confident). Bands from the same source.
+const statements = [
+	'I can clearly explain how a lender would calculate my NOI',
+	'My income and expenses are clean, documented, and defensible',
+	'I understand how DSCR changes with different interest rates',
+	'I have explanations ready for vacancy, expenses, or anomalies',
+	'I have reviewed my refinance at least 9 to 12 months in advance',
+]
+
+const learn = [
+	'What lenders scrutinize, line by line',
+	'How your income and expenses get adjusted before the loan is sized',
+	'Why one-time issues hurt deals when they are not explained',
+	'Which documents and explanations matter most',
+]
+
+const kit = [
+	{ title: 'Financial package', text: 'Trailing 12 months, two to three prior years, a 12-month projection, the rent roll, utility detail, and a written line for every spike or gap.' },
+	{ title: 'Operations snapshot', text: 'Vacancy explained with facts, management structure, maintenance practice, known issues with a plan, the next 12 months of expirations.' },
+	{ title: 'The property', text: 'Unit mix, capital work from the last three to five years, deferred maintenance with costs, current photos, inspection summaries.' },
+	{ title: 'The owner’s narrative', text: 'What is stable, what is improving, what is temporary, what you already fixed, and the maturity date with the 18-month timeline behind it.' },
+]
+
+const proof = RESULTS.slice(0, 3)
+
+const faq = [
+	{ question: 'When should I start preparing to refinance?', answer: 'Eighteen months before maturity. Run the lender’s math at 18 months, fix and document at 12, assemble the package and shop lenders at 6, and execute at 90 days with options in hand. The numbers a lender sizes the loan on are the trailing twelve to twenty-four months, so they are only yours to change before that window closes.' },
+	{ question: 'How do lenders decide how much to lend?', answer: 'Two tests, and the lower number wins. A value test caps the loan near 75 percent of appraised value. A coverage test requires NOI to cover the annual mortgage payment by about 1.25 times. On small buildings the coverage test usually controls, so every dollar of defensible NOI is worth roughly ten dollars of loan.' },
+	{ question: 'What does the readiness score tell me?', answer: 'Where preparation would change the outcome. A score of 22 to 25 out of 25 means the file is close to lender-ready. Sixteen to 21 means there are gaps worth closing before you apply. Below 16 means do not call a lender yet; the trailing numbers and the explanations need work first.' },
+	{ question: 'What does the readiness call cost?', answer: 'Nothing. The first call is free. On it Shafiq walks through your score and the checklist against your building and names what to fix first. Any engagement after that is scoped and quoted in writing before work starts.' },
+]
+const faqSchema = buildFaqSchema(faq)
+---
+
+<Base
+	title="Lender-Ready Refinance Checklist | Refinance Readiness"
+	description="Refinancing a small apartment building in the next 6 to 24 months? Score your readiness in 60 seconds and get the Lender-Ready Package Checklist, so you know how a lender sees your property before you call the bank."
+	canonical="https://apartmentwealthnavigator.com/refinance-readiness/"
+	landing
+>
+	<JsonLd data={faqSchema} />
+
+	<section class="hero" id="get-the-kit">
+		<div class="hero__inner">
+			<div class="hero__copy">
+				<p class="hero__kicker">REFINANCE READINESS · FREE LENDER-READY CHECKLIST</p>
+				<h1>Know how a lender sees your building before you call the bank</h1>
+				<p class="hero__lede">
+					You cannot control interest rates. You can control how prepared your property is. The
+					decisions you make in the next few months shape your NOI, your lender’s confidence, and
+					your refinance options. This checklist finds the gaps first.
+				</p>
+				<ul class="hero__points">
+					{learn.map((l) => <li>{l}</li>)}
+				</ul>
+				<p class="hero__trust">For owners of 3 to 25 unit buildings refinancing in the next 6 to 24 months, concerned about DSCR, proceeds, or lender pushback. Written by Shafiq Hirani, CCIM, MBA, PE, broker in DC, Virginia, and Maryland.</p>
+			</div>
+
+			<div class="hero__form">
+				<form id="kit-form" class="lead-form" novalidate>
+					<h2>Get the Lender-Ready Package Checklist</h2>
+					<p class="lead-form__sub">On your screen the moment you press the button. Score your readiness below first if you want the call to start from your number.</p>
+					<label for="firstName">First name</label>
+					<input id="firstName" name="first_name" type="text" autocomplete="given-name" required />
+					<label for="lastName">Last name</label>
+					<input id="lastName" name="last_name" type="text" autocomplete="family-name" required />
+					<label for="email">Email</label>
+					<input id="email" name="email" type="email" autocomplete="email" required />
+					<label for="phone">Mobile number</label>
+					<input id="phone" name="phone" type="tel" autocomplete="tel" required />
+					<label for="location">Building city or ZIP</label>
+					<input id="location" name="location" type="text" placeholder="e.g. Washington, DC or 20009" required />
+					<label for="units">Number of units <span class="lead-form__optional">optional</span></label>
+					<input id="units" name="units" type="number" min="1" step="1" />
+					<label for="maturity">Loan maturity <span class="lead-form__optional">optional</span></label>
+					<input id="maturity" name="maturity" type="month" />
+					<button type="submit">Send me the checklist</button>
+					<p class="lead-form__consent">
+						You will receive the checklist and a short email series from Shafiq Hirani on refinancing.
+						Unsubscribe in one click. <a href="/privacy/">Privacy policy</a>.
+					</p>
+					<p id="kit-error" class="lead-form__error" hidden>Something did not send. Email shirani@enterprisere.com and the checklist comes back by reply.</p>
+				</form>
+				<div id="kit-thanks" class="result-panel" hidden>
+					<h2>Thank you, <span id="thanks-name"></span>.</h2>
+					<p id="thanks-score"></p>
+					<p>The checklist is yours now. Work it with your statements open, and mark what is unclear or hard to explain. That is where preparation pays.</p>
+					<a class="result-link" href={KIT_PATH} download>Download the Lender-Ready Package Checklist (PDF)</a>
+					<p class="result-panel__next">
+						Want the fast answer? <a id="diagnostic-link" href="/get-started/">Book the free 15-minute readiness call</a>
+						and Shafiq walks the checklist against your building.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="score" id="score">
+		<div class="score__copy">
+			<p class="score__kicker">60 SECONDS</p>
+			<h2>How refinance-ready is your building?</h2>
+			<p>Score each statement from 1, not at all, to 5, very confident. Nothing is sent until you submit the form above. The total tells you whether to call a lender now or prepare first.</p>
+			<p id="score-result" class="score__result" aria-live="polite">Your score appears here.</p>
+		</div>
+		<ol class="score__list">
+			{
+				statements.map((s, i) => (
+					<li>
+						<span class="score__statement">{s}</span>
+						<span class="score__scale" role="radiogroup" aria-label={`Statement ${i + 1}`}>
+							{[1, 2, 3, 4, 5].map((n) => (
+								<label>
+									<input type="radio" name={`q${i + 1}`} value={n} />
+									<span>{n}</span>
+								</label>
+							))}
+						</span>
+					</li>
+				))
+			}
+		</ol>
+	</section>
+
+	<section class="kit">
+		<Image class="kit__image" src={packageImage} alt="Shafiq Hirani presenting a lender package at a conference table" widths={[640, 960]} sizes="(max-width: 900px) 100vw, 40vw" loading="lazy" />
+		<div class="kit__copy">
+			<h2>What is in the checklist</h2>
+			<p>The file that answers the underwriter’s questions in the underwriter’s order, in four sections, each with the question the lender is silently asking.</p>
+			<ol class="kit__list">
+				{
+					kit.map((k) => (
+						<li>
+							<strong>{k.title}</strong>
+							<p>{k.text}</p>
+						</li>
+					))
+				}
+			</ol>
+			<a class="cta-button" href="#get-the-kit">Get the checklist</a>
+		</div>
+	</section>
+
+	<section class="why">
+		<div class="why__copy">
+			<h2>Why refinances fail after the rate quote</h2>
+			<p>
+				A lender does not size your loan on the rate. It rebuilds your income first: full-occupancy
+				rent minus a standard vacancy factor, expenses normalized to what a building like yours should
+				cost, a management fee even if you self-manage, and reserves. Then it tests the result two
+				ways and takes the lower loan.
+			</p>
+			<p>
+				Take a 12-unit building with $480,000 in gross rents. Two adjustments the owner never saw
+				coming, a 5 percent vacancy factor and a 6 percent management fee, remove $38,400 from NOI.
+				At a 1.25 coverage floor that is roughly $384,000 of proceeds that never show up. Nothing was
+				wrong with the building. The file was not ready.
+			</p>
+			<p>
+				The full arithmetic is in
+				<a href="/insights/how-to-refinance-small-apartment-building/">How to Refinance a Small Apartment Building</a>.
+			</p>
+		</div>
+		<Image class="why__image" src={laptopImage} alt="Shafiq Hirani at a laptop reviewing a lender package" widths={[640, 960]} sizes="(max-width: 900px) 100vw, 40vw" loading="lazy" />
+	</section>
+
+	<section class="proof">
+		<h2>What owners say</h2>
+		{
+			TESTIMONIALS.length > 0 && (
+				<ul class="quotes">
+					{TESTIMONIALS.map((t) => (
+						<li>
+							<blockquote>{t.quote}</blockquote>
+							<cite>{t.name}, {t.building}</cite>
+						</li>
+					))}
+				</ul>
+			)
+		}
+		<h2 class="proof__second">What the work produced</h2>
+		<p class="proof__lede">Three owners, three buildings, three outcomes, as reported to Shafiq. Names withheld until each owner agrees in writing to be named.</p>
+		<ul class="proof__list">
+			{
+				proof.map((r) => (
+					<li>
+						<span class="proof__headline">{r.headline}</span>
+						<span class="proof__building">{r.building}</span>
+						<span class="proof__lesson">{r.lesson}</span>
+					</li>
+				))
+			}
+		</ul>
+		<p class="proof__more"><a href="/results/">Read the three write-ups with the numbers.</a></p>
+	</section>
+
+	<section class="faq">
+		<h2>Frequently asked questions</h2>
+		{
+			faq.map((f) => (
+				<div class="faq__item">
+					<h3>{f.question}</h3>
+					<p>{f.answer}</p>
+				</div>
+			))
+		}
+	</section>
+
+	<section class="close">
+		<h2>Refinancing in the next 6 to 24 months?</h2>
+		<p>Fewer surprises and better outcomes start with the file. The checklist is free. So is the first call.</p>
+		<a class="cta-button" href="#get-the-kit">Get the Lender-Ready Package Checklist</a>
+		<p class="close__alt">Prefer the fast answer? <a href="/get-started/">Book the free 15-minute readiness call.</a></p>
+	</section>
+
+	<a class="sticky-cta" href="#get-the-kit">Get the free checklist</a>
+</Base>
+
+<script>
+	import { buildLeadPayload, submitLead } from '../lib/ghl'
+	import { bookingUrl } from '../lib/booking'
+	import { readinessBand, readinessTotal } from '../lib/readiness'
+
+	const form = document.getElementById('kit-form') as HTMLFormElement
+	const thanks = document.getElementById('kit-thanks') as HTMLElement
+	const thanksName = document.getElementById('thanks-name') as HTMLElement
+	const thanksScore = document.getElementById('thanks-score') as HTMLElement
+	const errorLine = document.getElementById('kit-error') as HTMLElement
+	const diagnostic = document.getElementById('diagnostic-link') as HTMLAnchorElement
+	const scoreResult = document.getElementById('score-result') as HTMLElement
+	const field = (id: string) => document.getElementById(id) as HTMLInputElement
+
+	function currentScores(): number[] {
+		return [1, 2, 3, 4, 5].map((i) => {
+			const checked = document.querySelector<HTMLInputElement>(`input[name="q${i}"]:checked`)
+			return checked ? Number(checked.value) : 0
+		})
+	}
+
+	function renderScore() {
+		const scores = currentScores()
+		const answered = scores.filter((s) => s > 0).length
+		if (answered < 5) {
+			scoreResult.textContent = answered === 0 ? 'Your score appears here.' : `${answered} of 5 answered.`
+			return
+		}
+		const total = readinessTotal(scores)
+		const band = readinessBand(total)
+		scoreResult.textContent = `${total} out of 25. ${band.label}: ${band.advice}`
+	}
+
+	document.querySelectorAll<HTMLInputElement>('.score__scale input').forEach((el) => el.addEventListener('change', renderScore))
+
+	form.addEventListener('submit', async (event) => {
+		event.preventDefault()
+		if (!form.reportValidity()) return
+		const unitsRaw = field('units').value.trim()
+		const maturity = field('maturity').value.trim()
+		const scores = currentScores()
+		const complete = scores.every((s) => s > 0)
+		const total = complete ? readinessTotal(scores) : null
+		const notes = [
+			total !== null ? `Readiness score ${total}/25 (${readinessBand(total).label})` : 'Readiness score not completed',
+			maturity ? `Loan maturity ${maturity}` : '',
+		].filter(Boolean).join('. ')
+		const payload = buildLeadPayload({
+			firstName: field('firstName').value,
+			lastName: field('lastName').value,
+			email: field('email').value,
+			phone: field('phone').value,
+			location: field('location').value,
+			toolName: 'Refinance Readiness',
+			sourcePage: window.location.pathname,
+			units: unitsRaw ? Number(unitsRaw) : undefined,
+			message: notes,
+		})
+		try {
+			await submitLead(payload)
+		} catch {
+			errorLine.hidden = false
+			return
+		}
+		thanksName.textContent = payload.first_name
+		thanksScore.textContent = total !== null ? `Your readiness score: ${total} out of 25. ${readinessBand(total).advice}` : ''
+		if (payload.route === 'local') {
+			diagnostic.href = bookingUrl(import.meta.env.PUBLIC_GHL_BOOKING_URL)
+			diagnostic.target = '_blank'
+			diagnostic.rel = 'noopener'
+		}
+		form.hidden = true
+		thanks.hidden = false
+		thanks.scrollIntoView({ behavior: 'smooth', block: 'start' })
+	})
+</script>
+
+<style>
+	.hero {
+		background: var(--color-cream);
+		padding: var(--space-6) var(--space-4) var(--space-7);
+	}
+
+	.hero__inner,
+	.score,
+	.kit,
+	.why {
+		max-width: 1100px;
+		margin: 0 auto;
+	}
+
+	.hero__inner {
+		display: grid;
+		grid-template-columns: 1.15fr 1fr;
+		gap: var(--space-6);
+		align-items: start;
+	}
+
+	.hero__kicker,
+	.score__kicker {
+		font-size: var(--text-sm);
+		letter-spacing: 0.12em;
+		color: var(--color-accent-deep);
+		margin: 0 0 var(--space-2);
+	}
+
+	.hero h1 {
+		font-size: var(--text-4xl);
+		margin: 0 0 var(--space-3);
+	}
+
+	.hero__lede {
+		font-size: var(--text-lg);
+		color: var(--color-slate);
+		margin: 0 0 var(--space-4);
+	}
+
+	.hero__points {
+		margin: 0 0 var(--space-4);
+		padding-left: 1.1rem;
+	}
+
+	.hero__points li {
+		margin-bottom: var(--space-1);
+	}
+
+	.hero__trust {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+		margin: 0;
+	}
+
+	.lead-form,
+	.result-panel {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		background: var(--color-bg);
+		border: 1px solid var(--color-border);
+		border-radius: 4px;
+		padding: var(--space-5);
+		box-shadow: 0 12px 32px rgba(10, 13, 20, 0.08);
+	}
+
+	.lead-form[hidden],
+	.result-panel[hidden] {
+		display: none;
+	}
+
+	.lead-form h2,
+	.result-panel h2 {
+		font-size: var(--text-xl);
+		margin: 0;
+	}
+
+	.lead-form__sub {
+		margin: 0 0 var(--space-2);
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+	}
+
+	.lead-form label {
+		font-weight: 600;
+	}
+
+	.lead-form__optional {
+		font-weight: 400;
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+	}
+
+	.lead-form input {
+		font-size: var(--text-base);
+		padding: var(--space-2);
+		border: 1px solid var(--color-border);
+		border-radius: 2px;
+	}
+
+	.lead-form button,
+	.cta-button,
+	.result-link {
+		display: inline-block;
+		background: var(--color-navy);
+		color: var(--color-bg);
+		font-size: var(--text-base);
+		font-weight: 600;
+		text-decoration: none;
+		border: 0;
+		border-radius: 2px;
+		padding: var(--space-3) var(--space-4);
+		cursor: pointer;
+		text-align: center;
+	}
+
+	.lead-form button {
+		margin-top: var(--space-3);
+	}
+
+	.lead-form button:hover,
+	.cta-button:hover,
+	.result-link:hover {
+		background: var(--color-accent);
+		color: var(--color-obsidian);
+	}
+
+	.lead-form__consent,
+	.lead-form__error {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+		margin: var(--space-2) 0 0;
+	}
+
+	.lead-form__error {
+		color: #8a2a1f;
+	}
+
+	.result-link {
+		margin: var(--space-2) 0;
+	}
+
+	.result-panel__next {
+		margin: 0;
+	}
+
+	.score {
+		margin-top: var(--space-7);
+		padding: 0 var(--space-4);
+		display: grid;
+		grid-template-columns: 2fr 3fr;
+		gap: var(--space-6);
+		align-items: start;
+	}
+
+	.score h2,
+	.kit h2,
+	.why h2,
+	.proof h2,
+	.faq h2,
+	.close h2 {
+		font-size: var(--text-2xl);
+		margin: 0 0 var(--space-2);
+	}
+
+	.score__result {
+		font-family: var(--font-headline);
+		font-size: var(--text-lg);
+		color: var(--color-navy);
+		border-left: 3px solid var(--color-accent);
+		padding-left: var(--space-3);
+		min-height: 2.5em;
+	}
+
+	.score__list {
+		list-style: none;
+		counter-reset: st;
+		margin: 0;
+		padding: 0;
+		border: 1px solid var(--color-border);
+		border-radius: 4px;
+	}
+
+	.score__list li {
+		counter-increment: st;
+		display: grid;
+		grid-template-columns: 1fr auto;
+		gap: var(--space-3);
+		align-items: center;
+		padding: var(--space-3) var(--space-4);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.score__list li:last-child {
+		border-bottom: 0;
+	}
+
+	.score__statement::before {
+		content: counter(st) '. ';
+		color: var(--color-accent-deep);
+		font-family: var(--font-headline);
+	}
+
+	.score__scale {
+		display: flex;
+		gap: var(--space-1);
+	}
+
+	.score__scale label {
+		position: relative;
+		cursor: pointer;
+	}
+
+	.score__scale input {
+		position: absolute;
+		opacity: 0;
+		width: 1px;
+		height: 1px;
+	}
+
+	.score__scale span {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 36px;
+		height: 36px;
+		border: 1px solid var(--color-border);
+		border-radius: 2px;
+		font-weight: 600;
+		color: var(--color-navy);
+	}
+
+	.score__scale input:checked + span {
+		background: var(--color-navy);
+		color: var(--color-bg);
+		border-color: var(--color-navy);
+	}
+
+	.score__scale input:focus-visible + span {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
+	}
+
+	.kit,
+	.why {
+		margin-top: var(--space-7);
+		padding: 0 var(--space-4);
+		display: grid;
+		grid-template-columns: 2fr 3fr;
+		gap: var(--space-6);
+		align-items: center;
+	}
+
+	.why {
+		grid-template-columns: 3fr 2fr;
+	}
+
+	.kit__image,
+	.why__image {
+		display: block;
+		width: 100%;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+		border-radius: 4px;
+	}
+
+	.kit__list {
+		list-style: none;
+		counter-reset: kit;
+		margin: 0 0 var(--space-4);
+		padding: 0;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: var(--space-3) var(--space-4);
+	}
+
+	.kit__list li {
+		counter-increment: kit;
+		border-top: 3px solid var(--color-accent);
+		padding-top: var(--space-2);
+	}
+
+	.kit__list strong {
+		display: block;
+		font-family: var(--font-headline);
+		font-weight: 700;
+		color: var(--color-navy);
+	}
+
+	.kit__list strong::before {
+		content: '0' counter(kit) ' ';
+		color: var(--color-accent-deep);
+		font-size: var(--text-sm);
+		letter-spacing: 0.12em;
+	}
+
+	.kit__list p {
+		margin: var(--space-1) 0 0;
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+	}
+
+	.proof,
+	.faq {
+		max-width: 1100px;
+		margin: var(--space-7) auto 0;
+		padding: 0 var(--space-4);
+	}
+
+	.proof__second {
+		margin-top: var(--space-6);
+	}
+
+	.proof__lede {
+		color: var(--color-slate);
+		margin: 0 0 var(--space-4);
+	}
+
+	.quotes {
+		list-style: none;
+		margin: 0 0 var(--space-4);
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: var(--space-4);
+	}
+
+	.quotes li {
+		background: var(--color-cream);
+		border-radius: 4px;
+		padding: var(--space-4);
+	}
+
+	.quotes blockquote {
+		margin: 0 0 var(--space-2);
+		font-family: var(--font-headline);
+		font-size: var(--text-lg);
+		color: var(--color-navy);
+	}
+
+	.quotes blockquote::before {
+		content: '\201C';
+		color: var(--color-accent);
+		font-size: 1.6em;
+		line-height: 0;
+		margin-right: 0.15em;
+	}
+
+	.quotes cite {
+		font-style: normal;
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+	}
+
+	.proof__list {
+		list-style: none;
+		margin: 0 0 var(--space-3);
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: var(--space-4);
+	}
+
+	.proof__list li {
+		border: 1px solid var(--color-border);
+		border-top: 3px solid var(--color-accent);
+		border-radius: 4px;
+		padding: var(--space-4);
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+	}
+
+	.proof__headline {
+		font-family: var(--font-headline);
+		font-size: var(--text-lg);
+		color: var(--color-navy);
+	}
+
+	.proof__building {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+	}
+
+	.proof__lesson {
+		font-style: italic;
+	}
+
+	.proof__more {
+		margin: 0;
+	}
+
+	.faq__item {
+		border-top: 1px solid var(--color-border);
+		padding: var(--space-3) 0;
+	}
+
+	.faq__item h3 {
+		font-size: var(--text-lg);
+		margin: 0 0 var(--space-1);
+	}
+
+	.faq__item p {
+		margin: 0;
+		color: var(--color-slate);
+	}
+
+	.close {
+		max-width: 760px;
+		margin: var(--space-7) auto var(--space-8);
+		padding: var(--space-6) var(--space-4);
+		text-align: center;
+		background: var(--color-cream);
+		border-radius: 4px;
+	}
+
+	.close p {
+		color: var(--color-slate);
+	}
+
+	.close__alt {
+		margin: var(--space-3) 0 0;
+		font-size: var(--text-sm);
+	}
+
+	.sticky-cta {
+		display: none;
+	}
+
+	@media (max-width: 900px) {
+		.hero__inner,
+		.score,
+		.kit,
+		.why,
+		.kit__list {
+			grid-template-columns: 1fr;
+		}
+
+		.hero h1 {
+			font-size: var(--text-3xl);
+		}
+
+		.kit__image,
+		.why__image {
+			order: -1;
+		}
+
+		.score__list li {
+			grid-template-columns: 1fr;
+		}
+
+		.sticky-cta {
+			display: block;
+			position: fixed;
+			left: var(--space-3);
+			right: var(--space-3);
+			bottom: var(--space-3);
+			z-index: 20;
+			background: var(--color-navy);
+			color: var(--color-bg);
+			text-align: center;
+			font-weight: 600;
+			text-decoration: none;
+			padding: var(--space-3);
+			border-radius: 4px;
+			box-shadow: 0 8px 24px rgba(10, 13, 20, 0.3);
+		}
+
+		.close {
+			margin-left: var(--space-4);
+			margin-right: var(--space-4);
+			margin-bottom: var(--space-8);
+		}
+	}
+</style>
