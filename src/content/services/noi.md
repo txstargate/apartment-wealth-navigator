@@ -59,6 +59,10 @@ Expense side:
 
 This applies whether the building needs real repair or already runs well. Small corrections to income and expense compound into a higher NOI and a higher valuation.
 
+## Start with the free audit
+
+The [NOI Leak Audit](/noi-navigator/) is one page and five questions. It tells you which two levers to open first, in about 20 minutes with your statements in front of you.
+
 ## Request a building audit
 
 Send the property address and your last twelve months of operating statements. I read them before we speak. The first call is free. Any engagement after it is scoped and quoted in writing before work starts.

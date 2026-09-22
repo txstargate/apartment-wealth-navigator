@@ -63,6 +63,7 @@ export function collectLastmodSources(root: string): LastmodSources {
     '/services/sale': 'src/content/services/sale.md',
     '/tools': 'src/pages/tools/index.astro',
     '/results': 'src/pages/results/index.astro',
+    '/noi-navigator': 'src/pages/noi-navigator.astro',
     '/tools/noi-check': 'src/pages/tools/noi-check.astro',
     '/insights': 'src/pages/insights/index.astro',
     '/locations': 'src/pages/locations/index.astro',

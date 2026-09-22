@@ -11,9 +11,11 @@ interface Props {
   canonical: string
   /** Site-relative or absolute image URL for social share cards (og:image). */
   ogImage?: string
+  /** Lead-magnet landing page: header shows brand and phone only. */
+  landing?: boolean
 }
 
-const { title, description, canonical, ogImage } = Astro.props
+const { title, description, canonical, ogImage, landing = false } = Astro.props
 const site = 'https://apartmentwealthnavigator.com'
 const ogImageUrl = ogImage ? (ogImage.startsWith('http') ? ogImage : `${site}${ogImage}`) : undefined
 ---
@@ -49,8 +51,8 @@ const ogImageUrl = ogImage ? (ogImage.startsWith('http') ? ogImage : `${site}${o
 		     runs outside the consent gate that holds GA4 and the Meta Pixel. -->
 		<VercelAnalytics />
 	</head>
-	<body>
-		<Header />
+	<body class:list={[{ 'is-landing': landing }]}>
+		<Header minimal={landing} />
 		<main>
 			<slot />
 		</main>

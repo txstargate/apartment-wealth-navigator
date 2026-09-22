@@ -1,0 +1,636 @@
+---
+// NOI Navigator: the first of the four GoHighLevel lead-magnet funnels
+// moved onto the site (2026-09-22). Landing-page discipline inside the
+// site's design system: brand-and-phone header, one goal (the form), the
+// form above the fold, proof from the Results cases, FAQ with schema, one
+// closing CTA back to the form. Indexable, unlike the funnel it replaces.
+import { Image } from 'astro:assets'
+import Base from '../layouts/Base.astro'
+import JsonLd from '../components/JsonLd.astro'
+import { buildFaqSchema } from '../lib/schema'
+import { RESULTS } from '../data/results'
+import { TESTIMONIALS } from '../data/testimonials'
+import auditImage from '../assets/shafiq/noi-audit-meters.jpg'
+import rentRollImage from '../assets/shafiq/noi-rent-roll.jpg'
+
+export const CHECKLIST_PATH = '/downloads/noi-leak-audit-checklist.pdf'
+
+const leaks = [
+	{ title: 'Missed revenue capture', text: 'Below-market rents, unbilled fees, and lease add-ons that never get charged consistently.' },
+	{ title: 'Utility spikes and weak recovery', text: 'Water, sewer, and common electric climbing without a recovery system to match.' },
+	{ title: 'Vendor creep and auto-renewals', text: 'Contracts that renew without a rebid and drift upward a few percent a year.' },
+	{ title: 'Slow turns and vacancy bleed', text: 'Every extra day between move-out and move-in is rent that never comes back.' },
+	{ title: 'Inconsistent systems and reporting', text: 'Without a monthly rent roll, P&L, and variance report, problems hide until the year-end statement.' },
+]
+
+const proof = RESULTS.slice(0, 3)
+
+const faq = [
+	{ question: 'How long does the NOI Leak Audit take?', answer: 'About 20 minutes with your last 12 months of operating statements, the rent roll, and the utility bills in front of you. It is one page with five questions, one per lever. Any question you cannot answer from your own records inside five minutes is already a finding.' },
+	{ question: 'Do I need to renovate to raise NOI?', answer: 'Usually not. Most early gains come from billing and recovery, vendor scopes, turn time, and reporting. Renovation is a capital decision that comes after the operating leaks are closed, and it is often smaller than owners expect once the leaks are counted.' },
+	{ question: 'Is this only for Washington DC buildings?', answer: 'The audit applies to any small apartment building. The DC branch of the guides adds local cap rates, utility rules, and TOPA timing. Shafiq is licensed in DC, Virginia, and Maryland; owners elsewhere are connected with an advisor in their market and told so up front.' },
+	{ question: 'What does the 15-minute diagnostic cost?', answer: 'Nothing. The first call is free. On it Shafiq names your top three levers from what you tell him about the building. Any engagement after that is scoped and quoted in writing before work starts.' },
+]
+const faqSchema = buildFaqSchema(faq)
+---
+
+<Base
+	title="NOI Leak Audit Checklist | NOI Navigator"
+	description="Find the two levers draining NOI on your apartment building in 20 minutes. A one-page audit, five questions, and a free 15-minute diagnostic if you want the fast answer."
+	canonical="https://apartmentwealthnavigator.com/noi-navigator/"
+	landing
+>
+	<JsonLd data={faqSchema} />
+
+	<section class="hero" id="get-the-audit">
+		<div class="hero__inner">
+			<div class="hero__copy">
+				<p class="hero__kicker">NOI NAVIGATOR · FREE ONE-PAGE AUDIT</p>
+				<h1>Find your NOI leaks in 20 minutes</h1>
+				<p class="hero__lede">
+					Five levers raise net operating income on a small apartment building. In any given building
+					two of them are carrying the loss. The NOI Leak Audit tells you which two, from your own
+					records, before a lender or a buyer prices the gap for you.
+				</p>
+				<ul class="hero__points">
+					<li>One page, five questions, one per lever</li>
+					<li>The rule that says which lever to open first</li>
+					<li>The 90-day order to work them in</li>
+				</ul>
+				<p class="hero__trust">Built for owners of 3 to 20 unit buildings facing higher expenses, tighter underwriting, and slower rent growth. Written by Shafiq Hirani, CCIM, MBA, PE, broker in DC, Virginia, and Maryland.</p>
+			</div>
+
+			<div class="hero__form">
+				<form id="audit-form" class="lead-form" novalidate>
+					<h2>Get the NOI Leak Audit</h2>
+					<p class="lead-form__sub">On your screen the moment you press the button.</p>
+					<label for="firstName">First name</label>
+					<input id="firstName" name="first_name" type="text" autocomplete="given-name" required />
+					<label for="lastName">Last name</label>
+					<input id="lastName" name="last_name" type="text" autocomplete="family-name" required />
+					<label for="email">Email</label>
+					<input id="email" name="email" type="email" autocomplete="email" required />
+					<label for="phone">Mobile number</label>
+					<input id="phone" name="phone" type="tel" autocomplete="tel" required />
+					<label for="location">Building city or ZIP</label>
+					<input id="location" name="location" type="text" placeholder="e.g. Washington, DC or 20009" required />
+					<label for="units">Number of units <span class="lead-form__optional">optional</span></label>
+					<input id="units" name="units" type="number" min="1" step="1" />
+					<button type="submit">Send me the audit</button>
+					<p class="lead-form__consent">
+						You will receive the checklist and a short email series from Shafiq Hirani about NOI.
+						Unsubscribe in one click. <a href="/privacy/">Privacy policy</a>.
+					</p>
+					<p id="audit-error" class="lead-form__error" hidden>Something did not send. Email shirani@enterprisere.com and the checklist comes back by reply.</p>
+				</form>
+				<div id="audit-thanks" class="result-panel" hidden>
+					<h2>Thank you, <span id="thanks-name"></span>.</h2>
+					<p>The audit is yours now. Download it and keep it with your statements.</p>
+					<a class="result-link" href={CHECKLIST_PATH} download>Download the NOI Leak Audit (PDF)</a>
+					<p class="result-panel__next">
+						Want the fast answer? <a id="diagnostic-link" href="/get-started/">Book the free 15-minute NOI diagnostic</a>
+						and Shafiq names your top three levers on the call.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="leaks">
+		<h2>What drains NOI right now</h2>
+		<p class="leaks__lede">The five categories where small and mid-sized buildings lose income. The audit asks one question about each.</p>
+		<ol class="leaks__list">
+			{
+				leaks.map((l) => (
+					<li>
+						<strong>{l.title}</strong>
+						<p>{l.text}</p>
+					</li>
+				))
+			}
+		</ol>
+	</section>
+
+	<section class="proof">
+		<h2>What owners say</h2>
+		{
+			TESTIMONIALS.length > 0 && (
+				<ul class="quotes">
+					{TESTIMONIALS.map((t) => (
+						<li>
+							<blockquote>{t.quote}</blockquote>
+							<cite>{t.name}, {t.building}</cite>
+						</li>
+					))}
+				</ul>
+			)
+		}
+		<h2 class="proof__second">What the work produced</h2>
+		<p class="proof__lede">Three owners, three buildings, three outcomes, as reported to Shafiq. Names withheld until each owner agrees in writing to be named.</p>
+		<ul class="proof__list">
+			{
+				proof.map((r) => (
+					<li>
+						<span class="proof__headline">{r.headline}</span>
+						<span class="proof__building">{r.building}</span>
+						<span class="proof__lesson">{r.lesson}</span>
+					</li>
+				))
+			}
+		</ul>
+		<p class="proof__more"><a href="/results/">Read the three write-ups with the numbers.</a></p>
+	</section>
+
+	<section class="compound">
+		<Image class="compound__image" src={auditImage} alt="Shafiq Hirani reading a bank of water meters in an apartment building utility room" widths={[640, 960]} sizes="(max-width: 900px) 100vw, 40vw" loading="lazy" />
+		<div class="compound__copy">
+			<h2>Why NOI improvements compound</h2>
+			<p>
+				A lender sizes your loan on NOI. A buyer applies a cap rate to it. So a dollar of NOI you
+				recover and keep is worth many dollars of building value, and it shows up again at every
+				refinance and every sale.
+			</p>
+			<p>
+				Take $3,000 a year of recovered fees on a building trading at a 6 percent cap rate. $3,000
+				divided by 0.06 is $50,000 of value, from a lease audit that took an afternoon.
+			</p>
+			<a class="cta-button" href="#get-the-audit">Get the NOI Leak Audit</a>
+		</div>
+	</section>
+
+	<section class="who">
+		<Image class="who__image" src={rentRollImage} alt="Shafiq Hirani reviewing a rent roll at a desk" widths={[480, 720]} sizes="(max-width: 900px) 60vw, 25vw" loading="lazy" />
+		<div class="who__copy">
+			<h2>Who reads your numbers</h2>
+			<p>
+				Shafiq Hirani advises owners of small and mid-sized apartment buildings in Washington DC,
+				Virginia, and Maryland on raising NOI, positioning for a refinance, and preparing for a sale.
+				CCIM, MBA, Professional Engineer, licensed broker in all three jurisdictions, with RE/MAX
+				Distinctive Commercial. The read comes first. He recommends nothing until the numbers have
+				been through it.
+			</p>
+		</div>
+	</section>
+
+	<section class="faq">
+		<h2>Frequently asked questions</h2>
+		{
+			faq.map((f) => (
+				<div class="faq__item">
+					<h3>{f.question}</h3>
+					<p>{f.answer}</p>
+				</div>
+			))
+		}
+	</section>
+
+	<section class="close">
+		<h2>Ready to find your NOI leaks?</h2>
+		<p>One page. Twenty minutes. The two levers to open first.</p>
+		<a class="cta-button" href="#get-the-audit">Get the NOI Leak Audit</a>
+		<p class="close__alt">Prefer the fast answer? <a href="/get-started/">Book the free 15-minute diagnostic.</a></p>
+	</section>
+
+	<a class="sticky-cta" href="#get-the-audit">Get the free NOI Leak Audit</a>
+</Base>
+
+<script>
+	import { buildLeadPayload, submitLead } from '../lib/ghl'
+	import { bookingUrl } from '../lib/booking'
+
+	const form = document.getElementById('audit-form') as HTMLFormElement
+	const thanks = document.getElementById('audit-thanks') as HTMLElement
+	const thanksName = document.getElementById('thanks-name') as HTMLElement
+	const errorLine = document.getElementById('audit-error') as HTMLElement
+	const diagnostic = document.getElementById('diagnostic-link') as HTMLAnchorElement
+	const field = (id: string) => document.getElementById(id) as HTMLInputElement
+
+	form.addEventListener('submit', async (event) => {
+		event.preventDefault()
+		if (!form.reportValidity()) return
+		const unitsRaw = field('units').value.trim()
+		const payload = buildLeadPayload({
+			firstName: field('firstName').value,
+			lastName: field('lastName').value,
+			email: field('email').value,
+			phone: field('phone').value,
+			location: field('location').value,
+			toolName: 'NOI Navigator',
+			sourcePage: window.location.pathname,
+			units: unitsRaw ? Number(unitsRaw) : undefined,
+		})
+		try {
+			await submitLead(payload)
+		} catch {
+			errorLine.hidden = false
+			return
+		}
+		thanksName.textContent = payload.first_name
+		if (payload.route === 'local') {
+			diagnostic.href = bookingUrl(import.meta.env.PUBLIC_GHL_BOOKING_URL)
+			diagnostic.target = '_blank'
+			diagnostic.rel = 'noopener'
+		}
+		form.hidden = true
+		thanks.hidden = false
+		thanks.scrollIntoView({ behavior: 'smooth', block: 'start' })
+	})
+</script>
+
+<style>
+	.hero {
+		background: var(--color-cream);
+		padding: var(--space-6) var(--space-4) var(--space-7);
+	}
+
+	.hero__inner {
+		max-width: 1100px;
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: 1.15fr 1fr;
+		gap: var(--space-6);
+		align-items: start;
+	}
+
+	.hero__kicker {
+		font-size: var(--text-sm);
+		letter-spacing: 0.12em;
+		color: var(--color-accent-deep);
+		margin: 0 0 var(--space-2);
+	}
+
+	.hero h1 {
+		font-size: var(--text-4xl);
+		margin: 0 0 var(--space-3);
+	}
+
+	.hero__lede {
+		font-size: var(--text-lg);
+		color: var(--color-slate);
+		margin: 0 0 var(--space-4);
+	}
+
+	.hero__points {
+		margin: 0 0 var(--space-4);
+		padding-left: 1.1rem;
+	}
+
+	.hero__points li {
+		margin-bottom: var(--space-1);
+	}
+
+	.hero__trust {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+		margin: 0;
+	}
+
+	.lead-form,
+	.result-panel {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		background: var(--color-bg);
+		border: 1px solid var(--color-border);
+		border-radius: 4px;
+		padding: var(--space-5);
+		box-shadow: 0 12px 32px rgba(10, 13, 20, 0.08);
+	}
+
+	/* The hidden attribute must beat display: flex. */
+	.lead-form[hidden],
+	.result-panel[hidden] {
+		display: none;
+	}
+
+	.lead-form h2,
+	.result-panel h2 {
+		font-size: var(--text-xl);
+		margin: 0;
+	}
+
+	.lead-form__sub {
+		margin: 0 0 var(--space-2);
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+	}
+
+	.lead-form label {
+		font-weight: 600;
+	}
+
+	.lead-form__optional {
+		font-weight: 400;
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+	}
+
+	.lead-form input {
+		font-size: var(--text-base);
+		padding: var(--space-2);
+		border: 1px solid var(--color-border);
+		border-radius: 2px;
+	}
+
+	.lead-form button,
+	.cta-button,
+	.result-link {
+		display: inline-block;
+		background: var(--color-navy);
+		color: var(--color-bg);
+		font-size: var(--text-base);
+		font-weight: 600;
+		text-decoration: none;
+		border: 0;
+		border-radius: 2px;
+		padding: var(--space-3) var(--space-4);
+		cursor: pointer;
+		text-align: center;
+	}
+
+	.lead-form button {
+		margin-top: var(--space-3);
+	}
+
+	.lead-form button:hover,
+	.cta-button:hover,
+	.result-link:hover {
+		background: var(--color-accent);
+		color: var(--color-obsidian);
+	}
+
+	.lead-form__consent,
+	.lead-form__error {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+		margin: var(--space-2) 0 0;
+	}
+
+	.lead-form__error {
+		color: #8a2a1f;
+	}
+
+	.result-link {
+		margin: var(--space-2) 0;
+	}
+
+	.result-panel__next {
+		margin: 0;
+	}
+
+	.leaks,
+	.proof,
+	.faq {
+		max-width: 1100px;
+		margin: var(--space-7) auto 0;
+		padding: 0 var(--space-4);
+	}
+
+	.leaks h2,
+	.proof h2,
+	.compound h2,
+	.who h2,
+	.faq h2,
+	.close h2 {
+		font-size: var(--text-2xl);
+		margin: 0 0 var(--space-2);
+	}
+
+	.leaks__lede,
+	.proof__lede {
+		color: var(--color-slate);
+		margin: 0 0 var(--space-4);
+	}
+
+	.leaks__list {
+		list-style: none;
+		counter-reset: leak;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		gap: var(--space-4);
+	}
+
+	.leaks__list li {
+		counter-increment: leak;
+		border-top: 3px solid var(--color-accent);
+		padding-top: var(--space-3);
+	}
+
+	.leaks__list li::before {
+		content: '0' counter(leak);
+		display: block;
+		font-family: var(--font-headline);
+		font-size: var(--text-sm);
+		letter-spacing: 0.12em;
+		color: var(--color-accent-deep);
+		margin-bottom: var(--space-1);
+	}
+
+	.leaks__list strong {
+		font-family: var(--font-headline);
+		font-weight: 700;
+		font-size: var(--text-lg);
+		color: var(--color-navy);
+	}
+
+	.leaks__list p {
+		margin: var(--space-2) 0 0;
+		color: var(--color-slate);
+	}
+
+	.proof__list {
+		list-style: none;
+		margin: 0 0 var(--space-3);
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: var(--space-4);
+	}
+
+	.proof__list li {
+		border: 1px solid var(--color-border);
+		border-top: 3px solid var(--color-accent);
+		border-radius: 4px;
+		padding: var(--space-4);
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+	}
+
+	.proof__headline {
+		font-family: var(--font-headline);
+		font-size: var(--text-lg);
+		color: var(--color-navy);
+	}
+
+	.proof__building {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+	}
+
+	.proof__lesson {
+		font-style: italic;
+		color: var(--color-obsidian);
+	}
+
+	.proof__second {
+		margin-top: var(--space-6);
+	}
+
+	.quotes {
+		list-style: none;
+		margin: 0 0 var(--space-4);
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: var(--space-4);
+	}
+
+	.quotes li {
+		background: var(--color-cream);
+		border-radius: 4px;
+		padding: var(--space-4);
+	}
+
+	.quotes blockquote {
+		margin: 0 0 var(--space-2);
+		font-family: var(--font-headline);
+		font-size: var(--text-lg);
+		color: var(--color-navy);
+	}
+
+	.quotes blockquote::before {
+		content: '\201C';
+		color: var(--color-accent);
+		font-size: 1.6em;
+		line-height: 0;
+		margin-right: 0.15em;
+	}
+
+	.quotes cite {
+		font-style: normal;
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+	}
+
+	.proof__more {
+		margin: 0;
+	}
+
+	.compound,
+	.who {
+		max-width: 1100px;
+		margin: var(--space-7) auto 0;
+		padding: 0 var(--space-4);
+		display: grid;
+		grid-template-columns: 2fr 3fr;
+		gap: var(--space-6);
+		align-items: center;
+	}
+
+	.who {
+		grid-template-columns: 1fr 3fr;
+	}
+
+	.compound__image,
+	.who__image {
+		display: block;
+		width: 100%;
+		object-fit: cover;
+		border-radius: 4px;
+	}
+
+	.compound__image {
+		aspect-ratio: 4 / 3;
+	}
+
+	.who__image {
+		aspect-ratio: 1 / 1;
+	}
+
+	.faq__item {
+		border-top: 1px solid var(--color-border);
+		padding: var(--space-3) 0;
+	}
+
+	.faq__item h3 {
+		font-size: var(--text-lg);
+		margin: 0 0 var(--space-1);
+	}
+
+	.faq__item p {
+		margin: 0;
+		color: var(--color-slate);
+	}
+
+	.close {
+		max-width: 760px;
+		margin: var(--space-7) auto var(--space-8);
+		padding: var(--space-6) var(--space-4);
+		text-align: center;
+		background: var(--color-cream);
+		border-radius: 4px;
+	}
+
+	.close p {
+		color: var(--color-slate);
+	}
+
+	.close__alt {
+		margin: var(--space-3) 0 0;
+		font-size: var(--text-sm);
+	}
+
+	.sticky-cta {
+		display: none;
+	}
+
+	@media (max-width: 900px) {
+		.hero__inner,
+		.compound,
+		.who {
+			grid-template-columns: 1fr;
+		}
+
+		.hero h1 {
+			font-size: var(--text-3xl);
+		}
+
+		.leaks__list {
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		}
+
+		.compound__image {
+			order: -1;
+		}
+
+		.who__image {
+			max-width: 240px;
+		}
+
+		.sticky-cta {
+			display: block;
+			position: fixed;
+			left: var(--space-3);
+			right: var(--space-3);
+			bottom: var(--space-3);
+			z-index: 20;
+			background: var(--color-navy);
+			color: var(--color-bg);
+			text-align: center;
+			font-weight: 600;
+			text-decoration: none;
+			padding: var(--space-3);
+			border-radius: 4px;
+			box-shadow: 0 8px 24px rgba(10, 13, 20, 0.3);
+		}
+
+		.close {
+			margin-left: var(--space-4);
+			margin-right: var(--space-4);
+			margin-bottom: var(--space-8);
+		}
+	}
+</style>
