@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Value Range Worksheet</title>
+<style>
+  @page { size: Letter; margin: 0.5in 0.6in; }
+  :root { --navy:#12314F; --obsidian:#0A0D14; --gold:#C5A880; --gold-deep:#A98C63; --cream:#F1EDE6; --slate:#334155; --border:#E2E8F0; }
+  * { box-sizing: border-box; }
+  body { font-family: Georgia, 'Times New Roman', serif; color: var(--obsidian); margin: 0; font-size: 10pt; line-height: 1.28; }
+  .head { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--navy); padding-bottom: 7pt; margin-bottom: 8pt; }
+  .brand { font-size: 10pt; letter-spacing: 0.12em; color: var(--gold-deep); text-transform: uppercase; }
+  h1 { font-size: 21pt; margin: 2pt 0 0; color: var(--navy); line-height: 1.1; }
+  .meta { font-family: Arial, Helvetica, sans-serif; font-size: 9pt; color: var(--slate); text-align: right; max-width: 250pt; }
+  .intro { font-family: Arial, Helvetica, sans-serif; font-size: 9pt; color: var(--slate); margin: 0 0 6pt; }
+  h2 { font-size: 12pt; color: var(--navy); margin: 0 0 4pt; }
+  .part { border: 1px solid var(--border); border-top: 3px solid var(--gold); border-radius: 3pt; padding: 6pt 8pt; margin: 0 0 6pt; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 6pt 14pt; }
+  .sub { font-family: Arial, Helvetica, sans-serif; font-size: 8.8pt; color: var(--gold-deep); letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 3pt; }
+  table { width: 100%; border-collapse: collapse; }
+  td { text-align: left; vertical-align: middle; padding: 2.5pt 6pt; border-bottom: 1px solid var(--border); font-family: Arial, Helvetica, sans-serif; font-size: 9.2pt; }
+  td.n { width: 18pt; color: var(--gold-deep); font-family: Georgia, serif; font-size: 12pt; }
+  td.line { width: 110pt; }
+  .fill { display: inline-block; width: 100%; border-bottom: 1pt solid var(--navy); height: 10pt; }
+  td.op { width: 14pt; color: var(--gold-deep); font-weight: bold; text-align: center; }
+  tr.total td { font-weight: bold; color: var(--navy); background: var(--cream); }
+  .note { font-family: Arial, Helvetica, sans-serif; font-size: 8.6pt; color: var(--slate); margin: 3pt 0 0; }
+  .rule { font-family: Arial, Helvetica, sans-serif; font-size: 9pt; background: var(--cream); border-left: 3pt solid var(--gold); padding: 5pt 8pt; margin: 0 0 6pt; }
+  ul { list-style: none; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; font-size: 9pt; }
+  li { margin: 2pt 0; }
+  .foot { border-top: 1px solid var(--border); padding-top: 6pt; font-family: Arial, Helvetica, sans-serif; font-size: 8.5pt; color: var(--slate); display: flex; justify-content: space-between; gap: 12pt; }
+  .motto { color: var(--gold-deep); letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap; }
+</style>
+</head>
+<body>
+  <div class="head">
+    <div>
+      <div class="brand">Apartment Wealth Navigator</div>
+      <h1>The Value Range Worksheet</h1>
+    </div>
+    <div class="meta">Run the haircut on your own building before a lender or a buyer runs it for you. Trailing 12 months, rent roll, and your loan statement in front of you.</div>
+  </div>
+
+  <p class="intro">An apartment building has three values, not one. A lender, a buyer, and a broker each rebuild your income before they price it, and normalization almost always reduces it. This worksheet runs the same arithmetic in three steps: normalize NOI, apply three cap rates for a range, then test the coverage that decides what a lender will actually fund.</p>
+
+  <div class="part">
+    <h2>Step 1. Normalized NOI</h2>
+    <p class="sub">Start with the trailing 12 months. Use actual figures where you have them and the assumption where you do not.</p>
+    <table>
+      <tbody>
+        <tr><td class="n">1</td><td>Gross scheduled rent at full occupancy, plus recurring other income</td><td class="op"></td><td class="line"><span class="fill"></span></td></tr>
+        <tr><td class="n">2</td><td>Vacancy and credit loss. Use a 5 percent factor even if the building is full today</td><td class="op">&minus;</td><td class="line"><span class="fill"></span></td></tr>
+        <tr><td class="n">3</td><td>One-time income you have been counting as recurring: late-fee spikes, laundry bumps, insurance proceeds</td><td class="op">&minus;</td><td class="line"><span class="fill"></span></td></tr>
+        <tr><td class="n">4</td><td>Operating expenses, normalized to what a building of this age and size costs to run</td><td class="op">&minus;</td><td class="line"><span class="fill"></span></td></tr>
+        <tr><td class="n">5</td><td>Management fee at about 6 percent of gross rents, even if you self-manage</td><td class="op">&minus;</td><td class="line"><span class="fill"></span></td></tr>
+        <tr><td class="n">6</td><td>Capital reserve for roof, boilers, and major systems, funded on paper even if yours is not</td><td class="op">&minus;</td><td class="line"><span class="fill"></span></td></tr>
+        <tr class="total"><td class="n"></td><td>Normalized NOI. The only income figure a lender or a buyer prices</td><td class="op">=</td><td class="line"><span class="fill"></span></td></tr>
+      </tbody>
+    </table>
+    <p class="note">Lines 2, 5 and 6 are the adjustments owners never see coming. Under-market rents stay at the lease number; the upside belongs in the buyer's column, not yours.</p>
+  </div>
+
+  <div class="cols">
+    <div class="part">
+      <h2>Step 2. The range</h2>
+      <p class="sub">Value = NOI divided by cap rate. Three cap rates, three values.</p>
+      <table>
+        <tbody>
+          <tr><td>Conservative: lender's view, higher cap rate</td><td class="line"><span class="fill"></span></td></tr>
+          <tr><td>Base: broker's view, today's trade cap rate for your submarket</td><td class="line"><span class="fill"></span></td></tr>
+          <tr><td>Optimistic: buyer's view, lower cap rate, upside credited</td><td class="line"><span class="fill"></span></td></tr>
+        </tbody>
+      </table>
+      <p class="note">Example: $500,000 of NOI at a 5 percent cap rate is a $10 million building. At 6 percent, $8.33 million. The market did not move; the divisor did.</p>
+    </div>
+    <div class="part">
+      <h2>Step 3. The coverage test</h2>
+      <p class="sub">Normalized NOI divided by annual debt payments, principal plus interest.</p>
+      <table>
+        <tbody>
+          <tr><td>Annual debt service on the current or proposed loan</td><td class="line"><span class="fill"></span></td></tr>
+          <tr class="total"><td>DSCR = normalized NOI &divide; annual debt service</td><td class="line"><span class="fill"></span></td></tr>
+        </tbody>
+      </table>
+      <ul style="margin-top:4pt">
+        <li><strong>1.30 or above:</strong> cushion. A refinance conversation is worth having now.</li>
+        <li><strong>1.20 to 1.30:</strong> inside the range with nothing spare. Expect the lender's value below yours.</li>
+        <li><strong>Under 1.20:</strong> improve income before you call a lender. The loan gets sized to the gap.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="rule"><strong>The rule:</strong> every $1,000 of defensible NOI is worth roughly $10,000 of borrowing capacity at a 1.25 coverage floor, and $16,000 to $20,000 of building value at a 5 to 6 percent cap rate. Small movements in NOI produce large movements in value, in both directions. Send this worksheet with your rent roll and trailing 12 months and Shafiq returns the three-number range with the assumptions written out. This is an advisory estimate, not an appraisal.</p>
+
+  <div class="foot">
+    <div>Shafiq Hirani, CCIM, MBA, PE · RE/MAX Distinctive Commercial · Broker in DC, VA, MD · 202-290-1055 · shirani@enterprisere.com · The first call is free: apartmentwealthnavigator.com/get-started</div>
+    <div class="motto">Insula · Reditus · Exitus</div>
+  </div>
+</body>
+</html>

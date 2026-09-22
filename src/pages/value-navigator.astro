@@ -1,0 +1,758 @@
+---
+// Value Navigator ("What's Your Apartment Building Worth?"): the fourth
+// and last GoHighLevel lead-magnet funnel moved onto the site (2026-09-22).
+// This one is an intake, not a download: Shafiq prepares a three-number
+// value range from the owner's rent roll and trailing twelve months. The
+// page still hands over something on submit, the Value Range Worksheet,
+// so the owner can run the haircut tonight while the range is prepared.
+import Base from '../layouts/Base.astro'
+import JsonLd from '../components/JsonLd.astro'
+import { Image } from 'astro:assets'
+import { buildFaqSchema } from '../lib/schema'
+import { RESULTS } from '../data/results'
+import { TESTIMONIALS } from '../data/testimonials'
+import heroImage from '../assets/hero-dc-rowhouses.jpg'
+import portraitImage from '../assets/shafiq/portrait-navy.jpg'
+
+export const WORKSHEET_PATH = '/downloads/value-range-worksheet.pdf'
+
+const gets = [
+	'A three-number value range: conservative, base, and optimistic',
+	'A normalized NOI review, the figure buyers and lenders actually price',
+	'A refinance versus sale reality check, with DSCR sensitivity',
+	'The one or two moves that would raise value the most',
+	'An optional 15-minute walkthrough call',
+]
+
+const who = [
+	{ title: 'Just curious', text: 'Understand your baseline and your options before anyone else prices them.' },
+	{ title: 'Refinancing', text: 'Avoid surprises before you talk to a lender. The range shows where the haircut lands.' },
+	{ title: 'Considering a sale', text: 'Price strategically and plan the timing. Buyers pay for certainty and discount the rest.' },
+]
+
+const steps = [
+	{ title: 'Send what you have', text: 'The address and the unit count on this page. Then reply to the confirmation with your rent roll and trailing 12 months, or whatever you have. Imperfect numbers are fine; the range states its confidence.' },
+	{ title: 'Shafiq normalizes NOI and reads the value drivers', text: 'Vacancy, a management fee even if you self-manage, reserves, one-time income removed, expenses corrected to what a building like yours costs to run.' },
+	{ title: 'You receive the range and a recommendation', text: 'Three numbers, the assumptions behind them, the refinance and sale lens, and the next step the numbers point to: refinance readiness, improve NOI first, prepare for sale, or hold and revisit.' },
+]
+
+const intents = ['Just curious', 'Refinancing', 'Considering a sale', 'Not sure']
+
+const proof = RESULTS.slice(0, 3)
+
+const faq = [
+	{ question: 'Is this an appraisal?', answer: 'No. It is an advisory value range built the way lenders and buyers underwrite, to guide a decision. A formal valuation requires a licensed appraiser or a broker opinion of value prepared for the specific property. Shafiq tells you which of those you need, and when.' },
+	{ question: 'Why a range and not one number?', answer: 'Three parties price the same building three ways. A lender applies conservative expenses and tests debt coverage. A buyer underwrites the upside. A broker prices off comparable sales and current cap rates. All three numbers are defensible, and knowing the range before you call any of them changes how you negotiate.' },
+	{ question: 'Do my numbers need to be perfect?', answer: 'No. Send what you have. The range states its confidence level and names what matters most. A rent roll and the last twelve months of operating statements are enough for a first read; the worksheet on this page shows the arithmetic Shafiq runs on them.' },
+	{ question: 'Will you try to sell me something?', answer: 'You get clarity first. The range comes with a recommended next step, which may be to hold and revisit. Any engagement after that, including a listing, is scoped and quoted in writing before work starts. The first call is free.' },
+]
+const faqSchema = buildFaqSchema(faq)
+---
+
+<Base
+	title="What Is Your Apartment Building Worth? | Value Navigator"
+	description="Get a realistic three-number value range for your apartment building, built the way lenders and buyers underwrite, not a guess. Free, for owners who are curious, refinancing, or considering a sale."
+	canonical="https://apartmentwealthnavigator.com/value-navigator/"
+	landing
+>
+	<JsonLd data={faqSchema} />
+
+	<section class="hero" id="get-my-value-range">
+		<div class="hero__inner">
+			<div class="hero__copy">
+				<p class="hero__kicker">VALUE NAVIGATOR · FREE VALUE RANGE</p>
+				<h1>What is your apartment building worth?</h1>
+				<p class="hero__lede">
+					Get a realistic value range, not a guess. Three numbers, built the way a lender, a buyer,
+					and a broker each price the same building, with the assumptions written out. Clarity before
+					you refinance or sell.
+				</p>
+				<ul class="hero__points">
+					{gets.map((g) => <li>{g}</li>)}
+				</ul>
+				<p class="hero__trust">Takes about three minutes. Clear next step either way. For owners of small and mid-sized apartment buildings in Washington DC, Virginia, and Maryland. Prepared by Shafiq Hirani, CCIM, MBA, PE, broker in all three.</p>
+			</div>
+
+			<div class="hero__form">
+				<form id="value-form" class="lead-form" novalidate>
+					<h2>Get my value range</h2>
+					<p class="lead-form__sub">The worksheet lands on your screen now. The range follows once Shafiq has your numbers.</p>
+					<label for="firstName">First name</label>
+					<input id="firstName" name="first_name" type="text" autocomplete="given-name" required />
+					<label for="lastName">Last name</label>
+					<input id="lastName" name="last_name" type="text" autocomplete="family-name" required />
+					<label for="email">Email</label>
+					<input id="email" name="email" type="email" autocomplete="email" required />
+					<label for="phone">Mobile number</label>
+					<input id="phone" name="phone" type="tel" autocomplete="tel" required />
+					<label for="location">Property address</label>
+					<input id="location" name="location" type="text" autocomplete="street-address" placeholder="Street, city, state or ZIP" required />
+					<label for="units">Number of units</label>
+					<input id="units" name="units" type="number" min="1" step="1" required />
+					<label for="intent">Why are you looking?</label>
+					<select id="intent" name="intent" required>
+						<option value="">Choose one</option>
+						{intents.map((i) => <option>{i}</option>)}
+					</select>
+					<button type="submit">Get my value range</button>
+					<p class="lead-form__consent">
+						Shafiq replies by email to ask for your rent roll and trailing 12 months. You will also
+						receive a short email series on building value. Unsubscribe in one click.
+						<a href="/privacy/">Privacy policy</a>.
+					</p>
+					<p id="value-error" class="lead-form__error" hidden>Something did not send. Email shirani@enterprisere.com with the address and unit count and Shafiq takes it from there.</p>
+				</form>
+				<div id="value-thanks" class="result-panel" hidden>
+					<h2>You are all set, <span id="thanks-name"></span>.</h2>
+					<p>Shafiq will review your information and prepare a conservative, base, and optimistic value range built on lender and buyer underwriting standards.</p>
+					<p><strong>One thing speeds it up.</strong> <a id="docs-link" href="mailto:shirani@enterprisere.com">Email your rent roll and trailing 12 months</a> now, or reply to the confirmation when it arrives. Whatever you have is enough to start.</p>
+					<a class="result-link" href={WORKSHEET_PATH} download>Download the Value Range Worksheet (PDF)</a>
+					<p class="result-panel__next">
+						Want a number tonight? Run the <a href="/tools/noi-check/">NOI Quick Check</a>. Want the
+						conversation first? <a id="diagnostic-link" href="/get-started/">Book the free 15-minute walkthrough</a>.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="who">
+		<h2>Who this is for</h2>
+		<ul class="who__list">
+			{
+				who.map((w) => (
+					<li>
+						<strong>{w.title}</strong>
+						<p>{w.text}</p>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
+	<section class="range">
+		<Image class="range__image" src={heroImage} alt="A street of red brick bay-front rowhouses converted to apartments" widths={[640, 960]} sizes="(max-width: 900px) 100vw, 40vw" loading="lazy" />
+		<div class="range__copy">
+			<h2>Why your building has a range, not a price</h2>
+			<p>
+				A lender applies conservative expense assumptions and asks whether the building still services
+				the loan when things go slightly wrong. A buyer underwrites the upside, what the building
+				becomes in year three. A broker prices off comparable sales and today’s cap rates. All three
+				numbers are defensible.
+			</p>
+			<p>
+				All three start from the same figure: net operating income. Gross rents of $800,000 with
+				vacancy, normalized expenses, a management fee, and a capital reserve totalling $300,000 leave
+				$500,000 of NOI. At a 5 percent cap rate that is a $10 million building. At 6 percent, $8.33
+				million. Move either input and the value moves with it.
+			</p>
+			<p>
+				This is why an automated home-value estimate is meaningless for an apartment building. Those
+				tools price what the house next door sold for. Apartment value is income performance. The full
+				arithmetic is in
+				<a href="/insights/whats-my-apartment-building-worth/">What Is My Apartment Building Worth?</a>
+				and, for DC cap rates and prices per unit by neighborhood,
+				<a href="/insights/dc-apartment-building-worth-2026/">the DC branch</a>.
+			</p>
+		</div>
+	</section>
+
+	<section class="haircut">
+		<div class="haircut__copy">
+			<h2>The haircut, and why your number drops at the lender</h2>
+			<p>A lender or a buyer rebuilds your numbers before pricing them, and normalization almost always reduces income. Five adjustments come up again and again:</p>
+			<ol class="haircut__list">
+				<li>Under-market rents stay at the number on the lease.</li>
+				<li>One-time income spikes are stripped out as noise.</li>
+				<li>A management fee is added even when you self-manage.</li>
+				<li>Understated expenses are corrected upward where maintenance was deferred.</li>
+				<li>A capital reserve is funded on paper when yours is low or missing.</li>
+			</ol>
+			<p>
+				One owner saw a loan come back more than $400,000 below expectation for exactly these reasons.
+				Because the gap surfaced early, he improved income first and refinanced six months later in a
+				stronger position. The worksheet you receive on submit runs the same five adjustments on your
+				own building.
+			</p>
+			<a class="cta-button" href="#get-my-value-range">Get my value range</a>
+		</div>
+		<div class="haircut__steps">
+			<h3>How it works</h3>
+			<ol class="steps">
+				{
+					steps.map((s) => (
+						<li>
+							<strong>{s.title}</strong>
+							<p>{s.text}</p>
+						</li>
+					))
+				}
+			</ol>
+			<p class="haircut__free">The range is free. So is the walkthrough call. Any engagement after it is scoped and quoted in writing before work starts.</p>
+		</div>
+	</section>
+
+	<section class="proof">
+		<h2>What owners say</h2>
+		{
+			TESTIMONIALS.length > 0 && (
+				<ul class="quotes">
+					{TESTIMONIALS.map((t) => (
+						<li>
+							<blockquote>{t.quote}</blockquote>
+							<cite>{t.name}, {t.building}</cite>
+						</li>
+					))}
+				</ul>
+			)
+		}
+		<h2 class="proof__second">What the work produced</h2>
+		<p class="proof__lede">Three owners, three buildings, three outcomes, as reported to Shafiq. Names withheld until each owner agrees in writing to be named.</p>
+		<ul class="proof__list">
+			{
+				proof.map((r) => (
+					<li>
+						<span class="proof__headline">{r.headline}</span>
+						<span class="proof__building">{r.building}</span>
+						<span class="proof__lesson">{r.lesson}</span>
+					</li>
+				))
+			}
+		</ul>
+		<p class="proof__more"><a href="/results/">Read the three write-ups with the numbers.</a></p>
+	</section>
+
+	<section class="reader">
+		<Image class="reader__image" src={portraitImage} alt="Shafiq Hirani, portrait" widths={[320, 480]} sizes="160px" loading="lazy" />
+		<div class="reader__copy">
+			<h2>Who reads your numbers</h2>
+			<p>
+				Shafiq Hirani advises owners of small and mid-sized apartment buildings in Washington DC,
+				Virginia, and Maryland. CCIM, MBA, Professional Engineer, licensed broker in all three, with
+				RE/MAX Distinctive Commercial. He works three problems: raising NOI, positioning for a
+				refinance, and preparing for a sale. The range tells you which one you have.
+			</p>
+		</div>
+	</section>
+
+	<section class="faq">
+		<h2>Frequently asked questions</h2>
+		{
+			faq.map((f) => (
+				<div class="faq__item">
+					<h3>{f.question}</h3>
+					<p>{f.answer}</p>
+				</div>
+			))
+		}
+	</section>
+
+	<section class="paths">
+		<h2>The three paths the range points to</h2>
+		<p><a href="/noi-navigator/">Improve NOI first</a>, <a href="/refinance-readiness/">get refinance-ready</a>, or <a href="/sale-readiness/">prepare for a sale</a>. Same review, same underwriting, one advisor.</p>
+	</section>
+
+	<section class="close">
+		<h2>Know your range before anyone else prices it</h2>
+		<p>Three numbers, the assumptions behind them, and the next step they point to.</p>
+		<a class="cta-button" href="#get-my-value-range">Get my value range</a>
+		<p class="close__alt">Want a number tonight? <a href="/tools/noi-check/">Run the free NOI Quick Check.</a></p>
+	</section>
+
+	<a class="sticky-cta" href="#get-my-value-range">Get my free value range</a>
+</Base>
+
+<script>
+	import { buildLeadPayload, submitLead } from '../lib/ghl'
+	import { bookingUrl } from '../lib/booking'
+
+	const form = document.getElementById('value-form') as HTMLFormElement
+	const thanks = document.getElementById('value-thanks') as HTMLElement
+	const thanksName = document.getElementById('thanks-name') as HTMLElement
+	const errorLine = document.getElementById('value-error') as HTMLElement
+	const diagnostic = document.getElementById('diagnostic-link') as HTMLAnchorElement
+	const docsLink = document.getElementById('docs-link') as HTMLAnchorElement
+	const field = (id: string) => document.getElementById(id) as HTMLInputElement
+
+	form.addEventListener('submit', async (event) => {
+		event.preventDefault()
+		if (!form.reportValidity()) return
+		const intent = (document.getElementById('intent') as HTMLSelectElement).value
+		const address = field('location').value.trim()
+		const payload = buildLeadPayload({
+			firstName: field('firstName').value,
+			lastName: field('lastName').value,
+			email: field('email').value,
+			phone: field('phone').value,
+			location: address,
+			toolName: 'Value Navigator',
+			sourcePage: window.location.pathname,
+			units: Number(field('units').value),
+			message: `Intent: ${intent}. Value range requested for ${address}.`,
+		})
+		try {
+			await submitLead(payload)
+		} catch {
+			errorLine.hidden = false
+			return
+		}
+		thanksName.textContent = payload.first_name
+		docsLink.href =
+			'mailto:shirani@enterprisere.com?subject=' +
+			encodeURIComponent(`Value range: ${address}`) +
+			'&body=' +
+			encodeURIComponent(`Rent roll and trailing 12 months attached for ${address} (${payload.units} units).`)
+		if (payload.route === 'local') {
+			diagnostic.href = bookingUrl(import.meta.env.PUBLIC_GHL_BOOKING_URL)
+			diagnostic.target = '_blank'
+			diagnostic.rel = 'noopener'
+		}
+		form.hidden = true
+		thanks.hidden = false
+		thanks.scrollIntoView({ behavior: 'smooth', block: 'start' })
+	})
+</script>
+
+<style>
+	.hero {
+		background: var(--color-cream);
+		padding: var(--space-6) var(--space-4) var(--space-7);
+	}
+
+	.hero__inner,
+	.who,
+	.range,
+	.haircut,
+	.proof,
+	.reader,
+	.faq,
+	.paths {
+		max-width: 1100px;
+		margin: 0 auto;
+	}
+
+	.hero__inner {
+		display: grid;
+		grid-template-columns: 1.15fr 1fr;
+		gap: var(--space-6);
+		align-items: start;
+	}
+
+	.hero__kicker {
+		font-size: var(--text-sm);
+		letter-spacing: 0.12em;
+		color: var(--color-accent-deep);
+		margin: 0 0 var(--space-2);
+	}
+
+	.hero h1 {
+		font-size: var(--text-4xl);
+		margin: 0 0 var(--space-3);
+	}
+
+	.hero__lede {
+		font-size: var(--text-lg);
+		color: var(--color-slate);
+		margin: 0 0 var(--space-4);
+	}
+
+	.hero__points {
+		margin: 0 0 var(--space-4);
+		padding-left: 1.1rem;
+	}
+
+	.hero__points li {
+		margin-bottom: var(--space-1);
+	}
+
+	.hero__trust {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+		margin: 0;
+	}
+
+	.lead-form,
+	.result-panel {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		background: var(--color-bg);
+		border: 1px solid var(--color-border);
+		border-radius: 4px;
+		padding: var(--space-5);
+		box-shadow: 0 12px 32px rgba(10, 13, 20, 0.08);
+	}
+
+	.lead-form[hidden],
+	.result-panel[hidden] {
+		display: none;
+	}
+
+	.lead-form h2,
+	.result-panel h2 {
+		font-size: var(--text-xl);
+		margin: 0;
+	}
+
+	.lead-form__sub {
+		margin: 0 0 var(--space-2);
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+	}
+
+	.lead-form label {
+		font-weight: 600;
+	}
+
+	.lead-form input,
+	.lead-form select {
+		font-size: var(--text-base);
+		padding: var(--space-2);
+		border: 1px solid var(--color-border);
+		border-radius: 2px;
+		background: var(--color-bg);
+	}
+
+	.lead-form button,
+	.cta-button,
+	.result-link {
+		display: inline-block;
+		background: var(--color-navy);
+		color: var(--color-bg);
+		font-size: var(--text-base);
+		font-weight: 600;
+		text-decoration: none;
+		border: 0;
+		border-radius: 2px;
+		padding: var(--space-3) var(--space-4);
+		cursor: pointer;
+		text-align: center;
+	}
+
+	.lead-form button {
+		margin-top: var(--space-3);
+	}
+
+	.lead-form button:hover,
+	.cta-button:hover,
+	.result-link:hover {
+		background: var(--color-accent);
+		color: var(--color-obsidian);
+	}
+
+	.lead-form__consent,
+	.lead-form__error {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+		margin: var(--space-2) 0 0;
+	}
+
+	.lead-form__error {
+		color: #8a2a1f;
+	}
+
+	.result-link {
+		margin: var(--space-2) 0;
+	}
+
+	.result-panel__next {
+		margin: 0;
+	}
+
+	.who,
+	.proof,
+	.faq,
+	.paths {
+		margin-top: var(--space-7);
+		padding: 0 var(--space-4);
+	}
+
+	.who h2,
+	.range h2,
+	.haircut h2,
+	.proof h2,
+	.reader h2,
+	.faq h2,
+	.paths h2,
+	.close h2 {
+		font-size: var(--text-2xl);
+		margin: 0 0 var(--space-2);
+	}
+
+	.who__list {
+		list-style: none;
+		margin: var(--space-3) 0 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: var(--space-4);
+	}
+
+	.who__list li {
+		border-top: 3px solid var(--color-accent);
+		padding-top: var(--space-3);
+	}
+
+	.who__list strong {
+		font-family: var(--font-headline);
+		font-size: var(--text-lg);
+		color: var(--color-navy);
+	}
+
+	.who__list p {
+		margin: var(--space-2) 0 0;
+		color: var(--color-slate);
+	}
+
+	.range,
+	.haircut,
+	.reader {
+		margin-top: var(--space-7);
+		padding: 0 var(--space-4);
+		display: grid;
+		grid-template-columns: 2fr 3fr;
+		gap: var(--space-6);
+		align-items: center;
+	}
+
+	.haircut {
+		grid-template-columns: 3fr 2fr;
+		align-items: start;
+	}
+
+	.range__image {
+		display: block;
+		width: 100%;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+		border-radius: 4px;
+	}
+
+	.haircut__list {
+		margin: 0 0 var(--space-3);
+		padding-left: 1.2rem;
+	}
+
+	.haircut__list li {
+		margin-bottom: var(--space-1);
+	}
+
+	.haircut__steps {
+		background: var(--color-cream);
+		border-radius: 4px;
+		padding: var(--space-5);
+	}
+
+	.haircut__steps h3 {
+		font-size: var(--text-xl);
+		margin: 0 0 var(--space-3);
+	}
+
+	.steps {
+		margin: 0 0 var(--space-3);
+		padding-left: 1.2rem;
+	}
+
+	.steps li {
+		margin-bottom: var(--space-3);
+	}
+
+	.steps strong {
+		display: block;
+		color: var(--color-navy);
+	}
+
+	.steps p {
+		margin: var(--space-1) 0 0;
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+	}
+
+	.haircut__free {
+		font-weight: 600;
+		color: var(--color-navy);
+		margin: 0;
+	}
+
+	.reader {
+		grid-template-columns: 160px 1fr;
+		max-width: 900px;
+	}
+
+	.reader__image {
+		display: block;
+		width: 160px;
+		height: 160px;
+		object-fit: cover;
+		border-radius: 50%;
+	}
+
+	.proof__second {
+		margin-top: var(--space-6);
+	}
+
+	.proof__lede {
+		color: var(--color-slate);
+		margin: 0 0 var(--space-4);
+	}
+
+	.quotes {
+		list-style: none;
+		margin: 0 0 var(--space-4);
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: var(--space-4);
+	}
+
+	.quotes li {
+		background: var(--color-cream);
+		border-radius: 4px;
+		padding: var(--space-4);
+	}
+
+	.quotes blockquote {
+		margin: 0 0 var(--space-2);
+		font-family: var(--font-headline);
+		font-size: var(--text-lg);
+		color: var(--color-navy);
+	}
+
+	.quotes blockquote::before {
+		content: '\201C';
+		color: var(--color-accent);
+		font-size: 1.6em;
+		line-height: 0;
+		margin-right: 0.15em;
+	}
+
+	.quotes cite {
+		font-style: normal;
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+	}
+
+	.proof__list {
+		list-style: none;
+		margin: 0 0 var(--space-3);
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: var(--space-4);
+	}
+
+	.proof__list li {
+		border: 1px solid var(--color-border);
+		border-top: 3px solid var(--color-accent);
+		border-radius: 4px;
+		padding: var(--space-4);
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+	}
+
+	.proof__headline {
+		font-family: var(--font-headline);
+		font-size: var(--text-lg);
+		color: var(--color-navy);
+	}
+
+	.proof__building {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+	}
+
+	.proof__lesson {
+		font-style: italic;
+	}
+
+	.proof__more {
+		margin: 0;
+	}
+
+	.faq__item {
+		border-top: 1px solid var(--color-border);
+		padding: var(--space-3) 0;
+	}
+
+	.faq__item h3 {
+		font-size: var(--text-lg);
+		margin: 0 0 var(--space-1);
+	}
+
+	.faq__item p {
+		margin: 0;
+		color: var(--color-slate);
+	}
+
+	.paths {
+		max-width: 760px;
+	}
+
+	.paths p {
+		margin: 0;
+	}
+
+	.close {
+		max-width: 760px;
+		margin: var(--space-7) auto var(--space-8);
+		padding: var(--space-6) var(--space-4);
+		text-align: center;
+		background: var(--color-cream);
+		border-radius: 4px;
+	}
+
+	.close p {
+		color: var(--color-slate);
+	}
+
+	.close__alt {
+		margin: var(--space-3) 0 0;
+		font-size: var(--text-sm);
+	}
+
+	.sticky-cta {
+		display: none;
+	}
+
+	@media (max-width: 900px) {
+		.hero__inner,
+		.who__list,
+		.range,
+		.haircut,
+		.reader {
+			grid-template-columns: 1fr;
+		}
+
+		.hero h1 {
+			font-size: var(--text-3xl);
+		}
+
+		.range__image {
+			order: -1;
+		}
+
+		.sticky-cta {
+			display: block;
+			position: fixed;
+			left: var(--space-3);
+			right: var(--space-3);
+			bottom: var(--space-3);
+			z-index: 20;
+			background: var(--color-navy);
+			color: var(--color-bg);
+			text-align: center;
+			font-weight: 600;
+			text-decoration: none;
+			padding: var(--space-3);
+			border-radius: 4px;
+			box-shadow: 0 8px 24px rgba(10, 13, 20, 0.3);
+		}
+
+		.close {
+			margin-left: var(--space-4);
+			margin-right: var(--space-4);
+			margin-bottom: var(--space-8);
+		}
+	}
+</style>
