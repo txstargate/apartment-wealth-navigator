@@ -48,6 +48,10 @@ I start where I always start: your business plan for the property, your goals, a
 
 **The timing and the buyer.** What the building is, who buys that kind of building, and what evidence they need to reach your number.
 
+## Start with the free scorecard
+
+The [Sale Readiness Scorecard](/sale-readiness/) answers the two questions before you list: is anything forcing the decision, and would the file survive a buyer's diligence. Ten minutes, confidential.
+
 ## Request a building audit
 
 Send the property address and your last twelve months of operating statements. I read them before we speak. The first call is free. Any engagement after it is scoped and quoted in writing before work starts.

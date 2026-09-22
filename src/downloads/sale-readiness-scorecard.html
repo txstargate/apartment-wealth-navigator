@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Sale Readiness Scorecard</title>
+<style>
+  @page { size: Letter; margin: 0.5in 0.6in; }
+  :root { --navy:#12314F; --obsidian:#0A0D14; --gold:#C5A880; --gold-deep:#A98C63; --cream:#F1EDE6; --slate:#334155; --border:#E2E8F0; }
+  * { box-sizing: border-box; }
+  body { font-family: Georgia, 'Times New Roman', serif; color: var(--obsidian); margin: 0; font-size: 10.5pt; line-height: 1.32; }
+  .head { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--navy); padding-bottom: 7pt; margin-bottom: 8pt; }
+  .brand { font-size: 10pt; letter-spacing: 0.12em; color: var(--gold-deep); text-transform: uppercase; }
+  h1 { font-size: 21pt; margin: 2pt 0 0; color: var(--navy); line-height: 1.1; }
+  .meta { font-family: Arial, Helvetica, sans-serif; font-size: 9pt; color: var(--slate); text-align: right; max-width: 250pt; }
+  .intro { font-family: Arial, Helvetica, sans-serif; font-size: 9.4pt; color: var(--slate); margin: 0 0 8pt; }
+  h2 { font-size: 12pt; color: var(--navy); margin: 0 0 4pt; }
+  .part { border: 1px solid var(--border); border-top: 3px solid var(--gold); border-radius: 3pt; padding: 7pt 9pt; margin: 0 0 8pt; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 6pt 14pt; }
+  ul { list-style: none; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; font-size: 9.2pt; }
+  li { margin: 2pt 0; padding-left: 15pt; position: relative; }
+  li::before { content: ''; position: absolute; left: 0; top: 2pt; width: 9.5pt; height: 9.5pt; border: 1.2pt solid var(--navy); border-radius: 2pt; }
+  .sub { font-family: Arial, Helvetica, sans-serif; font-size: 8.8pt; color: var(--gold-deep); letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 3pt; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; vertical-align: top; padding: 4pt 6pt; border-bottom: 1px solid var(--border); font-family: Arial, Helvetica, sans-serif; font-size: 9.2pt; }
+  th { background: var(--cream); color: var(--navy); font-size: 8.5pt; letter-spacing: 0.06em; text-transform: uppercase; }
+  td.n { width: 18pt; color: var(--gold-deep); font-family: Georgia, serif; font-size: 12pt; }
+  td.scale { width: 120pt; white-space: nowrap; }
+  .box { display: inline-block; width: 16pt; height: 14pt; border: 1.2pt solid var(--navy); border-radius: 2pt; margin-right: 3pt; text-align: center; font-size: 8pt; line-height: 14pt; color: var(--slate); }
+  ul.plain li { padding-left: 0; }
+  ul.plain li::before { display: none; }
+  .rule { font-family: Arial, Helvetica, sans-serif; font-size: 9.2pt; background: var(--cream); border-left: 3pt solid var(--gold); padding: 6pt 9pt; margin: 0 0 8pt; }
+  .foot { border-top: 1px solid var(--border); padding-top: 6pt; font-family: Arial, Helvetica, sans-serif; font-size: 8.5pt; color: var(--slate); display: flex; justify-content: space-between; gap: 12pt; }
+  .motto { color: var(--gold-deep); letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap; }
+</style>
+</head>
+<body>
+  <div class="head">
+    <div>
+      <div class="brand">Apartment Wealth Navigator</div>
+      <h1>The Sale Readiness Scorecard</h1>
+    </div>
+    <div class="meta">Ten minutes. Answer quickly. If you are unsure, choose the lowest score. Buyers discount uncertainty.</div>
+  </div>
+
+  <p class="intro">Whether to sell is two questions, not one. The timing half asks whether anything is forcing the decision. The readiness half asks whether the file would survive a buyer's diligence without a retrade. Owners who answer both before they list keep the money that owners who answer neither leave on the table.</p>
+
+  <div class="part">
+    <h2>Part A. Timing</h2>
+    <div class="cols">
+      <div>
+        <p class="sub">Five signals that say sell. Tick each that applies.</p>
+        <ul>
+          <li>A loan maturing inside 24 months</li>
+          <li>A capital expense wall the building cannot fund from cash flow</li>
+          <li>An NOI ceiling: the next dollar of income costs more than a dollar to get</li>
+          <li>A wide spread between what you paid and what the building is worth today</li>
+          <li>A partnership change or a life event that shortens your hold</li>
+        </ul>
+      </div>
+      <div>
+        <p class="sub">Three signals that say wait. Tick each that applies.</p>
+        <ul>
+          <li>Unrecovered NOI leaks still sitting in the operating statement</li>
+          <li>Rents mid-repositioning that the trailing 12 months do not show yet</li>
+          <li>A prepayment penalty that has not aged out</li>
+        </ul>
+        <p class="sub" style="margin-top:6pt">Read</p>
+        <ul class="plain">
+          <li>Two or more sell signals and no wait signal: the question is how prepared the file is, not whether.</li>
+          <li>Any wait signal that outweighs the sell signals: wait on purpose, with a date attached.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="part">
+    <h2>Part B. Readiness</h2>
+    <p class="sub">Score each statement 1, not at all, to 5, I can prove it from the file today.</p>
+    <table>
+      <tbody>
+        <tr><td class="n">1</td><td>My rent roll matches the signed leases on rent, deposit, term, and concessions</td><td class="scale"><span class="box">1</span><span class="box">2</span><span class="box">3</span><span class="box">4</span><span class="box">5</span></td></tr>
+        <tr><td class="n">2</td><td>Every expense spike in the last three years has an invoice and a one-line explanation</td><td class="scale"><span class="box">1</span><span class="box">2</span><span class="box">3</span><span class="box">4</span><span class="box">5</span></td></tr>
+        <tr><td class="n">3</td><td>Who pays which utility, and how reimbursements are tracked, is written down</td><td class="scale"><span class="box">1</span><span class="box">2</span><span class="box">3</span><span class="box">4</span><span class="box">5</span></td></tr>
+        <tr><td class="n">4</td><td>I know my deferred maintenance and roughly what it costs before an inspector finds it</td><td class="scale"><span class="box">1</span><span class="box">2</span><span class="box">3</span><span class="box">4</span><span class="box">5</span></td></tr>
+        <tr><td class="n">5</td><td>Permits, registrations, and inspections for the building are current and in one file</td><td class="scale"><span class="box">1</span><span class="box">2</span><span class="box">3</span><span class="box">4</span><span class="box">5</span></td></tr>
+      </tbody>
+    </table>
+    <p class="sub" style="margin-top:6pt">Score out of 25</p>
+    <ul class="plain" style="font-size:9pt">
+      <li>22 to 25: the file is close to diligence-ready. Run the 15-minute check below to confirm.</li>
+      <li>16 to 21: gaps a buyer will find. Close them while you still control the file.</li>
+      <li>Below 16: do not go to market yet. Each gap is a price reduction a buyer will ask for later.</li>
+    </ul>
+  </div>
+
+  <p class="rule"><strong>The 15-minute check:</strong> print the rent roll and pull the last five signed leases. Compare contract rent, deposit held, term end date, and concessions on every one. Two or more mismatches across five leases means the errors come from your process, and that is where to start. Buyers pay for certainty and discount everything else.</p>
+
+  <div class="foot">
+    <div>Shafiq Hirani, CCIM, MBA, PE · RE/MAX Distinctive Commercial · Broker in DC, VA, MD · 202-290-1055 · The first call is free and confidential: apartmentwealthnavigator.com/get-started</div>
+    <div class="motto">Insula · Reditus · Exitus</div>
+  </div>
+</body>
+</html>

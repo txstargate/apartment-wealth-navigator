@@ -55,6 +55,7 @@ export function buildLlmsTxt(input: LlmsInput): string {
   out.push('')
   out.push(line(`${SITE}/noi-navigator/`, 'NOI Navigator: the NOI Leak Audit', 'A one-page, five-question audit that finds the two levers draining NOI on a small apartment building, plus a free 15-minute diagnostic.'))
   out.push(line(`${SITE}/refinance-readiness/`, 'Refinance Readiness: the Lender-Ready Package Checklist', 'A 60-second readiness score and a one-page checklist of what a lender will ask for, for owners refinancing in the next 6 to 24 months.'))
+  out.push(line(`${SITE}/sale-readiness/`, 'Sale Readiness Scorecard', 'A 10-minute, two-part scorecard: the five sell and three wait signals, and five file-readiness statements scored out of 25, with a free confidential seller strategy call.'))
   out.push('')
   out.push('## Results')
   out.push('')

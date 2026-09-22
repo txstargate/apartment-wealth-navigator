@@ -1,0 +1,834 @@
+---
+// Sale Readiness Scorecard (the Exit Navigator funnel), moved onto the site
+// 2026-09-22. Landing discipline as the NOI and refinance pages: brand and
+// phone header, form in the hero, the scorecard answered on the page in two
+// halves (timing signals, readiness statements), the printable scorecard
+// delivered on submit, proof, FAQ with schema, one closing CTA.
+import Base from '../layouts/Base.astro'
+import JsonLd from '../components/JsonLd.astro'
+import { Image } from 'astro:assets'
+import { buildFaqSchema } from '../lib/schema'
+import { RESULTS } from '../data/results'
+import { TESTIMONIALS } from '../data/testimonials'
+import { SELL_SIGNALS, WAIT_SIGNALS, READINESS_STATEMENTS } from '../lib/scorecard'
+import tabletImage from '../assets/shafiq/sale-tablet.jpg'
+import saleImage from '../assets/services/sale.jpg'
+
+export const SCORECARD_PATH = '/downloads/sale-readiness-scorecard.pdf'
+
+const gets = [
+	'A readiness score, so you know whether now is the right time',
+	'A pricing reality check based on how buyers underwrite today',
+	'The documents buyers will demand, in the order they ask',
+	'The five deal killers and how to clear them before you list',
+	'The highest-impact fixes to make before the building goes to market',
+]
+
+const proof = RESULTS.filter((r) => r.pillar === 'sale').concat(RESULTS.filter((r) => r.pillar !== 'sale')).slice(0, 3)
+
+const faq = [
+	{ question: 'When should I sell?', answer: 'When your goals, your loan timeline, and the building’s performance line up. Five signals say sell: a loan maturing inside 24 months, a capital expense wall, an NOI ceiling, a wide gap between cost and value, or a change in your own life. Three say wait: unrecovered NOI leaks, rents mid-repositioning, and a prepayment penalty that has not aged out. The scorecard puts both on one page.' },
+	{ question: 'How long does a sale take?', answer: 'Three windows: preparation, marketing, and due diligence. Preparation is the one you control, and the one that decides the other two. A building with a clean file and no deal killers moves through diligence without a retrade. In DC, tenant purchase rights add a statutory timeline that starts before an offer can close.' },
+	{ question: 'How much will it cost?', answer: 'Brokerage fee, legal, the preparation items you choose to fix, and any credits a buyer negotiates in diligence. The uncertainty discount, the price a buyer takes off for a file they cannot verify, costs an owner more than the brokerage fee ever does. Clean documentation is the cheapest pricing strategy available to you.' },
+	{ question: 'Will this be public?', answer: 'It can be confidential. A targeted process to the buyers who actually pay for your kind of building often outperforms broad exposure. The scorecard and the strategy call are confidential either way.' },
+	{ question: 'What if selling is not the right move?', answer: 'Then the scorecard says so, and the call points you to the right path: recover the NOI first, or position for a refinance instead. Shafiq works all three, so the advice does not depend on a listing.' },
+]
+const faqSchema = buildFaqSchema(faq)
+---
+
+<Base
+	title="Sale Readiness Scorecard | Thinking About Selling Your Apartment Building?"
+	description="A 10-minute scorecard that answers two questions before you list: is anything forcing the decision, and would your file survive a buyer’s diligence without a retrade. Free and confidential."
+	canonical="https://apartmentwealthnavigator.com/sale-readiness/"
+	landing
+>
+	<JsonLd data={faqSchema} />
+
+	<section class="hero" id="get-the-scorecard">
+		<div class="hero__inner">
+			<div class="hero__copy">
+				<p class="hero__kicker">SALE READINESS · FREE 10-MINUTE SCORECARD</p>
+				<h1>Thinking about selling your apartment building?</h1>
+				<p class="hero__lede">
+					Get a clear answer on timing, pricing, process, and costs before you leave money behind.
+					Buyers pay for certainty and discount everything else. The scorecard tells you whether now is
+					the time, and whether the file is ready.
+				</p>
+				<ul class="hero__points">
+					{gets.map((g) => <li>{g}</li>)}
+				</ul>
+				<p class="hero__trust">Confidential. Built for owners of 3 to 20 unit buildings. Written by Shafiq Hirani, CCIM, MBA, PE, broker in DC, Virginia, and Maryland with RE/MAX Distinctive Commercial.</p>
+			</div>
+
+			<div class="hero__form">
+				<form id="scorecard-form" class="lead-form" novalidate>
+					<h2>Get the Sale Readiness Scorecard</h2>
+					<p class="lead-form__sub">On your screen the moment you press the button. Work the scorecard below first and your answers travel with the request.</p>
+					<label for="firstName">First name</label>
+					<input id="firstName" name="first_name" type="text" autocomplete="given-name" required />
+					<label for="lastName">Last name</label>
+					<input id="lastName" name="last_name" type="text" autocomplete="family-name" required />
+					<label for="email">Email</label>
+					<input id="email" name="email" type="email" autocomplete="email" required />
+					<label for="phone">Mobile number</label>
+					<input id="phone" name="phone" type="tel" autocomplete="tel" required />
+					<label for="location">Building city or ZIP</label>
+					<input id="location" name="location" type="text" placeholder="e.g. Washington, DC or 20009" required />
+					<label for="units">Number of units <span class="lead-form__optional">optional</span></label>
+					<input id="units" name="units" type="number" min="1" step="1" />
+					<label for="horizon">Where are you in the decision? <span class="lead-form__optional">optional</span></label>
+					<select id="horizon" name="horizon">
+						<option value="">Choose one</option>
+						<option>Exploring, no timeline</option>
+						<option>Selling within 12 months</option>
+						<option>Selling within 6 months</option>
+						<option>Deciding between selling and refinancing</option>
+					</select>
+					<button type="submit">Send me the scorecard</button>
+					<p class="lead-form__consent">
+						You will receive the scorecard and a short email series from Shafiq Hirani on selling.
+						Unsubscribe in one click. <a href="/privacy/">Privacy policy</a>.
+					</p>
+					<p id="scorecard-error" class="lead-form__error" hidden>Something did not send. Email shirani@enterprisere.com and the scorecard comes back by reply.</p>
+				</form>
+				<div id="scorecard-thanks" class="result-panel" hidden>
+					<h2>Thank you, <span id="thanks-name"></span>.</h2>
+					<p id="thanks-score"></p>
+					<p>The scorecard is yours now. Print it, work it with your rent roll and leases open, and mark what you cannot prove from the file.</p>
+					<a class="result-link" href={SCORECARD_PATH} download>Download the Sale Readiness Scorecard (PDF)</a>
+					<p class="result-panel__next">
+						Want the answer on a call? <a id="diagnostic-link" href="/get-started/">Request the confidential seller strategy call</a>
+						and Shafiq walks your score against the building.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="score" id="scorecard">
+		<div class="score__head">
+			<p class="score__kicker">TEN MINUTES · TWO HALVES</p>
+			<h2>Run the scorecard</h2>
+			<p>Answer quickly. If you are unsure, choose the lowest score. Buyers discount uncertainty. Nothing is sent until you submit the form above.</p>
+			<p id="score-result" class="score__result" aria-live="polite">Your read appears here.</p>
+		</div>
+		<div class="score__parts">
+			<div class="score__part">
+				<h3>Part A. Timing</h3>
+				<p class="score__sub">Five signals that say sell. Tick each that applies.</p>
+				<ul class="score__checks">
+					{SELL_SIGNALS.map((s, i) => (
+						<li><label><input type="checkbox" name="sell" value={i} /> <span>{s}</span></label></li>
+					))}
+				</ul>
+				<p class="score__sub">Three signals that say wait.</p>
+				<ul class="score__checks">
+					{WAIT_SIGNALS.map((s, i) => (
+						<li><label><input type="checkbox" name="wait" value={i} /> <span>{s}</span></label></li>
+					))}
+				</ul>
+			</div>
+			<div class="score__part">
+				<h3>Part B. Readiness</h3>
+				<p class="score__sub">Score each statement 1, not at all, to 5, I can prove it from the file today.</p>
+				<ol class="score__list">
+					{READINESS_STATEMENTS.map((s, i) => (
+						<li>
+							<span class="score__statement">{s}</span>
+							<span class="score__scale" role="radiogroup" aria-label={`Statement ${i + 1}`}>
+								{[1, 2, 3, 4, 5].map((n) => (
+									<label>
+										<input type="radio" name={`r${i + 1}`} value={n} />
+										<span>{n}</span>
+									</label>
+								))}
+							</span>
+						</li>
+					))}
+				</ol>
+			</div>
+		</div>
+	</section>
+
+	<section class="pay">
+		<Image class="pay__image" src={saleImage} alt="A prepared brick apartment building at golden hour" widths={[640, 960]} sizes="(max-width: 900px) 100vw, 40vw" loading="lazy" />
+		<div class="pay__copy">
+			<h2>What buyers actually pay for</h2>
+			<p>Three things drive stronger offers. Verified NOI today: trailing 12 months a lender accepts at face value. Credible upside tomorrow: if rents can grow, the evidence that says so. Low diligence risk: the fewer questions your file creates, the fewer reasons a buyer has to reprice you.</p>
+			<p>When the rent roll disagrees with the leases, a buyer either offers less up front or accepts your number and retrades you 30 days into escrow. The uncertainty discount costs more than the brokerage fee ever will.</p>
+			<p>The full picture, including where the money goes when you sell, is in <a href="/insights/how-to-prepare-apartment-building-for-sale/">How to Prepare a Small Apartment Building for Sale</a>.</p>
+			<a class="cta-button" href="#get-the-scorecard">Get the scorecard</a>
+		</div>
+	</section>
+
+	<section class="how">
+		<div class="how__copy">
+			<h2>How it works</h2>
+			<ol class="how__steps">
+				<li><strong>Run the scorecard.</strong> Ten minutes, two halves, on this page or on paper.</li>
+				<li><strong>Get your read.</strong> Timing and readiness, with the gaps named.</li>
+				<li><strong>Take the call if you want it.</strong> Thirty to forty-five minutes, confidential, free. Shafiq reviews your answers against buyer underwriting and hands you a short list of what to address before any sale process. If selling is not the right move, he says so and points you to the right path.</li>
+			</ol>
+			<p class="how__free">The scorecard is free. So is the call. Any engagement after it, including a listing, is scoped and quoted in writing before work starts.</p>
+		</div>
+		<Image class="how__image" src={tabletImage} alt="Shafiq Hirani reviewing a building file on a tablet outside a brick apartment building" widths={[640, 960]} sizes="(max-width: 900px) 100vw, 40vw" loading="lazy" />
+	</section>
+
+	<section class="proof">
+		<h2>What owners say</h2>
+		{
+			TESTIMONIALS.length > 0 && (
+				<ul class="quotes">
+					{TESTIMONIALS.map((t) => (
+						<li>
+							<blockquote>{t.quote}</blockquote>
+							<cite>{t.name}, {t.building}</cite>
+						</li>
+					))}
+				</ul>
+			)
+		}
+		<h2 class="proof__second">What the work produced</h2>
+		<p class="proof__lede">Three owners, three buildings, three outcomes, as reported to Shafiq. Names withheld until each owner agrees in writing to be named.</p>
+		<ul class="proof__list">
+			{
+				proof.map((r) => (
+					<li>
+						<span class="proof__headline">{r.headline}</span>
+						<span class="proof__building">{r.building}</span>
+						<span class="proof__lesson">{r.lesson}</span>
+					</li>
+				))
+			}
+		</ul>
+		<p class="proof__more"><a href="/results/">Read the three write-ups with the numbers.</a></p>
+	</section>
+
+	<section class="faq">
+		<h2>Frequently asked questions</h2>
+		{
+			faq.map((f) => (
+				<div class="faq__item">
+					<h3>{f.question}</h3>
+					<p>{f.answer}</p>
+				</div>
+			))
+		}
+	</section>
+
+	<section class="paths">
+		<h2>Not sure selling is the answer?</h2>
+		<p>Two other paths, same review. <a href="/noi-navigator/">Find the NOI leaks first</a>, or <a href="/refinance-readiness/">check your refinance readiness</a>. The <a href="/insights/cash-out-refinance-or-sell-apartment-building/">cash-out or sell</a> guide runs the same building both ways.</p>
+	</section>
+
+	<section class="close">
+		<h2>Two questions before you list</h2>
+		<p>Is anything forcing the decision, and would the file survive diligence. Ten minutes answers both.</p>
+		<a class="cta-button" href="#get-the-scorecard">Get the Sale Readiness Scorecard</a>
+		<p class="close__alt">Prefer the conversation? <a href="/get-started/">Request the confidential seller strategy call.</a></p>
+	</section>
+
+	<a class="sticky-cta" href="#get-the-scorecard">Get the free scorecard</a>
+</Base>
+
+<script>
+	import { buildLeadPayload, submitLead } from '../lib/ghl'
+	import { bookingUrl } from '../lib/booking'
+	import { scorecard, timingRead } from '../lib/scorecard'
+
+	const form = document.getElementById('scorecard-form') as HTMLFormElement
+	const thanks = document.getElementById('scorecard-thanks') as HTMLElement
+	const thanksName = document.getElementById('thanks-name') as HTMLElement
+	const thanksScore = document.getElementById('thanks-score') as HTMLElement
+	const errorLine = document.getElementById('scorecard-error') as HTMLElement
+	const diagnostic = document.getElementById('diagnostic-link') as HTMLAnchorElement
+	const scoreResult = document.getElementById('score-result') as HTMLElement
+	const field = (id: string) => document.getElementById(id) as HTMLInputElement
+
+	const flags = (name: string, n: number) =>
+		Array.from({ length: n }, (_, i) => Boolean(document.querySelector<HTMLInputElement>(`input[name="${name}"][value="${i}"]:checked`)))
+	const readiness = () =>
+		[1, 2, 3, 4, 5].map((i) => {
+			const c = document.querySelector<HTMLInputElement>(`input[name="r${i}"]:checked`)
+			return c ? Number(c.value) : 0
+		})
+
+	function currentRead(): { text: string; summary: string } {
+		const sell = flags('sell', 5)
+		const wait = flags('wait', 3)
+		const r = readiness()
+		const t = timingRead(sell.filter(Boolean).length, wait.filter(Boolean).length)
+		if (r.every((x) => x > 0)) {
+			const result = scorecard(sell, wait, r)
+			return {
+				text: `${result.timing.label}: ${result.timing.advice} Readiness ${result.readinessTotal} out of 25, ${result.readiness.label}: ${result.readiness.advice}`,
+				summary: result.summary,
+			}
+		}
+		const answered = r.filter((x) => x > 0).length
+		return {
+			text: `${t.label}: ${t.advice} Readiness: ${answered} of 5 answered.`,
+			summary: `Timing: ${t.label} (${t.sell} sell, ${t.wait} wait). Readiness not completed.`,
+		}
+	}
+
+	function render() {
+		scoreResult.textContent = currentRead().text
+	}
+	document.querySelectorAll<HTMLInputElement>('#scorecard input').forEach((el) => el.addEventListener('change', render))
+
+	form.addEventListener('submit', async (event) => {
+		event.preventDefault()
+		if (!form.reportValidity()) return
+		const unitsRaw = field('units').value.trim()
+		const horizon = (document.getElementById('horizon') as HTMLSelectElement).value
+		const read = currentRead()
+		const notes = [read.summary, horizon ? `Horizon: ${horizon}` : ''].filter(Boolean).join(' ')
+		const payload = buildLeadPayload({
+			firstName: field('firstName').value,
+			lastName: field('lastName').value,
+			email: field('email').value,
+			phone: field('phone').value,
+			location: field('location').value,
+			toolName: 'Sale Readiness Scorecard',
+			sourcePage: window.location.pathname,
+			units: unitsRaw ? Number(unitsRaw) : undefined,
+			message: notes,
+		})
+		try {
+			await submitLead(payload)
+		} catch {
+			errorLine.hidden = false
+			return
+		}
+		thanksName.textContent = payload.first_name
+		thanksScore.textContent = read.text
+		if (payload.route === 'local') {
+			diagnostic.href = bookingUrl(import.meta.env.PUBLIC_GHL_BOOKING_URL)
+			diagnostic.target = '_blank'
+			diagnostic.rel = 'noopener'
+		}
+		form.hidden = true
+		thanks.hidden = false
+		thanks.scrollIntoView({ behavior: 'smooth', block: 'start' })
+	})
+</script>
+
+<style>
+	.hero {
+		background: var(--color-cream);
+		padding: var(--space-6) var(--space-4) var(--space-7);
+	}
+
+	.hero__inner,
+	.score,
+	.pay,
+	.how,
+	.proof,
+	.faq,
+	.paths {
+		max-width: 1100px;
+		margin: 0 auto;
+	}
+
+	.hero__inner {
+		display: grid;
+		grid-template-columns: 1.15fr 1fr;
+		gap: var(--space-6);
+		align-items: start;
+	}
+
+	.hero__kicker,
+	.score__kicker {
+		font-size: var(--text-sm);
+		letter-spacing: 0.12em;
+		color: var(--color-accent-deep);
+		margin: 0 0 var(--space-2);
+	}
+
+	.hero h1 {
+		font-size: var(--text-4xl);
+		margin: 0 0 var(--space-3);
+	}
+
+	.hero__lede {
+		font-size: var(--text-lg);
+		color: var(--color-slate);
+		margin: 0 0 var(--space-4);
+	}
+
+	.hero__points {
+		margin: 0 0 var(--space-4);
+		padding-left: 1.1rem;
+	}
+
+	.hero__points li {
+		margin-bottom: var(--space-1);
+	}
+
+	.hero__trust {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+		margin: 0;
+	}
+
+	.lead-form,
+	.result-panel {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		background: var(--color-bg);
+		border: 1px solid var(--color-border);
+		border-radius: 4px;
+		padding: var(--space-5);
+		box-shadow: 0 12px 32px rgba(10, 13, 20, 0.08);
+	}
+
+	.lead-form[hidden],
+	.result-panel[hidden] {
+		display: none;
+	}
+
+	.lead-form h2,
+	.result-panel h2 {
+		font-size: var(--text-xl);
+		margin: 0;
+	}
+
+	.lead-form__sub {
+		margin: 0 0 var(--space-2);
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+	}
+
+	.lead-form label {
+		font-weight: 600;
+	}
+
+	.lead-form__optional {
+		font-weight: 400;
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+	}
+
+	.lead-form input,
+	.lead-form select {
+		font-size: var(--text-base);
+		padding: var(--space-2);
+		border: 1px solid var(--color-border);
+		border-radius: 2px;
+		background: var(--color-bg);
+	}
+
+	.lead-form button,
+	.cta-button,
+	.result-link {
+		display: inline-block;
+		background: var(--color-navy);
+		color: var(--color-bg);
+		font-size: var(--text-base);
+		font-weight: 600;
+		text-decoration: none;
+		border: 0;
+		border-radius: 2px;
+		padding: var(--space-3) var(--space-4);
+		cursor: pointer;
+		text-align: center;
+	}
+
+	.lead-form button {
+		margin-top: var(--space-3);
+	}
+
+	.lead-form button:hover,
+	.cta-button:hover,
+	.result-link:hover {
+		background: var(--color-accent);
+		color: var(--color-obsidian);
+	}
+
+	.lead-form__consent,
+	.lead-form__error {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+		margin: var(--space-2) 0 0;
+	}
+
+	.lead-form__error {
+		color: #8a2a1f;
+	}
+
+	.result-link {
+		margin: var(--space-2) 0;
+	}
+
+	.result-panel__next {
+		margin: 0;
+	}
+
+	.score {
+		margin-top: var(--space-7);
+		padding: 0 var(--space-4);
+	}
+
+	.score h2,
+	.pay h2,
+	.how h2,
+	.proof h2,
+	.faq h2,
+	.paths h2,
+	.close h2 {
+		font-size: var(--text-2xl);
+		margin: 0 0 var(--space-2);
+	}
+
+	.score__head {
+		max-width: 760px;
+		margin-bottom: var(--space-4);
+	}
+
+	.score__result {
+		font-family: var(--font-headline);
+		font-size: var(--text-lg);
+		color: var(--color-navy);
+		border-left: 3px solid var(--color-accent);
+		padding-left: var(--space-3);
+		min-height: 2.5em;
+	}
+
+	.score__parts {
+		display: grid;
+		grid-template-columns: 2fr 3fr;
+		gap: var(--space-5);
+		align-items: start;
+	}
+
+	.score__part {
+		border: 1px solid var(--color-border);
+		border-top: 3px solid var(--color-accent);
+		border-radius: 4px;
+		padding: var(--space-4);
+	}
+
+	.score__part h3 {
+		font-size: var(--text-xl);
+		margin: 0 0 var(--space-2);
+	}
+
+	.score__sub {
+		font-size: var(--text-sm);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--color-slate);
+		margin: var(--space-3) 0 var(--space-2);
+	}
+
+	.score__checks {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.score__checks li {
+		padding: var(--space-1) 0;
+	}
+
+	.score__checks label {
+		display: flex;
+		gap: var(--space-2);
+		align-items: flex-start;
+		cursor: pointer;
+	}
+
+	.score__checks input {
+		width: 18px;
+		height: 18px;
+		margin-top: 3px;
+		accent-color: var(--color-navy);
+	}
+
+	.score__list {
+		list-style: none;
+		counter-reset: st;
+		margin: 0;
+		padding: 0;
+	}
+
+	.score__list li {
+		counter-increment: st;
+		display: grid;
+		grid-template-columns: 1fr auto;
+		gap: var(--space-3);
+		align-items: center;
+		padding: var(--space-3) 0;
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.score__list li:last-child {
+		border-bottom: 0;
+	}
+
+	.score__statement::before {
+		content: counter(st) '. ';
+		color: var(--color-accent-deep);
+		font-family: var(--font-headline);
+	}
+
+	.score__scale {
+		display: flex;
+		gap: var(--space-1);
+	}
+
+	.score__scale label {
+		position: relative;
+		cursor: pointer;
+	}
+
+	.score__scale input {
+		position: absolute;
+		opacity: 0;
+		width: 1px;
+		height: 1px;
+	}
+
+	.score__scale span {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 36px;
+		height: 36px;
+		border: 1px solid var(--color-border);
+		border-radius: 2px;
+		font-weight: 600;
+		color: var(--color-navy);
+	}
+
+	.score__scale input:checked + span {
+		background: var(--color-navy);
+		color: var(--color-bg);
+		border-color: var(--color-navy);
+	}
+
+	.score__scale input:focus-visible + span {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
+	}
+
+	.pay,
+	.how {
+		margin-top: var(--space-7);
+		padding: 0 var(--space-4);
+		display: grid;
+		grid-template-columns: 2fr 3fr;
+		gap: var(--space-6);
+		align-items: center;
+	}
+
+	.how {
+		grid-template-columns: 3fr 2fr;
+	}
+
+	.pay__image,
+	.how__image {
+		display: block;
+		width: 100%;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+		border-radius: 4px;
+	}
+
+	.how__steps {
+		margin: 0 0 var(--space-3);
+		padding-left: 1.2rem;
+	}
+
+	.how__steps li {
+		margin-bottom: var(--space-2);
+	}
+
+	.how__free {
+		font-weight: 600;
+		color: var(--color-navy);
+		margin: 0;
+	}
+
+	.proof,
+	.faq,
+	.paths {
+		margin-top: var(--space-7);
+		padding: 0 var(--space-4);
+	}
+
+	.proof__second {
+		margin-top: var(--space-6);
+	}
+
+	.proof__lede {
+		color: var(--color-slate);
+		margin: 0 0 var(--space-4);
+	}
+
+	.quotes {
+		list-style: none;
+		margin: 0 0 var(--space-4);
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: var(--space-4);
+	}
+
+	.quotes li {
+		background: var(--color-cream);
+		border-radius: 4px;
+		padding: var(--space-4);
+	}
+
+	.quotes blockquote {
+		margin: 0 0 var(--space-2);
+		font-family: var(--font-headline);
+		font-size: var(--text-lg);
+		color: var(--color-navy);
+	}
+
+	.quotes blockquote::before {
+		content: '\201C';
+		color: var(--color-accent);
+		font-size: 1.6em;
+		line-height: 0;
+		margin-right: 0.15em;
+	}
+
+	.quotes cite {
+		font-style: normal;
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+	}
+
+	.proof__list {
+		list-style: none;
+		margin: 0 0 var(--space-3);
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: var(--space-4);
+	}
+
+	.proof__list li {
+		border: 1px solid var(--color-border);
+		border-top: 3px solid var(--color-accent);
+		border-radius: 4px;
+		padding: var(--space-4);
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+	}
+
+	.proof__headline {
+		font-family: var(--font-headline);
+		font-size: var(--text-lg);
+		color: var(--color-navy);
+	}
+
+	.proof__building {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+	}
+
+	.proof__lesson {
+		font-style: italic;
+	}
+
+	.proof__more {
+		margin: 0;
+	}
+
+	.faq__item {
+		border-top: 1px solid var(--color-border);
+		padding: var(--space-3) 0;
+	}
+
+	.faq__item h3 {
+		font-size: var(--text-lg);
+		margin: 0 0 var(--space-1);
+	}
+
+	.faq__item p {
+		margin: 0;
+		color: var(--color-slate);
+	}
+
+	.paths {
+		max-width: 760px;
+	}
+
+	.paths p {
+		margin: 0;
+	}
+
+	.close {
+		max-width: 760px;
+		margin: var(--space-7) auto var(--space-8);
+		padding: var(--space-6) var(--space-4);
+		text-align: center;
+		background: var(--color-cream);
+		border-radius: 4px;
+	}
+
+	.close p {
+		color: var(--color-slate);
+	}
+
+	.close__alt {
+		margin: var(--space-3) 0 0;
+		font-size: var(--text-sm);
+	}
+
+	.sticky-cta {
+		display: none;
+	}
+
+	@media (max-width: 900px) {
+		.hero__inner,
+		.score__parts,
+		.pay,
+		.how {
+			grid-template-columns: 1fr;
+		}
+
+		.hero h1 {
+			font-size: var(--text-3xl);
+		}
+
+		.pay__image,
+		.how__image {
+			order: -1;
+		}
+
+		.score__list li {
+			grid-template-columns: 1fr;
+		}
+
+		.sticky-cta {
+			display: block;
+			position: fixed;
+			left: var(--space-3);
+			right: var(--space-3);
+			bottom: var(--space-3);
+			z-index: 20;
+			background: var(--color-navy);
+			color: var(--color-bg);
+			text-align: center;
+			font-weight: 600;
+			text-decoration: none;
+			padding: var(--space-3);
+			border-radius: 4px;
+			box-shadow: 0 8px 24px rgba(10, 13, 20, 0.3);
+		}
+
+		.close {
+			margin-left: var(--space-4);
+			margin-right: var(--space-4);
+			margin-bottom: var(--space-8);
+		}
+	}
+</style>
