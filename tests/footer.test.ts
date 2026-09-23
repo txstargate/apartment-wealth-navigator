@@ -19,7 +19,7 @@ test('footer carries the brokerage name and office number as a tel link', () => 
   expect(header).not.toContain('mailto:')
   // Motto: each Latin word with its plain-English gloss directly beneath it,
   // no periods (Shafiq, 2026-09-12).
-  for (const [latin, gloss] of [['Insula', 'The building'], ['Reditus', 'The return'], ['Exitus', 'The exit']]) {
+  for (const [latin, gloss] of [['Insula', 'The Building'], ['Reditus', 'The Return'], ['Exitus', 'The Exit']]) {
     expect(footer).toContain(`<span class="site-footer__latin">${latin}</span><span class="site-footer__gloss">${gloss}</span>`)
   }
   expect(footer).not.toContain('The building.')
