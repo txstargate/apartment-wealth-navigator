@@ -51,3 +51,7 @@ test('the page is in the sitemap dates map, llms.txt, and linked from the value 
   expect(guide).toContain('/value-navigator/')
   expect(readFileSync('src/content/dc/dc-apartment-building-worth-2026.mdx', 'utf8')).toContain('/value-navigator/')
 })
+
+test('the program is branded Value Navigator™ in the hero kicker', () => {
+  expect(page).toContain('VALUE NAVIGATOR™')
+})

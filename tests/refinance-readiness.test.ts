@@ -18,7 +18,7 @@ test('readiness score sums five 1-to-5 answers and bands them as the funnel did'
 })
 
 test('the page posts tagged Refinance Readiness with the score and maturity in the message, and delivers the checklist on the page', () => {
-  expect(page).toContain("toolName: 'Refinance Readiness'")
+  expect(page).toContain("toolName: 'Refinance Navigator'")
   expect(page).toContain('Readiness score ${total}/25')
   expect(page).toContain('Loan maturity ${maturity}')
   expect(page).toContain("KIT_PATH = '/downloads/lender-ready-package-checklist.pdf'")
@@ -57,4 +57,9 @@ test('the page is in the sitemap dates map, llms.txt, and linked from the refina
   expect(readFileSync('src/lib/llms.ts', 'utf8')).toContain('/refinance-readiness/')
   expect(readFileSync('src/content/services/refinance.md', 'utf8')).toContain('/refinance-readiness/')
   expect(readFileSync('src/content/universal/how-to-refinance-small-apartment-building.mdx', 'utf8')).toContain('/refinance-readiness/')
+})
+
+test('the program is branded Refinance Navigator™ (kicker) while the deliverable stays the Lender-Ready checklist', () => {
+  expect(page).toContain('REFINANCE NAVIGATOR™')
+  expect(page).toContain('Lender-Ready')
 })

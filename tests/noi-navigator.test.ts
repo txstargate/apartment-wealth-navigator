@@ -63,3 +63,7 @@ test('the navigator is in the sitemap dates map and llms.txt', () => {
   expect(readFileSync('src/lib/sitemap-lastmod.ts', 'utf8')).toContain("'/noi-navigator': 'src/pages/noi-navigator.astro'")
   expect(readFileSync('src/lib/llms.ts', 'utf8')).toContain('/noi-navigator/')
 })
+
+test('the program is branded NOI Navigator™ in the hero kicker', () => {
+  expect(page).toContain('NOI NAVIGATOR™')
+})

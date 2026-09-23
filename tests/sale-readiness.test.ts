@@ -32,7 +32,7 @@ test('the five sell signals and three wait signals are the ones the published gu
 })
 
 test('the page posts tagged Sale Readiness Scorecard with the read and horizon in the message, delivers the PDF, and is a landing page with schema', () => {
-  expect(page).toContain("toolName: 'Sale Readiness Scorecard'")
+  expect(page).toContain("toolName: 'Exit Navigator'")
   expect(page).toContain('read.summary')
   expect(page).toContain('Horizon: ${horizon}')
   expect(page).toContain("SCORECARD_PATH = '/downloads/sale-readiness-scorecard.pdf'")
@@ -63,4 +63,9 @@ test('the page is in the sitemap dates map, llms.txt, and linked from the sale s
   expect(readFileSync('src/content/services/sale.md', 'utf8')).toContain('/sale-readiness/')
   expect(readFileSync('src/content/universal/how-to-prepare-apartment-building-for-sale.mdx', 'utf8')).toContain('/sale-readiness/')
   expect(guide).toContain('/sale-readiness/')
+})
+
+test('the program is branded Exit Navigator™ (kicker + tag) while the deliverable stays the Sale Readiness Scorecard', () => {
+  expect(page).toContain('EXIT NAVIGATOR™')
+  expect(page).toContain('Sale Readiness Scorecard')
 })
