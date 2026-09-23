@@ -9,3 +9,9 @@ old_path,new_path,status,note
 /services/refinance-positioning/,/services/refinance/,301,slug change
 /services/sale-readiness/,/services/sale/,301,slug change
 /link-in-bio-mobile/,/get-started/,301,link-in-bio lands on the geo-router
+/valuenavigator/,/value-navigator/,301,vanity slug
+/property-management/,/value-navigator/,301,legacy path to value navigator
+/noinavigator/,/noi-navigator/,301,vanity slug
+/valuenavigator,/value-navigator/,301,vanity slug no trailing slash
+/property-management,/value-navigator/,301,legacy path no trailing slash
+/noinavigator,/noi-navigator/,301,vanity slug no trailing slash
