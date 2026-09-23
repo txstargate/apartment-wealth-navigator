@@ -40,6 +40,21 @@
       "source": "/noinavigator/",
       "destination": "/noi-navigator/",
       "permanent": true
+    },
+    {
+      "source": "/valuenavigator",
+      "destination": "/value-navigator/",
+      "permanent": true
+    },
+    {
+      "source": "/property-management",
+      "destination": "/value-navigator/",
+      "permanent": true
+    },
+    {
+      "source": "/noinavigator",
+      "destination": "/noi-navigator/",
+      "permanent": true
     }
   ]
 }
