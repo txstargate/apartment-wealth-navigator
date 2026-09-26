@@ -151,6 +151,8 @@ import metersPhoto from '../../assets/shafiq/noi-audit-meters.jpg'
 				<label for="leadPhone">Mobile number</label>
 				<input id="leadPhone" type="tel" autocomplete="tel" required />
 
+				<input id="website" name="website" type="text" class="hp-field" autocomplete="off" tabindex="-1" aria-hidden="true" />
+
 				<button type="submit">Send me the real numbers</button>
 				<p class="consent">
 					By submitting, you agree to be contacted by phone, text, or email about your inquiry.
@@ -182,6 +184,7 @@ import metersPhoto from '../../assets/shafiq/noi-audit-meters.jpg'
 	import { computeNoi, healthCheck, valueSensitivity } from '../../lib/noi'
 	import { buildLeadPayload, submitLead } from '../../lib/ghl'
 	import { benchmarkSource } from '../../lib/benchmark'
+	import { isLikelyBot } from '../../lib/antispam'
 
 	const form = document.getElementById('noi-form') as HTMLFormElement
 	const unitsInput = document.getElementById('units') as HTMLInputElement
@@ -226,6 +229,7 @@ import metersPhoto from '../../assets/shafiq/noi-audit-meters.jpg'
 	const leadThankYouName = document.getElementById('lead-thank-you-name') as HTMLElement
 	const leadLocalPanel = document.getElementById('lead-local-panel') as HTMLElement
 	const leadAdvisoryPanel = document.getElementById('lead-advisory-panel') as HTMLElement
+	const websiteInput = document.getElementById('website') as HTMLInputElement
 
 	function formatCurrency(value: number): string {
 		return value.toLocaleString('en-US', {
@@ -335,6 +339,14 @@ import metersPhoto from '../../assets/shafiq/noi-audit-meters.jpg'
 			sourcePage: window.location.pathname,
 			units: Number(unitsInput.value),
 		})
+
+		if (isLikelyBot(websiteInput.value)) {
+			leadThankYouName.textContent = payload.first_name
+			leadThankYou.hidden = false
+			leadLocalPanel.hidden = payload.route !== 'local'
+			leadAdvisoryPanel.hidden = payload.route !== 'advisory'
+			return
+		}
 
 		await submitLead(payload)
 

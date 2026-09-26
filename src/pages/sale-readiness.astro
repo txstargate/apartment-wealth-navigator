@@ -84,6 +84,7 @@ const faqSchema = buildFaqSchema(faq)
 						<option>Selling within 6 months</option>
 						<option>Deciding between selling and refinancing</option>
 					</select>
+					<input id="website" name="website" type="text" class="hp-field" autocomplete="off" tabindex="-1" aria-hidden="true" />
 					<button type="submit">Send me the scorecard</button>
 					<p class="lead-form__consent">
 						You will receive the scorecard and a short email series from Shafiq Hirani on selling.
@@ -235,6 +236,7 @@ const faqSchema = buildFaqSchema(faq)
 	import { buildLeadPayload, submitLead } from '../lib/ghl'
 	import { bookingUrl } from '../lib/booking'
 	import { scorecard, timingRead } from '../lib/scorecard'
+	import { isLikelyBot } from '../lib/antispam'
 
 	const form = document.getElementById('scorecard-form') as HTMLFormElement
 	const thanks = document.getElementById('scorecard-thanks') as HTMLElement
@@ -279,6 +281,13 @@ const faqSchema = buildFaqSchema(faq)
 
 	form.addEventListener('submit', async (event) => {
 		event.preventDefault()
+		if (isLikelyBot(field('website').value)) {
+			thanksName.textContent = field('firstName').value.trim()
+			form.hidden = true
+			thanks.hidden = false
+			thanks.scrollIntoView({ behavior: 'smooth', block: 'start' })
+			return
+		}
 		if (!form.reportValidity()) return
 		const unitsRaw = field('units').value.trim()
 		const horizon = (document.getElementById('horizon') as HTMLSelectElement).value

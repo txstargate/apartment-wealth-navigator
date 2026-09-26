@@ -101,3 +101,15 @@ a {
 a:hover {
   color: var(--color-accent-deep);
 }
+
+/* Honeypot spam guard (2026-09-26): hides the "website" trap field from
+   sighted users and screen readers alike, without display:none, which some
+   bots skip when they fill a form. See src/lib/antispam.ts. */
+.hp-field {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

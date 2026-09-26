@@ -94,6 +94,7 @@ const faqSchema = buildFaqSchema(faq)
 						<option value="">Choose one</option>
 						{intents.map((i) => <option>{i}</option>)}
 					</select>
+					<input id="website" name="website" type="text" class="hp-field" autocomplete="off" tabindex="-1" aria-hidden="true" />
 					<button type="submit">Get my value range</button>
 					<p class="lead-form__consent">
 						Shafiq replies by email to ask for your rent roll and trailing 12 months. You will also
@@ -265,6 +266,7 @@ const faqSchema = buildFaqSchema(faq)
 <script>
 	import { buildLeadPayload, submitLead } from '../lib/ghl'
 	import { bookingUrl } from '../lib/booking'
+	import { isLikelyBot } from '../lib/antispam'
 
 	const form = document.getElementById('value-form') as HTMLFormElement
 	const thanks = document.getElementById('value-thanks') as HTMLElement
@@ -276,6 +278,13 @@ const faqSchema = buildFaqSchema(faq)
 
 	form.addEventListener('submit', async (event) => {
 		event.preventDefault()
+		if (isLikelyBot(field('website').value)) {
+			thanksName.textContent = field('firstName').value.trim()
+			form.hidden = true
+			thanks.hidden = false
+			thanks.scrollIntoView({ behavior: 'smooth', block: 'start' })
+			return
+		}
 		if (!form.reportValidity()) return
 		const intent = (document.getElementById('intent') as HTMLSelectElement).value
 		const address = field('location').value.trim()

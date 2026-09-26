@@ -29,6 +29,7 @@ import Base from '../layouts/Base.astro'
 
 			<label for="location">City, state, or ZIP</label>
 			<input id="location" name="location" type="text" placeholder="e.g. Washington, DC or 20009" required />
+			<input id="website" name="website" type="text" class="hp-field" autocomplete="off" tabindex="-1" aria-hidden="true" />
 			<button type="submit">Continue</button>
 			<p class="consent">
 				By submitting, you agree to be contacted by phone, text, or email about your inquiry.
@@ -65,6 +66,7 @@ import Base from '../layouts/Base.astro'
 	import { buildLeadPayload, submitLead } from '../lib/ghl'
 	import { bookingUrl } from '../lib/booking'
 	import { referralIntakeUrl } from '../lib/referral'
+	import { isLikelyBot } from '../lib/antispam'
 
 	const GHL_BOOKING_URL = bookingUrl(import.meta.env.PUBLIC_GHL_BOOKING_URL)
 	const REFERRAL_INTAKE_URL = referralIntakeUrl(import.meta.env.PUBLIC_REFERRAL_INTAKE_URL)
@@ -77,6 +79,7 @@ import Base from '../layouts/Base.astro'
 	const emailInput = document.getElementById('email') as HTMLInputElement
 	const phoneInput = document.getElementById('phone') as HTMLInputElement
 	const locationInput = document.getElementById('location') as HTMLInputElement
+	const websiteInput = document.getElementById('website') as HTMLInputElement
 	const localPanel = document.getElementById('local-panel') as HTMLElement
 	const referralPanel = document.getElementById('referral-panel') as HTMLElement
 	const localLink = document.getElementById('local-booking-link') as HTMLAnchorElement
@@ -85,6 +88,21 @@ import Base from '../layouts/Base.astro'
 	form.addEventListener('submit', async (event) => {
 		event.preventDefault()
 		const route = routeByLocation(locationInput.value)
+
+		if (isLikelyBot(websiteInput.value)) {
+			thankYouName.textContent = firstNameInput.value.trim()
+			thankYou.hidden = false
+			if (route === 'local') {
+				localLink.href = GHL_BOOKING_URL
+				localPanel.hidden = false
+				referralPanel.hidden = true
+			} else {
+				referralLink.href = REFERRAL_INTAKE_URL
+				referralPanel.hidden = false
+				localPanel.hidden = true
+			}
+			return
+		}
 
 		const payload = buildLeadPayload({
 			firstName: firstNameInput.value,

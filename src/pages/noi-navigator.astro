@@ -76,6 +76,7 @@ const faqSchema = buildFaqSchema(faq)
 					<input id="location" name="location" type="text" placeholder="e.g. Washington, DC or 20009" required />
 					<label for="units">Number of units <span class="lead-form__optional">optional</span></label>
 					<input id="units" name="units" type="number" min="1" step="1" />
+					<input id="website" name="website" type="text" class="hp-field" autocomplete="off" tabindex="-1" aria-hidden="true" />
 					<button type="submit">Send me the audit</button>
 					<p class="lead-form__consent">
 						You will receive the checklist and a short email series from Shafiq Hirani about NOI.
@@ -197,6 +198,7 @@ const faqSchema = buildFaqSchema(faq)
 <script>
 	import { buildLeadPayload, submitLead } from '../lib/ghl'
 	import { bookingUrl } from '../lib/booking'
+	import { isLikelyBot } from '../lib/antispam'
 
 	const form = document.getElementById('audit-form') as HTMLFormElement
 	const thanks = document.getElementById('audit-thanks') as HTMLElement
@@ -207,6 +209,13 @@ const faqSchema = buildFaqSchema(faq)
 
 	form.addEventListener('submit', async (event) => {
 		event.preventDefault()
+		if (isLikelyBot(field('website').value)) {
+			thanksName.textContent = field('firstName').value.trim()
+			form.hidden = true
+			thanks.hidden = false
+			thanks.scrollIntoView({ behavior: 'smooth', block: 'start' })
+			return
+		}
 		if (!form.reportValidity()) return
 		const unitsRaw = field('units').value.trim()
 		const payload = buildLeadPayload({

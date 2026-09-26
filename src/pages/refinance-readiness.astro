@@ -92,6 +92,7 @@ const faqSchema = buildFaqSchema(faq)
 					<input id="units" name="units" type="number" min="1" step="1" />
 					<label for="maturity">Loan maturity <span class="lead-form__optional">optional</span></label>
 					<input id="maturity" name="maturity" type="month" />
+					<input id="website" name="website" type="text" class="hp-field" autocomplete="off" tabindex="-1" aria-hidden="true" />
 					<button type="submit">Send me the checklist</button>
 					<p class="lead-form__consent">
 						You will receive the checklist and a short email series from Shafiq Hirani on refinancing.
@@ -237,6 +238,7 @@ const faqSchema = buildFaqSchema(faq)
 	import { buildLeadPayload, submitLead } from '../lib/ghl'
 	import { bookingUrl } from '../lib/booking'
 	import { readinessBand, readinessTotal } from '../lib/readiness'
+	import { isLikelyBot } from '../lib/antispam'
 
 	const form = document.getElementById('kit-form') as HTMLFormElement
 	const thanks = document.getElementById('kit-thanks') as HTMLElement
@@ -270,6 +272,13 @@ const faqSchema = buildFaqSchema(faq)
 
 	form.addEventListener('submit', async (event) => {
 		event.preventDefault()
+		if (isLikelyBot(field('website').value)) {
+			thanksName.textContent = field('firstName').value.trim()
+			form.hidden = true
+			thanks.hidden = false
+			thanks.scrollIntoView({ behavior: 'smooth', block: 'start' })
+			return
+		}
 		if (!form.reportValidity()) return
 		const unitsRaw = field('units').value.trim()
 		const maturity = field('maturity').value.trim()
