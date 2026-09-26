@@ -7,7 +7,7 @@ import { isYouTubeId, youtubeEmbedUrl, youtubeThumbnailUrl, youtubeWatchUrl, YOU
 // rel=0, playsinline, no dead modestbranding, no covered chrome.
 
 test('embed url uses the nocookie domain with rel=0 and playsinline, autoplay only on click', () => {
-  expect(youtubeEmbedUrl('dQw4w9WgXcQ')).toBe('https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?rel=0&playsinline=1&color=white')
+  expect(youtubeEmbedUrl('dQw4w9WgXcQ')).toBe('https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?rel=0&playsinline=1&color=white&cc_load_policy=0')
   expect(youtubeEmbedUrl('dQw4w9WgXcQ', { autoplay: true })).toContain('autoplay=1')
   expect(youtubeEmbedUrl('dQw4w9WgXcQ')).not.toContain('modestbranding')
 })

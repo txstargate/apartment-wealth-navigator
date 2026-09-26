@@ -19,7 +19,10 @@ export function isYouTubeId(id: string): boolean {
 
 /** Embed URL for the facade to inject on click. autoplay=1 so the click that loads the player also starts it. */
 export function youtubeEmbedUrl(id: string, opts: { autoplay?: boolean } = {}): string {
-  const params = new URLSearchParams({ rel: '0', playsinline: '1', color: 'white' })
+  // cc_load_policy=0 keeps the embedded player from auto-showing a caption
+  // track. The videos already carry burned-in captions, so a second CC
+  // overlay doubled the text on the web embed (Shafiq, 2026-09-26).
+  const params = new URLSearchParams({ rel: '0', playsinline: '1', color: 'white', cc_load_policy: '0' })
   if (opts.autoplay) params.set('autoplay', '1')
   return `https://www.youtube-nocookie.com/embed/${id}?${params.toString()}`
 }
