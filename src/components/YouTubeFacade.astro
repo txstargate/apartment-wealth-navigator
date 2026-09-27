@@ -36,6 +36,56 @@ const thumb = poster ?? youtubeThumbnailUrl(id)
 <script>
 	import { YOUTUBE_IFRAME_ALLOW } from '../lib/youtube'
 
+	// Loaded lazily, once, on first click across all facades on the page.
+	// Never requested before a click: that would defeat the whole point of
+	// the facade (no YouTube script until the visitor opts in).
+	let iframeApiPromise: Promise<any> | null = null
+	function loadIframeApi(): Promise<any> {
+		if (iframeApiPromise) return iframeApiPromise
+		iframeApiPromise = new Promise((resolve, reject) => {
+			const existing = (window as any).YT
+			if (existing?.Player) {
+				resolve(existing)
+				return
+			}
+			const previousReady = (window as any).onYouTubeIframeAPIReady
+			;(window as any).onYouTubeIframeAPIReady = () => {
+				previousReady?.()
+				resolve((window as any).YT)
+			}
+			const script = document.createElement('script')
+			script.src = 'https://www.youtube.com/iframe_api'
+			script.onerror = () => reject(new Error('YouTube IFrame API failed to load'))
+			document.head.appendChild(script)
+		})
+		return iframeApiPromise
+	}
+
+	// Auto-generated (ASR) caption tracks show on top of the burned-in
+	// captions already baked into these videos, and cc_load_policy=0 alone
+	// does not suppress them. Force the captions module off whenever the
+	// player might have loaded one: right after it is ready, and again the
+	// moment playback starts (a track can attach after ready but before
+	// play). Every call is guarded: an unknown module name must never throw
+	// and break playback.
+	function disableCaptions(player: any): void {
+		try {
+			player.unloadModule('captions')
+		} catch {
+			// ignore
+		}
+		try {
+			player.unloadModule('cc')
+		} catch {
+			// ignore
+		}
+		try {
+			player.setOption('captions', 'track', {})
+		} catch {
+			// ignore
+		}
+	}
+
 	// Progressive enhancement: without JS the poster is a plain link to
 	// YouTube. With JS, the click swaps in the player in place.
 	for (const facade of document.querySelectorAll<HTMLElement>('.yt-facade')) {
@@ -44,6 +94,7 @@ const thumb = poster ?? youtubeThumbnailUrl(id)
 		link.addEventListener('click', (event) => {
 			event.preventDefault()
 			const iframe = document.createElement('iframe')
+			iframe.id = `yt-facade-player-${Math.random().toString(36).slice(2)}`
 			iframe.src = facade.dataset.embed ?? ''
 			iframe.title = facade.dataset.title ?? 'Video'
 			iframe.allow = YOUTUBE_IFRAME_ALLOW
@@ -52,6 +103,25 @@ const thumb = poster ?? youtubeThumbnailUrl(id)
 			iframe.className = 'yt-facade__player'
 			facade.replaceChildren(iframe)
 			facade.classList.add('is-playing')
+
+			// The iframe above already plays on its own. Wiring the Player
+			// API is additive: if it fails at any step, the plain embed
+			// keeps playing with no dead state for the visitor.
+			loadIframeApi()
+				.then((YT) => {
+					new YT.Player(iframe.id, {
+						events: {
+							onReady: (e) => disableCaptions(e.target),
+							onStateChange: (e) => {
+								if (e.data === YT.PlayerState.PLAYING) disableCaptions(e.target)
+							},
+						},
+					})
+				})
+				.catch(() => {
+					// Graceful degradation: captions may double up, but the
+					// video still plays via the iframe already in the page.
+				})
 		})
 	}
 </script>

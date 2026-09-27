@@ -17,12 +17,26 @@ export function isYouTubeId(id: string): boolean {
   return YOUTUBE_ID_PATTERN.test(id)
 }
 
+/** Production origin the facade embeds run on, required by enablejsapi. */
+export const YOUTUBE_EMBED_ORIGIN = 'https://apartmentwealthnavigator.com'
+
 /** Embed URL for the facade to inject on click. autoplay=1 so the click that loads the player also starts it. */
 export function youtubeEmbedUrl(id: string, opts: { autoplay?: boolean } = {}): string {
   // cc_load_policy=0 keeps the embedded player from auto-showing a caption
-  // track. The videos already carry burned-in captions, so a second CC
-  // overlay doubled the text on the web embed (Shafiq, 2026-09-26).
-  const params = new URLSearchParams({ rel: '0', playsinline: '1', color: 'white', cc_load_policy: '0' })
+  // track, but it does NOT suppress YouTube's auto-generated (ASR) caption
+  // track (confirmed 2026-09-27: the companion videos already carry
+  // burned-in captions, and the ASR track still doubled up on top of them).
+  // enablejsapi=1 + origin let the facade drive the IFrame Player API on
+  // click and force captions off via player.unloadModule(). cc_load_policy
+  // stays as belt-and-suspenders for players where the API call is late.
+  const params = new URLSearchParams({
+    rel: '0',
+    playsinline: '1',
+    color: 'white',
+    cc_load_policy: '0',
+    enablejsapi: '1',
+    origin: YOUTUBE_EMBED_ORIGIN,
+  })
   if (opts.autoplay) params.set('autoplay', '1')
   return `https://www.youtube-nocookie.com/embed/${id}?${params.toString()}`
 }
