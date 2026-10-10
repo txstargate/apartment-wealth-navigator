@@ -3,7 +3,7 @@ old_path,new_path,status,note
 /about/,/about/,301,same
 /contact/,/contact/,301,exists on new site
 /insights/,/insights/,301,same
-/market-reports/,/locations/,301,DMV data hub until a market-reports collection exists
+/market-reports/,/market-report/,301,monthly DMV market report hub (collection added 2026-10-10)
 /services/,/services/,301,same
 /services/noi-optimization/,/services/noi/,301,slug change
 /services/refinance-positioning/,/services/refinance/,301,slug change

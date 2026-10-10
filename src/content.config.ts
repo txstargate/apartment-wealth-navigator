@@ -101,4 +101,22 @@ const locations = defineCollection({
   schema: locationSchemaWithImage,
 })
 
-export const collections = { universal, dc, services, locations }
+// Monthly DMV market report (added 2026-10-10). One file per month; the
+// series rotates DC, Northern Virginia, Suburban Maryland. Every figure in a
+// report names its source (CoStar 0-20 unit export, remax-intel comps).
+export const reportSchema = z.object({
+  title: z.string(),
+  market: z.enum(['Washington DC', 'Northern Virginia', 'Suburban Maryland']),
+  month: z.string().regex(/^\d{4}-\d{2}$/),
+  dataAsOf: z.coerce.date(),
+  publishDate: z.coerce.date(),
+  description: z.string(),
+  draft: z.boolean().default(false),
+})
+
+const reports = defineCollection({
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/reports' }),
+  schema: reportSchema,
+})
+
+export const collections = { universal, dc, services, locations, reports }

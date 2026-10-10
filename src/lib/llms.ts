@@ -11,6 +11,7 @@ export interface LlmsInput {
   dc: LlmsEntry[]
   services: LlmsEntry[]
   locations: LlmsEntry[]
+  reports?: LlmsEntry[]
 }
 
 const SITE = 'https://apartmentwealthnavigator.com'
@@ -45,6 +46,12 @@ export function buildLlmsTxt(input: LlmsInput): string {
     out.push('## Markets')
     out.push('')
     for (const l of input.locations) out.push(line(`${SITE}/locations/${l.slug}/`, l.title, l.description))
+  }
+  if (input.reports?.length) {
+    out.push('')
+    out.push('## Market reports')
+    out.push('')
+    for (const r of input.reports) out.push(line(`${SITE}/market-report/${r.slug}/`, r.title, r.description))
   }
   out.push('')
   out.push('## Tools')

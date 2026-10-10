@@ -3,7 +3,7 @@
   "redirects": [
     {
       "source": "/market-reports/",
-      "destination": "/locations/",
+      "destination": "/market-report/",
       "permanent": true
     },
     {

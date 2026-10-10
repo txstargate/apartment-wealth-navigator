@@ -1,0 +1,133 @@
+---
+import { getCollection } from 'astro:content'
+import Base from '../../layouts/Base.astro'
+import { orderReports, monthLabel } from '../../lib/reports'
+
+// DMV Market Report hub (added 2026-10-10): the latest report first, then the
+// archive. One new file in src/content/reports/ each month adds a report.
+const reports = orderReports(await getCollection('reports'))
+const [latest, ...earlier] = reports
+---
+
+<Base
+	title="DMV Market Report | Apartment Wealth Navigator"
+	description="A monthly market read for owners of 4 to 20 unit apartment buildings in DC, Northern Virginia, and Maryland: vacancy, rent, cap rates, sales and value, with every source named."
+	canonical="https://apartmentwealthnavigator.com/market-report/"
+>
+	<section class="hub">
+		<p class="hub__kicker">DMV Market Report</p>
+		<h1>The monthly market read for small apartment owners</h1>
+		<p class="hub__lede">
+			Citywide multifamily numbers are carried by institutional towers. This report filters to
+			buildings of 4 to 20 units, your market, and names the source behind every figure. One market a
+			month, rotating DC, Northern Virginia, and Maryland.
+		</p>
+
+		{
+			latest && (
+				<a class="hub__latest" href={`/market-report/${latest.id}/`}>
+					<span class="hub__latest-kicker">Latest · {latest.data.market} · {monthLabel(latest.data.month)}</span>
+					<span class="hub__latest-title">{latest.data.title}</span>
+					<span class="hub__latest-summary">{latest.data.description}</span>
+					<span class="hub__latest-cta">Read the report</span>
+				</a>
+			)
+		}
+
+		{
+			earlier.length > 0 && (
+				<div class="hub__archive">
+					<h2>Earlier reports</h2>
+					<ul>
+						{earlier.map((r) => (
+							<li><a href={`/market-report/${r.id}/`}>{r.data.title}</a></li>
+						))}
+					</ul>
+				</div>
+			)
+		}
+
+		<p class="hub__more">
+			Want the number for your own building, not the market's?{' '}
+			<a href="/value-navigator/">Use the Value Navigator</a>.
+		</p>
+	</section>
+</Base>
+
+<style>
+	.hub {
+		max-width: 760px;
+		margin: 0 auto;
+		padding: var(--space-7) var(--space-4);
+	}
+
+	.hub__kicker {
+		font-size: var(--text-sm);
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--color-accent-deep);
+		margin: 0 0 var(--space-2);
+	}
+
+	.hub h1 {
+		font-size: var(--text-3xl);
+		margin: 0 0 var(--space-3);
+	}
+
+	.hub__lede {
+		font-size: var(--text-lg);
+		color: var(--color-slate);
+		margin: 0 0 var(--space-5);
+	}
+
+	.hub__latest {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		padding: var(--space-5);
+		background: var(--color-cream);
+		border-top: 3px solid var(--color-accent);
+		border-radius: 4px;
+		color: inherit;
+		text-decoration: none;
+		margin-bottom: var(--space-6);
+	}
+
+	.hub__latest:hover .hub__latest-cta {
+		background: var(--color-accent);
+		color: var(--color-obsidian);
+	}
+
+	.hub__latest-kicker {
+		font-size: var(--text-sm);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--color-slate);
+	}
+
+	.hub__latest-title {
+		font-family: var(--font-headline);
+		font-size: var(--text-xl);
+		color: var(--color-navy);
+	}
+
+	.hub__latest-cta {
+		align-self: flex-start;
+		background: var(--color-navy);
+		color: var(--color-bg);
+		font-weight: 600;
+		padding: var(--space-2) var(--space-4);
+		border-radius: 2px;
+		margin-top: var(--space-2);
+	}
+
+	.hub__archive h2 {
+		font-size: var(--text-lg);
+		margin: 0 0 var(--space-2);
+	}
+
+	.hub__archive a,
+	.hub__more a {
+		color: var(--color-navy);
+	}
+</style>

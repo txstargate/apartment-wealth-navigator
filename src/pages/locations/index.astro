@@ -58,6 +58,10 @@ const blocks = [
 			same way in each. What changes is the data underneath it: cap rates, price per unit, tax
 			treatment, and in DC the tenant purchase rights that set a sale's timeline.
 		</p>
+		<p class="dmv-intro__report">
+			Each month I publish one market read for owners of 4 to 20 unit buildings, rotating DC,
+			Northern Virginia, and Maryland. <a href="/market-report/">Read the DMV Market Report</a>.
+		</p>
 		<p class="dmv-intro__source">Source: {BENCHMARK_SOURCE_DMV}. {COSTAR_ATTRIBUTION_NOTE}.</p>
 	</section>
 
@@ -144,6 +148,15 @@ const blocks = [
 		font-size: var(--text-lg);
 		color: var(--color-slate);
 		margin: 0 0 var(--space-3);
+	}
+
+	.dmv-intro__report {
+		margin: 0 0 var(--space-3);
+	}
+
+	.dmv-intro__report a {
+		color: var(--color-navy);
+		font-weight: 600;
 	}
 
 	.dmv-intro__source {
