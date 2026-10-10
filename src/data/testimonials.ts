@@ -1,8 +1,9 @@
-// Client quotes for the landing pages. The three below are the quotes that
-// ran on the go.shafiqhirani.com NOI Navigator funnel; Shafiq asked for them
-// to be placed on 2026-09-22 and is compiling the full testimonial data file
-// (names, buildings, sources) that will replace or extend this list. Every
-// entry needs a source a reader could be pointed to on request.
+// Client quotes for the landing pages. Empty on purpose: the three quotes
+// copied from the go.shafiqhirani.com NOI Navigator funnel (Priya M., David R.,
+// Sandra K.) had no source on file and matched composite campaign characters,
+// so Shafiq had them removed on 2026-10-10. The landing pages hide the quote
+// section while this list is empty. Add only real quotes, each with a source
+// a reader could be pointed to on request and the owner's consent.
 
 export interface Testimonial {
   quote: string
@@ -13,26 +14,4 @@ export interface Testimonial {
   consent: true
 }
 
-export const TESTIMONIALS: Testimonial[] = [
-  {
-    quote: "I didn't think there was much room to improve, but the Blueprint uncovered six actionable items I'd overlooked for years.",
-    name: 'Priya M.',
-    building: 'Owner, 18-unit boutique building',
-    source: 'NOI Navigator funnel, go.shafiqhirani.com, as published; placed on Shafiq\'s instruction 2026-09-22',
-    consent: true,
-  },
-  {
-    quote: 'Our vacancy days dropped from 32 to 14 after implementing the turn-time system. That alone added $50K annually.',
-    name: 'David R.',
-    building: 'Owner, 64-unit mid-rise',
-    source: 'NOI Navigator funnel, go.shafiqhirani.com, as published; placed on Shafiq\'s instruction 2026-09-22',
-    consent: true,
-  },
-  {
-    quote: 'Before working with Shafiq, I had no idea how much we were losing to auto-renewed vendor contracts. Never again.',
-    name: 'Sandra K.',
-    building: 'Owner, 34-unit value-add',
-    source: 'NOI Navigator funnel, go.shafiqhirani.com, as published; placed on Shafiq\'s instruction 2026-09-22',
-    consent: true,
-  },
-]
+export const TESTIMONIALS: Testimonial[] = []

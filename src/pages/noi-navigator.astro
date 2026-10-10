@@ -113,17 +113,19 @@ const faqSchema = buildFaqSchema(faq)
 	</section>
 
 	<section class="proof">
-		<h2>What owners say</h2>
 		{
 			TESTIMONIALS.length > 0 && (
-				<ul class="quotes">
-					{TESTIMONIALS.map((t) => (
-						<li>
-							<blockquote>{t.quote}</blockquote>
-							<cite>{t.name}, {t.building}</cite>
-						</li>
-					))}
-				</ul>
+				<>
+					<h2>What owners say</h2>
+					<ul class="quotes">
+						{TESTIMONIALS.map((t) => (
+							<li>
+								<blockquote>{t.quote}</blockquote>
+								<cite>{t.name}, {t.building}</cite>
+							</li>
+						))}
+					</ul>
+				</>
 			)
 		}
 		<h2 class="proof__second">What the work produced</h2>
@@ -484,7 +486,7 @@ const faqSchema = buildFaqSchema(faq)
 		color: var(--color-obsidian);
 	}
 
-	.proof__second {
+	.quotes + .proof__second {
 		margin-top: var(--space-6);
 	}
 

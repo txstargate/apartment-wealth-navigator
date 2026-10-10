@@ -32,12 +32,18 @@ test('the page is a landing page: minimal header, form in the hero, proof from r
 
 test('every testimonial carries a source and consent, and the page renders them above the result cards', () => {
   const t = readFileSync('src/data/testimonials.ts', 'utf8')
-  const entries = t.match(/quote:/g) ?? []
-  expect(entries.length).toBeGreaterThanOrEqual(1)
-  expect((t.match(/source:/g) ?? []).length).toBe(entries.length)
-  expect((t.match(/consent: true/g) ?? []).length).toBe(entries.length)
+  const data = t.slice(t.indexOf('export const TESTIMONIALS'))
+  const entries = data.match(/quote:/g) ?? []
+  expect((data.match(/source:/g) ?? []).length).toBe(entries.length)
+  expect((data.match(/consent: true/g) ?? []).length).toBe(entries.length)
   expect(t).not.toContain('\u2014')
   expect(page.indexOf('<h2>What owners say</h2>')).toBeLessThan(page.indexOf('What the work produced'))
+})
+
+test('the unsourced funnel quotes stay off the site (removed 2026-10-10)', () => {
+  const t = readFileSync('src/data/testimonials.ts', 'utf8')
+  const data = t.slice(t.indexOf('export const TESTIMONIALS'))
+  for (const name of ['Priya', 'David R', 'Sandra K']) expect(data).not.toContain(name)
 })
 
 test('no funnel testimonials or invented names travel with the page', () => {
