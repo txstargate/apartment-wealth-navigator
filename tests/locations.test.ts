@@ -33,14 +33,30 @@ test('locationSchema rejects an entry missing a required field', () => {
   ).toThrow()
 })
 
-test('all five location stub files exist, parse, and are marked draft', () => {
+// 2026-10-10: Washington DC published (DC-first decision). The other four
+// stay draft until each has its own market read.
+const PUBLISHED_SLUGS = ['washington-dc']
+
+test('all five location files exist and parse; only the published ones are live', () => {
   for (const slug of EXPECTED_SLUGS) {
     const raw = readFileSync(`src/content/locations/${slug}.mdx`, 'utf8')
     const frontmatterMatch = raw.match(/^---\n([\s\S]*?)\n---/)
     expect(frontmatterMatch, `${slug}.mdx should have frontmatter`).toBeTruthy()
 
     expect(raw).toContain(`slug: ${slug}`)
-    expect(raw).toContain('draft: true')
+    expect(raw).toContain(PUBLISHED_SLUGS.includes(slug) ? 'draft: false' : 'draft: true')
+  }
+})
+
+test('a published location page carries real data, a data date, and a CoStar source', () => {
+  for (const slug of PUBLISHED_SLUGS) {
+    const raw = readFileSync(`src/content/locations/${slug}.mdx`, 'utf8')
+    expect(raw).toMatch(/^dataAsOf: \d{4}-\d{2}-\d{2}$/m)
+    expect(raw).not.toMatch(/TODO-content|REPLACE_ME/)
+    expect(raw).not.toMatch(/[—–]/)
+    expect(raw).not.toMatch(/^# /m)
+    expect(raw).toContain('*Sources: CoStar,')
+    expect(raw).toContain('/value-navigator/')
   }
 })
 
