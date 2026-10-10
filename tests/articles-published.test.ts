@@ -6,6 +6,8 @@ import { test, expect } from 'vitest'
 // mirrors its body FAQ (FAQPage JSON-LD), sets inlineCtas so the layout does
 // not double the crosslink and CTA, and has no body-level H1 (the layout
 // renders the title). DC branches attribute their figures to CoStar.
+// 2026-09-27: the two former stubs (underperformance diagnostic and DC Class B
+// NOI) were filled and published, so they join the list and its checks.
 
 const PUBLISHED = {
   universal: [
@@ -13,12 +15,14 @@ const PUBLISHED = {
     'how-to-increase-noi-small-apartment-building',
     'how-to-refinance-small-apartment-building',
     'how-to-prepare-apartment-building-for-sale',
+    'how-to-tell-if-your-apartment-building-is-underperforming',
   ],
   dc: [
     'dc-apartment-building-worth-2026',
     'increase-noi-dc-apartment-building',
     'refinance-dc-apartment-building',
     'selling-dc-apartment-building-topa',
+    'how-to-increase-noi-on-a-dc-class-b-building-in-a-high-vacancy-market',
   ],
 }
 
@@ -56,14 +60,6 @@ test('DC branches attribute their sales figures to CoStar with permission', () =
     expect(text).toContain('*Source: CoStar,')
     expect(text).toContain('Market data © CoStar, used with permission.')
   }
-})
-
-test('the two stub articles stay draft', () => {
-  const stubs = [
-    'src/content/universal/how-to-tell-if-your-apartment-building-is-underperforming.mdx',
-    'src/content/dc/how-to-increase-noi-on-a-dc-class-b-building-in-a-high-vacancy-market.mdx',
-  ]
-  for (const path of stubs) expect(frontmatter(path)).toContain('draft: true')
 })
 
 test('article layout emits FAQPage schema and honors inlineCtas', () => {
