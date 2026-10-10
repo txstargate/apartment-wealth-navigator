@@ -67,6 +67,27 @@ export function resolveWebhookUrl(envValue?: string): string | null {
   return envValue && envValue.trim() !== '' ? envValue : DEFAULT_GHL_WEBHOOK_URL
 }
 
+// Same-origin serverless function (api/route-lead.js, added 2026-10-10). It
+// forwards the lead to the webhook above and enrolls the contact in its
+// program's published GHL sequence. Live leads go through it; if it fails or
+// did not forward, the browser posts to the webhook directly so no lead is lost.
+export const ROUTE_LEAD_ENDPOINT = '/api/route-lead'
+
+async function routedThroughFunction(body: string): Promise<boolean> {
+  try {
+    const r = await fetch(ROUTE_LEAD_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body,
+    })
+    if (!r.ok) return false
+    const j = await r.json()
+    return j?.forwarded === true
+  } catch {
+    return false
+  }
+}
+
 export async function submitLead(payload: LeadPayload): Promise<void> {
   const webhookUrl = resolveWebhookUrl(import.meta.env.PUBLIC_GHL_WEBHOOK_URL)
 
@@ -74,6 +95,9 @@ export async function submitLead(payload: LeadPayload): Promise<void> {
     console.info('PUBLIC_GHL_WEBHOOK_URL is off -- lead not submitted', payload)
     return
   }
+
+  const body = JSON.stringify(payload)
+  if (webhookUrl === DEFAULT_GHL_WEBHOOK_URL && (await routedThroughFunction(body))) return
 
   await fetch(webhookUrl, {
     method: 'POST',

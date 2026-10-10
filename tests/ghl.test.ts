@@ -126,6 +126,56 @@ test('submitLead posts to PUBLIC_GHL_WEBHOOK_URL when set', async () => {
   )
 })
 
+const routedPayload = () =>
+  buildLeadPayload({
+    firstName: 'Jane',
+    lastName: 'Owner',
+    email: 'jane@example.com',
+    phone: '2025551212',
+    location: 'Washington, DC',
+    toolName: 'Refinance Navigator',
+    sourcePage: '/refinance-readiness/',
+  })
+
+test('submitLead sends live leads through /api/route-lead and stops when it forwarded them', async () => {
+  import.meta.env.PUBLIC_GHL_WEBHOOK_URL = ''
+  const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ ok: true, forwarded: true }) })
+  global.fetch = fetchMock as unknown as typeof fetch
+
+  const payload = routedPayload()
+  await submitLead(payload)
+
+  expect(fetchMock).toHaveBeenCalledTimes(1)
+  expect(fetchMock).toHaveBeenCalledWith(
+    '/api/route-lead',
+    expect.objectContaining({ method: 'POST', body: JSON.stringify(payload) }),
+  )
+})
+
+test('submitLead posts straight to the GHL webhook when /api/route-lead did not forward the lead', async () => {
+  import.meta.env.PUBLIC_GHL_WEBHOOK_URL = ''
+  for (const routeResponse of [
+    Promise.resolve({ ok: true, json: async () => ({ ok: true, forwarded: false }) }),
+    Promise.resolve({ ok: false, status: 404, json: async () => ({}) }),
+    Promise.reject(new Error('network')),
+  ]) {
+    const fetchMock = vi.fn().mockReturnValueOnce(routeResponse).mockResolvedValue({ ok: true })
+    global.fetch = fetchMock as unknown as typeof fetch
+    await submitLead(routedPayload())
+    expect(fetchMock).toHaveBeenCalledTimes(2)
+    expect(fetchMock.mock.calls[1][0]).toMatch(/^https:\/\/services\.leadconnectorhq\.com\/hooks\//)
+  }
+})
+
+test('an overridden webhook URL skips the routing function', async () => {
+  import.meta.env.PUBLIC_GHL_WEBHOOK_URL = 'https://example.com/webhook'
+  const fetchMock = vi.fn().mockResolvedValue({ ok: true })
+  global.fetch = fetchMock as unknown as typeof fetch
+  await submitLead(routedPayload())
+  expect(fetchMock).toHaveBeenCalledTimes(1)
+  expect(fetchMock.mock.calls[0][0]).toBe('https://example.com/webhook')
+})
+
 test('submitLead falls back to the live GHL webhook when the env var is unset', async () => {
   import.meta.env.PUBLIC_GHL_WEBHOOK_URL = ''
   const fetchMock = vi.fn().mockResolvedValue({ ok: true })
