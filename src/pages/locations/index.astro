@@ -80,6 +80,7 @@ const blocks = [
 									loading="lazy"
 								/>
 								<span class="dmv-tile__name">{entry.data.name}</span>
+								{published && <span class="dmv-tile__cue">View market data →</span>}
 							</Tag>
 						)
 					})}
@@ -89,6 +90,15 @@ const blocks = [
 					<p class="dmv-block__licence">{b.licence}</p>
 					<p class="dmv-block__areas">{b.areas.join(' · ')}</p>
 					<p>{b.note}</p>
+					{b.tiles
+						.filter((id) => publishedIds.has(id))
+						.map((id) => (
+							<p class="dmv-block__cta">
+								<a class="dmv-block__button" href={`/locations/${id}`}>
+									See the {byId.get(id)?.data.name.replace(', DC', ' DC')} market data
+								</a>
+							</p>
+						))}
 					<ul class="dmv-block__links">
 						{(b.id === 'dc' ? dc : universal).map((a) => (
 							<li>
@@ -171,6 +181,58 @@ const blocks = [
 		width: 100%;
 		aspect-ratio: 16 / 9;
 		object-fit: cover;
+	}
+
+	a.dmv-tile :global(img) {
+		transition: transform 300ms ease, filter 300ms ease;
+	}
+
+	a.dmv-tile:hover :global(img),
+	a.dmv-tile:focus-visible :global(img) {
+		transform: scale(1.03);
+		filter: brightness(0.9);
+	}
+
+	.dmv-tile__cue {
+		position: absolute;
+		right: var(--space-3);
+		bottom: var(--space-2);
+		background: var(--color-navy);
+		color: #fff;
+		font-size: var(--text-sm);
+		font-weight: 600;
+		padding: var(--space-1) var(--space-2);
+		border-radius: 2px;
+	}
+
+	a.dmv-tile:hover .dmv-tile__cue {
+		background: var(--color-accent);
+		color: var(--color-obsidian);
+	}
+
+	.dmv-block__cta {
+		margin: var(--space-3) 0;
+	}
+
+	.dmv-block__button {
+		display: inline-block;
+		background: var(--color-navy);
+		color: var(--color-bg);
+		text-decoration: none;
+		font-weight: 600;
+		padding: var(--space-2) var(--space-4);
+		border-radius: 2px;
+	}
+
+	.dmv-block__button:hover {
+		background: var(--color-accent);
+		color: var(--color-obsidian);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		a.dmv-tile :global(img) {
+			transition: none;
+		}
 	}
 
 	.dmv-tile__name {

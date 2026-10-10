@@ -65,3 +65,10 @@ test('a draft location entry yields no static path', () => {
   const paths = filterPublished(entries).map((entry) => ({ params: { slug: entry.id } }))
   expect(paths).toHaveLength(0)
 })
+
+test('the DMV hub gives each published location a labelled button, not just a clickable photo', () => {
+  const hub = readFileSync('src/pages/locations/index.astro', 'utf8')
+  expect(hub).toContain('class="dmv-block__button"')
+  expect(hub).toContain('market data')
+  expect(hub).toContain('class="dmv-tile__cue"')
+})
