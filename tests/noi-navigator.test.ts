@@ -73,3 +73,12 @@ test('the navigator is in the sitemap dates map and llms.txt', () => {
 test('the program is branded NOI Navigator™ in the hero kicker', () => {
   expect(page).toContain('NOI NAVIGATOR™')
 })
+
+test("owners' reported reaction sits above the results as Shafiq's report, never as a quote", () => {
+  // Shafiq's summary of what several owners say after the audit (2026-10-10).
+  // No single owner said these exact words, so no quote marks and no name.
+  const line = 'After the NOI Leak Audit, owners tell Shafiq the same thing: they had no idea how much profit potential they were losing.'
+  expect(page).toContain(`<p class="proof__owners">${line}</p>`)
+  expect(page).not.toMatch(/["“]Wow, I had no idea/)
+  expect(page.indexOf('class="proof__owners"')).toBeLessThan(page.indexOf('What the work produced'))
+})

@@ -128,6 +128,7 @@ const faqSchema = buildFaqSchema(faq)
 				</>
 			)
 		}
+		<p class="proof__owners">After the NOI Leak Audit, owners tell Shafiq the same thing: they had no idea how much profit potential they were losing.</p>
 		<h2 class="proof__second">What the work produced</h2>
 		<p class="proof__lede">Three owners, three buildings, three outcomes, as reported to Shafiq. Names withheld until each owner agrees in writing to be named.</p>
 		<ul class="proof__list">
@@ -524,6 +525,19 @@ const faqSchema = buildFaqSchema(faq)
 		font-style: normal;
 		color: var(--color-slate);
 		font-size: var(--text-sm);
+	}
+
+	/* Shafiq's summary of what several owners say after the audit. Reported
+	   speech on purpose: no quote marks, no name (no single owner said it). */
+	.proof__owners {
+		max-width: 46rem;
+		margin: 0 auto var(--space-6);
+		padding-left: var(--space-4);
+		border-left: 3px solid var(--color-accent);
+		font-family: var(--font-headline);
+		font-size: var(--text-xl);
+		line-height: 1.4;
+		color: var(--color-navy);
 	}
 
 	.proof__more {
