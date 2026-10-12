@@ -5,8 +5,8 @@ description: Exit strategy for a DC apartment building. Weigh an outright sale, 
 pillar: sale
 headerImage: ../../assets/services/sale.jpg
 bodyImage: ../../assets/services/body/sale.jpg
-bodyAlt: "A clipboard checklist with every box ticked beside a rent roll, captioned ready to list"
-bodyCaption: "The deal-killer list, cleared before you list."
+bodyAlt: "A clipboard checklist with every box ticked beside a rent roll of apartment financials"
+bodyCaption: "The file every exit runs on."
 headerAlt: "A well-kept three-story brick apartment building at golden hour, hedges trimmed and railings freshly painted"
 faq:
   - question: What are my options besides selling outright?
