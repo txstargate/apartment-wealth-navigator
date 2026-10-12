@@ -55,6 +55,16 @@
       "source": "/noinavigator",
       "destination": "/noi-navigator/",
       "permanent": true
+    },
+    {
+      "source": "/sale-readiness/",
+      "destination": "/exit-navigator/",
+      "permanent": true
+    },
+    {
+      "source": "/sale-readiness",
+      "destination": "/exit-navigator/",
+      "permanent": true
     }
   ]
 }

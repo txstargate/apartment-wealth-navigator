@@ -32,7 +32,7 @@ function routeExistsInDist(urlPath: string): boolean {
 const rows = parseCsv(readFileSync('docs/redirects.csv', 'utf8'))
 
 test('docs/redirects.csv records all migration and vanity redirects', () => {
-  expect(rows).toHaveLength(16)
+  expect(rows).toHaveLength(18)
 })
 
 test('every redirect target exists among the built routes', () => {

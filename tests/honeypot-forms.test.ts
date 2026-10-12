@@ -7,7 +7,7 @@ import { test, expect } from 'vitest'
 const pages = [
   'src/pages/noi-navigator.astro',
   'src/pages/refinance-readiness.astro',
-  'src/pages/sale-readiness.astro',
+  'src/pages/exit-navigator.astro',
   'src/pages/value-navigator.astro',
   'src/pages/get-started.astro',
   'src/pages/contact.astro',

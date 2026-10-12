@@ -4,7 +4,7 @@ import { scorecard, timingRead, SELL_SIGNALS, WAIT_SIGNALS, READINESS_STATEMENTS
 
 // Sale Readiness Scorecard (2026-09-22): third funnel moved onto the site.
 
-const page = readFileSync('src/pages/sale-readiness.astro', 'utf8')
+const page = readFileSync('src/pages/exit-navigator.astro', 'utf8')
 const guide = readFileSync('src/content/universal/5-signals-time-to-sell-apartment-building.mdx', 'utf8')
 
 test('the timing read follows the guide: two or more sell signals and no wait signal says sell; a wait signal that outweighs says wait', () => {
@@ -58,11 +58,11 @@ test('the scorecard source carries both halves, the bands and the 15-minute chec
 })
 
 test('the page is in the sitemap dates map, llms.txt, and linked from the sale service and guides', () => {
-  expect(readFileSync('src/lib/sitemap-lastmod.ts', 'utf8')).toContain("'/sale-readiness': 'src/pages/sale-readiness.astro'")
-  expect(readFileSync('src/lib/llms.ts', 'utf8')).toContain('/sale-readiness/')
-  expect(readFileSync('src/content/services/sale.md', 'utf8')).toContain('/sale-readiness/')
-  expect(readFileSync('src/content/universal/how-to-prepare-apartment-building-for-sale.mdx', 'utf8')).toContain('/sale-readiness/')
-  expect(guide).toContain('/sale-readiness/')
+  expect(readFileSync('src/lib/sitemap-lastmod.ts', 'utf8')).toContain("'/exit-navigator': 'src/pages/exit-navigator.astro'")
+  expect(readFileSync('src/lib/llms.ts', 'utf8')).toContain('/exit-navigator/')
+  expect(readFileSync('src/content/services/sale.md', 'utf8')).toContain('/exit-navigator/')
+  expect(readFileSync('src/content/universal/how-to-prepare-apartment-building-for-sale.mdx', 'utf8')).toContain('/exit-navigator/')
+  expect(guide).toContain('/exit-navigator/')
 })
 
 test('the program is branded Exit Navigator™ (kicker + tag) while the deliverable stays the Sale Readiness Scorecard', () => {

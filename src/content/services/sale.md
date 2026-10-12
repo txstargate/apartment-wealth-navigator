@@ -50,7 +50,7 @@ I start where I always start: your business plan for the property, your goals, a
 
 ## Start with the free scorecard
 
-The [Sale Readiness Scorecard](/sale-readiness/) answers the two questions before you list: is anything forcing the decision, and would the file survive a buyer's diligence. Ten minutes, confidential.
+The [Sale Readiness Scorecard](/exit-navigator/) answers the two questions before you list: is anything forcing the decision, and would the file survive a buyer's diligence. Ten minutes, confidential.
 
 ## Request a building audit
 

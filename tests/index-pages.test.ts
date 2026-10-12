@@ -31,7 +31,7 @@ test('tools index describes the NOI Quick Check inputs and outputs that the tool
 test('the four navigators are reachable from the Tools page and the footer', () => {
   const tools = readFileSync('src/pages/tools/index.astro', 'utf8')
   const footer = readFileSync('src/components/Footer.astro', 'utf8')
-  for (const href of ['/noi-navigator/', '/refinance-readiness/', '/sale-readiness/', '/value-navigator/']) {
+  for (const href of ['/noi-navigator/', '/refinance-readiness/', '/exit-navigator/', '/value-navigator/']) {
     expect(tools).toContain(href)
     expect(footer).toContain(href)
   }

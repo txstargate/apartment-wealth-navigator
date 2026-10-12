@@ -65,7 +65,7 @@ export function collectLastmodSources(root: string): LastmodSources {
     '/results': 'src/pages/results/index.astro',
     '/noi-navigator': 'src/pages/noi-navigator.astro',
     '/refinance-readiness': 'src/pages/refinance-readiness.astro',
-    '/sale-readiness': 'src/pages/sale-readiness.astro',
+    '/exit-navigator': 'src/pages/exit-navigator.astro',
     '/value-navigator': 'src/pages/value-navigator.astro',
     '/tools/noi-check': 'src/pages/tools/noi-check.astro',
     '/insights': 'src/pages/insights/index.astro',

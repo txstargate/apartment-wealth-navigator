@@ -15,3 +15,5 @@ old_path,new_path,status,note
 /valuenavigator,/value-navigator/,301,vanity slug no trailing slash
 /property-management,/value-navigator/,301,legacy path no trailing slash
 /noinavigator,/noi-navigator/,301,vanity slug no trailing slash
+/sale-readiness/,/exit-navigator/,301,program renamed to Exit Navigator
+/sale-readiness,/exit-navigator/,301,program renamed to Exit Navigator no trailing slash

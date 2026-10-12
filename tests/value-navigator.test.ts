@@ -28,7 +28,7 @@ test('the page is a landing page with schema, proof, the three paths, and no app
   expect(page).toContain('class="sticky-cta"')
   expect(page).toContain('Is this an appraisal?')
   expect(page).toContain('The range is free. So is the walkthrough call.')
-  for (const p of ['/noi-navigator/', '/refinance-readiness/', '/sale-readiness/', '/tools/noi-check/']) expect(page).toContain(p)
+  for (const p of ['/noi-navigator/', '/refinance-readiness/', '/exit-navigator/', '/tools/noi-check/']) expect(page).toContain(p)
   expect(page).not.toContain('—')
 })
 

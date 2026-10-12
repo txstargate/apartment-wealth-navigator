@@ -5,7 +5,7 @@ import { test, expect } from 'vitest'
 // owners of 4 to 20 unit buildings, growing to 50 later; the villain is
 // set-and-forget ownership (Joanna Wiebe's brand framework).
 
-const NAVIGATORS = ['noi-navigator', 'refinance-readiness', 'sale-readiness']
+const NAVIGATORS = ['noi-navigator', 'refinance-readiness', 'exit-navigator']
 
 test('every Navigator page states the 4 to 20 unit audience', () => {
   for (const slug of NAVIGATORS) {
