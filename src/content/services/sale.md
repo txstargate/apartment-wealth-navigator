@@ -1,5 +1,5 @@
 ---
-title: Sale Readiness and Disposition Advisory
+title: Exit Navigation
 description: Prepare your apartment building, your numbers, and your document file for the way a buyer's underwriter will read them.
 pillar: sale
 headerImage: ../../assets/services/sale.jpg
@@ -24,7 +24,7 @@ faq:
     answer: That depends on your loan, your basis, your tax position, and what you would do with the proceeds. Bring all four to the audit and we work the question properly, rather than starting from an assumption that the answer is yes.
 ---
 
-Sale Readiness and Disposition Advisory prepares your apartment building, your numbers, and your document file for the way a buyer's underwriter will read them.
+Exit Navigation prepares your apartment building, your numbers, and your document file for the way a buyer's underwriter will read them.
 
 It also answers the question underneath a sale: whether to sell at all, and when.
 

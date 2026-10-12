@@ -3,7 +3,7 @@
 export const SERVICE_FOR_PILLAR: Record<string, { href: string; title: string }> = {
   noi: { href: '/services/noi/', title: 'NOI Optimization and Expense Review' },
   refinance: { href: '/services/refinance/', title: 'Refinance Positioning' },
-  sale: { href: '/services/sale/', title: 'Sale Readiness and Disposition Advisory' },
+  sale: { href: '/services/sale/', title: 'Exit Navigation' },
   valuation: { href: '/services/noi/', title: 'NOI Optimization and Expense Review' },
 }
 
