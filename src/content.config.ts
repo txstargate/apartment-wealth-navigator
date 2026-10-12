@@ -61,6 +61,9 @@ const services = defineCollection({
   loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/services' }),
   schema: ({ image }) =>
     serviceSchema.extend({
+      // Descriptive phrase shown under the h1 and appended to the <title>, so the
+      // brand name can be the title and the search keywords still ride along.
+      tagline: z.string().optional(),
       headerImage: image().optional(),
       headerAlt: z.string().optional(),
       // One illustrative figure between the body and the FAQ.

@@ -16,7 +16,7 @@ export const GET: APIRoute = async () => {
   const body = buildLlmsTxt({
     universal: universal.map((e) => ({ slug: e.id, title: e.data.title, description: e.data.description })),
     dc: dc.map((e) => ({ slug: e.id, title: e.data.title, description: e.data.description })),
-    services: services.map((e) => ({ slug: e.id, title: e.data.title, description: e.data.description })),
+    services: services.map((e) => ({ slug: e.id, title: e.data.tagline ? `${e.data.title} - ${e.data.tagline}` : e.data.title, description: e.data.description })),
     locations: locations.map((e) => ({ slug: e.data.slug, title: e.data.name, description: e.data.summary })),
     reports: reports.map((e) => ({ slug: e.id, title: e.data.title, description: e.data.description })),
   })

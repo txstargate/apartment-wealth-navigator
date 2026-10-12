@@ -18,9 +18,10 @@ const { entry } = Astro.props
 const { Content } = await render(entry)
 const canonical = `https://apartmentwealthnavigator.com/services/${entry.id}`
 const faqSchema = buildFaqSchema(entry.data.faq)
+const pageTitle = entry.data.tagline ? `${entry.data.title} | ${entry.data.tagline}` : entry.data.title
 ---
 
-<Base title={entry.data.title} description={entry.data.description} canonical={canonical}>
+<Base title={pageTitle} description={entry.data.description} canonical={canonical}>
   <JsonLd data={faqSchema} />
   {
     entry.data.headerImage && (
@@ -39,6 +40,7 @@ const faqSchema = buildFaqSchema(entry.data.faq)
   }
   <article class="service">
     <h1>{entry.data.title}</h1>
+    {entry.data.tagline && <p class="service__tagline">{entry.data.tagline}</p>}
     <div class="service__body">
       <Content />
     </div>
@@ -98,6 +100,12 @@ const faqSchema = buildFaqSchema(entry.data.faq)
     max-width: 720px;
     margin: 0 auto;
     padding: var(--space-6) var(--space-4);
+  }
+
+  .service__tagline {
+    margin: calc(var(--space-2) * -1) 0 var(--space-4);
+    color: var(--color-slate);
+    font-size: var(--text-lg);
   }
 
   .service__body {

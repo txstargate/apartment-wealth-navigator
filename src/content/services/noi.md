@@ -1,5 +1,6 @@
 ---
-title: NOI Optimization and Expense Review
+title: NOI Navigator™
+tagline: "NOI optimization and expense review"
 description: A line-by-line read of your building's income and expenses, done to raise net operating income before a lender or a buyer prices it.
 pillar: noi
 headerImage: ../../assets/services/noi.jpg
@@ -22,7 +23,7 @@ faq:
     answer: No. This work stands on its own, and a better-performing building you keep is a legitimate outcome of it.
 ---
 
-NOI Optimization and Expense Review is a line-by-line read of your building's income and expenses, done to raise net operating income before a lender or a buyer prices it.
+NOI Navigator is a line-by-line read of your building's income and expenses, done to raise net operating income before a lender or a buyer prices it.
 
 The read comes first. I recommend nothing until the numbers have been through it.
 

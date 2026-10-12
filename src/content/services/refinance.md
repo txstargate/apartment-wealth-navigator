@@ -1,5 +1,6 @@
 ---
-title: Refinance Positioning
+title: Refinance Navigator™
+tagline: "Refinance positioning and lender-ready packaging"
 description: Work the operating numbers your next lender will size the loan on, in the window before you apply.
 pillar: refinance
 headerImage: ../../assets/services/refinance.jpg
@@ -22,7 +23,7 @@ faq:
     answer: The property address, the loan maturity date, the last twelve months of operating statements, and the current rent roll.
 ---
 
-Refinance Positioning works the operating numbers your next lender will size the loan on, in the window before you apply.
+Refinance Navigator works the operating numbers your next lender will size the loan on, in the window before you apply.
 
 That window decides your loan amount.
 

@@ -1,6 +1,7 @@
 ---
-title: Exit Navigation
-description: Prepare your apartment building, your numbers, and your document file for the way a buyer's underwriter will read them.
+title: Exit Navigator™
+tagline: "Exit strategy: sale, 1031, DST, and recapitalization"
+description: Exit strategy for a DC apartment building. Weigh an outright sale, a 1031 exchange, a DST, or a recapitalization against your goals and tax position, and run the team that executes it.
 pillar: sale
 headerImage: ../../assets/services/sale.jpg
 bodyImage: ../../assets/services/body/sale.jpg
@@ -8,9 +9,13 @@ bodyAlt: "A clipboard checklist with every box ticked beside a rent roll, captio
 bodyCaption: "The deal-killer list, cleared before you list."
 headerAlt: "A well-kept three-story brick apartment building at golden hour, hedges trimmed and railings freshly painted"
 faq:
+  - question: What are my options besides selling outright?
+    answer: Four main ones. Sell. Roll the proceeds into a replacement property through a 1031 exchange and defer the tax. Exchange into a Delaware Statutory Trust if you want out of management but still want to defer. Or recapitalize, bringing in a partner or fresh capital instead of selling. If you want to pull equity and keep the building outright, that is a refinance, not an exit.
+  - question: Do you handle the 1031 or the DST yourself?
+    answer: No. I am a real estate advisor and broker, not a tax advisor, an attorney, or a securities representative. A qualified intermediary runs the exchange, your CPA runs the tax, and a licensed securities advisor handles a DST. My part is the real estate and quarterbacking the team so everyone works to one timeline.
   - question: What does "sale ready" actually mean?
-    answer: It means a buyer's underwriter can verify your income and your expenses from the documents you hand over, without discounting for uncertainty. Readiness is a documentation and operating standard, not a cosmetic one.
-  - question: When should I start, relative to when I want to sell?
+    answer: If an outright sale is the right exit, it means a buyer's underwriter can verify your income and your expenses from the documents you hand over, without discounting for uncertainty. Readiness is a documentation and operating standard, not a cosmetic one.
+  - question: When should I start, relative to when I want to exit?
     answer: Earlier than owners expect. Inside twelve months the work is mostly assembly and presentation. Beyond twelve months you can still change the operating numbers themselves, which is the more valuable window.
   - question: Does this only apply if my building has problems?
     answer: No. A well-run building still gets discounted for income a buyer cannot verify, and its document file has the same gaps as any other. A strong operating record is worth exactly as much as your ability to evidence it.
@@ -24,33 +29,35 @@ faq:
     answer: That depends on your loan, your basis, your tax position, and what you would do with the proceeds. Bring all four to the audit and we work the question properly, rather than starting from an assumption that the answer is yes.
 ---
 
-Exit Navigation prepares your apartment building, your numbers, and your document file for the way a buyer's underwriter will read them.
+Your exit is a menu, not a single decision. An outright sale is one item on it, and it is not always the right one.
 
-It also answers the question underneath a sale: whether to sell at all, and when.
+The question underneath all of it stays the same: what is the right exit for your goals and your tax position? Exit Navigator works that question first, then executes the answer.
 
-## What a buyer is buying
+## Where the decision starts
 
-A buyer is not paying for the income your building earns. A buyer pays for the income they can verify from your documents and expect to keep collecting.
+I start where I always start: your business plan for the property, your goals, and your financials. The exit follows from those three inputs. Sell too early and you hand a buyer the upside you built. Sell into the wrong tax position and the IRS takes a cut you could have deferred.
 
-Anything they cannot verify, they discount. Anything that resets on a sale, such as the tax assessment, the insurance premium, or the management fee, they underwrite at their own number, not yours.
+Those are not real estate problems alone, which is why the first job is to get the right people in the room before anything is listed.
 
-Sale readiness works that gap before the building goes to market, while you still have time to change the numbers instead of defending them.
+## The ways out
 
-## What the work covers
+**Sell outright.** A buyer does not pay for the income your building earns. A buyer pays for the income they can verify from your documents and expect to keep collecting. Anything they cannot verify, they discount. Anything that resets on a sale, such as the tax assessment or the insurance premium, they underwrite at their own number. The work is to close that gap before the building goes to market: restate the numbers the way an underwriter will, make the leases match the rent roll, and find deferred maintenance before an inspector does.
 
-I start where I always start: your business plan for the property, your goals, and your financials. Selling is one possible answer to those three inputs, and sometimes it is the wrong one.
+**1031 exchange.** Roll the proceeds into a replacement property and defer the capital gains tax, instead of paying it on the way out. Owners use it to trade up into a larger building or to consolidate several into one. The clock is strict, 45 days to identify a replacement and 180 to close, and the proceeds have to pass through a qualified intermediary rather than your own account. My part is finding and underwriting the replacement property. Your CPA and the intermediary own the tax and the mechanics.
 
-**The numbers.** Trailing income and expense restated the way an underwriter will restate them, with every add-back you intend to argue supported by something in writing.
+**Delaware Statutory Trust.** A DST is a passive 1031 landing spot for the owner who wants out of active management but still wants to defer the tax. You exchange into a fractional interest and stop taking the tenant calls. It is a securities product, so a licensed securities representative sets it up, not me. My part is the real estate exit that gets you there, and whether trading out of active management fits your goals.
 
-**The documents.** Leases that match the rent roll, signed renewals, deposit records, service contracts with their termination terms, tax bills, insurance declarations, and the capital work history.
+**Recapitalization.** Bring in a partner or fresh capital instead of selling, when you want to stay in the building but need liquidity or a reset. You keep the upside you still believe in and take some chips off the table. If the goal is to pull equity and keep the building outright, without a partner, that is a refinance, and [Refinance Navigator](/services/refinance/) covers it.
 
-**The building.** Condition and deferred maintenance identified before an inspector finds them, so items become a scheduled decision instead of a mid-contract price renegotiation.
+## Who does what
 
-**The timing and the buyer.** What the building is, who buys that kind of building, and what evidence they need to reach your number.
+I am a real estate advisor and broker. I am not a tax advisor, an attorney, or a securities representative, and this page is not tax or investment advice.
+
+What I do is help you weigh the options against your goals, prepare and position the real estate, identify replacement property for a 1031, and quarterback the team around you. The qualified intermediary runs the exchange. Your CPA runs the tax. A licensed securities advisor handles a DST. I own the real estate side and keep everyone moving to the same timeline.
 
 ## Start with the free scorecard
 
-The [Exit Navigator Scorecard](/exit-navigator/) answers the two questions before you list: is anything forcing the decision, and would the file survive a buyer's diligence. Ten minutes, confidential.
+The [Exit Navigator Scorecard](/exit-navigator/) answers the two questions before you commit to any exit: is anything forcing the decision, and would your file survive a buyer's diligence. Ten minutes, confidential.
 
 ## Request a building audit
 
