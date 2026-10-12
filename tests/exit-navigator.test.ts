@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { test, expect } from 'vitest'
 import { scorecard, timingRead, SELL_SIGNALS, WAIT_SIGNALS, READINESS_STATEMENTS } from '../src/lib/scorecard'
 
-// Sale Readiness Scorecard (2026-09-22): third funnel moved onto the site.
+// Exit Navigator Scorecard (2026-09-22): third funnel moved onto the site.
 
 const page = readFileSync('src/pages/exit-navigator.astro', 'utf8')
 const guide = readFileSync('src/content/universal/5-signals-time-to-sell-apartment-building.mdx', 'utf8')
@@ -31,12 +31,12 @@ test('the five sell signals and three wait signals are the ones the published gu
   for (const s of ['Unrecovered NOI leaks', 'mid-repositioning', 'prepayment penalty']) expect(guide).toContain(s)
 })
 
-test('the page posts tagged Sale Readiness Scorecard with the read and horizon in the message, delivers the PDF, and is a landing page with schema', () => {
+test('the page posts tagged Exit Navigator Scorecard with the read and horizon in the message, delivers the PDF, and is a landing page with schema', () => {
   expect(page).toContain("toolName: 'Exit Navigator'")
   expect(page).toContain('read.summary')
   expect(page).toContain('Horizon: ${horizon}')
   expect(page).toContain("SCORECARD_PATH = '/downloads/sale-readiness-scorecard.pdf'")
-  expect(page).toContain('href={SCORECARD_PATH} download')
+  expect(page).toContain('href={SCORECARD_PATH} download="exit-navigator-scorecard.pdf"')
   expect(existsSync('public/downloads/sale-readiness-scorecard.pdf')).toBe(true)
   expect(page).toMatch(/<Base[\s\S]*?\blanding\b[\s\S]*?>/)
   expect(page).toContain('<JsonLd data={faqSchema} />')
@@ -65,7 +65,7 @@ test('the page is in the sitemap dates map, llms.txt, and linked from the sale s
   expect(guide).toContain('/exit-navigator/')
 })
 
-test('the program is branded Exit Navigator™ (kicker + tag) while the deliverable stays the Sale Readiness Scorecard', () => {
+test('the program is branded Exit Navigator™ (kicker + tag) while the deliverable stays the Exit Navigator Scorecard', () => {
   expect(page).toContain('EXIT NAVIGATOR™')
-  expect(page).toContain('Sale Readiness Scorecard')
+  expect(page).toContain('Exit Navigator Scorecard')
 })

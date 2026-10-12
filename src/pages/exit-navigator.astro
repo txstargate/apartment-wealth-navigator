@@ -1,5 +1,5 @@
 ---
-// Sale Readiness Scorecard (the Exit Navigator funnel), moved onto the site
+// Exit Navigator Scorecard (the Exit Navigator funnel), moved onto the site
 // 2026-09-22. Landing discipline as the NOI and refinance pages: brand and
 // phone header, form in the hero, the scorecard answered on the page in two
 // halves (timing signals, readiness statements), the printable scorecard
@@ -37,7 +37,7 @@ const faqSchema = buildFaqSchema(faq)
 ---
 
 <Base
-	title="Sale Readiness Scorecard | Exit Navigator™"
+	title="Exit Navigator™ Scorecard | Apartment Wealth Navigator"
 	description="A 10-minute scorecard that answers two questions before you list: is anything forcing the decision, and would your file survive a buyer’s diligence without a retrade. Free and confidential."
 	canonical="https://apartmentwealthnavigator.com/exit-navigator/"
 	landing
@@ -62,7 +62,7 @@ const faqSchema = buildFaqSchema(faq)
 
 			<div class="hero__form">
 				<form id="scorecard-form" class="lead-form" novalidate>
-					<h2>Get the Sale Readiness Scorecard</h2>
+					<h2>Get the Exit Navigator Scorecard</h2>
 					<p class="lead-form__sub">On your screen the moment you press the button. Work the scorecard below first and your answers travel with the request.</p>
 					<label for="firstName">First name</label>
 					<input id="firstName" name="first_name" type="text" autocomplete="given-name" required />
@@ -96,7 +96,7 @@ const faqSchema = buildFaqSchema(faq)
 					<h2>Thank you, <span id="thanks-name"></span>.</h2>
 					<p id="thanks-score"></p>
 					<p>The scorecard is yours now. Print it, work it with your rent roll and leases open, and mark what you cannot prove from the file.</p>
-					<a class="result-link" href={SCORECARD_PATH} download>Download the Sale Readiness Scorecard (PDF)</a>
+					<a class="result-link" href={SCORECARD_PATH} download="exit-navigator-scorecard.pdf">Download the Exit Navigator Scorecard (PDF)</a>
 					<p class="result-panel__next">
 						Want the answer on a call? <a id="diagnostic-link" href="/get-started/">Request the confidential seller strategy call</a>
 						and Shafiq walks your score against the building.
@@ -227,7 +227,7 @@ const faqSchema = buildFaqSchema(faq)
 	<section class="close">
 		<h2>Two questions before you list</h2>
 		<p>Is anything forcing the decision, and would the file survive diligence. Ten minutes answers both.</p>
-		<a class="cta-button" href="#get-the-scorecard">Get the Sale Readiness Scorecard</a>
+		<a class="cta-button" href="#get-the-scorecard">Get the Exit Navigator Scorecard</a>
 		<p class="close__alt">Prefer the conversation? <a href="/get-started/">Request the confidential seller strategy call.</a></p>
 	</section>
 

@@ -1,4 +1,4 @@
-// Sale Readiness Scorecard: two halves, as the "5 Signals" guide frames the
+// Exit Navigator Scorecard: two halves, as the "5 Signals" guide frames the
 // sale decision. Timing: which of the five sell signals and three wait
 // signals apply. Readiness: five file statements scored 1 to 5, banded the
 // same way as the refinance readiness score. Pure, shared by page and tests.
