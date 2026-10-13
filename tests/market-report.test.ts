@@ -72,3 +72,10 @@ test('the built hub and report pages exist (run npm run build first)', () => {
   expect(existsSync('dist/market-report/index.html')).toBe(true)
   expect(existsSync('dist/market-report/2026-09-dc/index.html')).toBe(true)
 })
+
+test('the report is described as a monthly DC read, not a rotation (decided 2026-10-13)', () => {
+  for (const f of ['src/pages/market-report/index.astro', 'src/pages/locations/index.astro']) {
+    expect(readFileSync(f, 'utf8'), f).not.toMatch(/rotating/i)
+  }
+  expect(readFileSync('src/pages/market-report/index.astro', 'utf8')).toContain('Washington DC read every month')
+})
