@@ -3,11 +3,11 @@ title: Exit Navigator™
 tagline: "Exit strategy: sale, 1031, DST, and recapitalization"
 description: Exit strategy for a DC apartment building. Weigh an outright sale, a 1031 exchange, a DST, or a recapitalization against your goals and tax position, and run the team that executes it.
 pillar: sale
-headerImage: ../../assets/services/sale.jpg
+headerImage: ../../assets/services/sale-walk.jpg
 bodyImage: ../../assets/services/body/sale.jpg
 bodyAlt: "A clipboard checklist with every box ticked beside a rent roll of apartment financials"
 bodyCaption: "The file every exit runs on."
-headerAlt: "A well-kept three-story brick apartment building at golden hour, hedges trimmed and railings freshly painted"
+headerAlt: "Shafiq Hirani walking a Washington DC rowhouse street in a navy suit"
 faq:
   - question: What are my options besides selling outright?
     answer: Four main ones. Sell. Roll the proceeds into a replacement property through a 1031 exchange and defer the tax. Exchange into a Delaware Statutory Trust if you want out of management but still want to defer. Or recapitalize, bringing in a partner or fresh capital instead of selling. If you want to pull equity and keep the building outright, that is a refinance, not an exit.

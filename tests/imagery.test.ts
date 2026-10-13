@@ -36,9 +36,10 @@ test('every location page declares a header image that exists on disk', () => {
 test('every service page declares a header image that exists on disk', () => {
   for (const slug of ['noi', 'refinance', 'sale']) {
     const fm = readFileSync(`src/content/services/${slug}.md`, 'utf8').split('\n---\n')[0]
-    expect(fm).toContain(`headerImage: ../../assets/services/${slug}.jpg`)
+    const m = fm.match(/headerImage:\s*\.\.\/\.\.\/assets\/(\S+)/)
+    expect(m, `${slug}.md declares a headerImage`).toBeTruthy()
     expect(fm).toMatch(/headerAlt: ".{20,}"/)
-    expect(existsSync(`src/assets/services/${slug}.jpg`)).toBe(true)
+    expect(existsSync(`src/assets/${m![1]}`), `${slug} header image exists on disk`).toBe(true)
   }
   const page = readFileSync('src/pages/services/[service].astro', 'utf8')
   expect(page).toMatch(/entry\.data\.headerImage && \([\s\S]*<Image[\s\S]*src=\{entry\.data\.headerImage\}/)
