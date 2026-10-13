@@ -24,6 +24,8 @@ function parseCsv(text: string): RedirectRow[] {
 }
 
 function routeExistsInDist(urlPath: string): boolean {
+  // A file target (the renamed scorecard PDF) lives at dist/<path> itself.
+  if (/\.[a-z0-9]+$/i.test(urlPath)) return existsSync(`dist${urlPath}`)
   const clean = urlPath.replace(/^\//, '').replace(/\/$/, '')
   const indexFile = clean === '' ? 'dist/index.html' : `dist/${clean}/index.html`
   return existsSync(indexFile)
@@ -32,7 +34,7 @@ function routeExistsInDist(urlPath: string): boolean {
 const rows = parseCsv(readFileSync('docs/redirects.csv', 'utf8'))
 
 test('docs/redirects.csv records all migration and vanity redirects', () => {
-  expect(rows).toHaveLength(18)
+  expect(rows).toHaveLength(19)
 })
 
 test('every redirect target exists among the built routes', () => {

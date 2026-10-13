@@ -17,3 +17,4 @@ old_path,new_path,status,note
 /noinavigator,/noi-navigator/,301,vanity slug no trailing slash
 /sale-readiness/,/exit-navigator/,301,program renamed to Exit Navigator
 /sale-readiness,/exit-navigator/,301,program renamed to Exit Navigator no trailing slash
+/downloads/sale-readiness-scorecard.pdf,/downloads/exit-navigator-scorecard.pdf,301,scorecard renamed: 'Sale Readiness' is held by another party (2026-10-13)

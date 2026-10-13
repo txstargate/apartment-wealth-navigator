@@ -65,6 +65,11 @@
       "source": "/sale-readiness",
       "destination": "/exit-navigator/",
       "permanent": true
+    },
+    {
+      "source": "/downloads/sale-readiness-scorecard.pdf",
+      "destination": "/downloads/exit-navigator-scorecard.pdf",
+      "permanent": true
     }
   ]
 }

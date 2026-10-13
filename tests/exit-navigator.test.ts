@@ -35,9 +35,9 @@ test('the page posts tagged Exit Navigator Scorecard with the read and horizon i
   expect(page).toContain("toolName: 'Exit Navigator'")
   expect(page).toContain('read.summary')
   expect(page).toContain('Horizon: ${horizon}')
-  expect(page).toContain("SCORECARD_PATH = '/downloads/sale-readiness-scorecard.pdf'")
+  expect(page).toContain("SCORECARD_PATH = '/downloads/exit-navigator-scorecard.pdf'")
   expect(page).toContain('href={SCORECARD_PATH} download="exit-navigator-scorecard.pdf"')
-  expect(existsSync('public/downloads/sale-readiness-scorecard.pdf')).toBe(true)
+  expect(existsSync('public/downloads/exit-navigator-scorecard.pdf')).toBe(true)
   expect(page).toMatch(/<Base[\s\S]*?\blanding\b[\s\S]*?>/)
   expect(page).toContain('<JsonLd data={faqSchema} />')
   expect(page).toContain("import { TESTIMONIALS } from '../data/testimonials'")
@@ -49,7 +49,7 @@ test('the page posts tagged Exit Navigator Scorecard with the read and horizon i
 })
 
 test('the scorecard source carries both halves, the bands and the 15-minute check', () => {
-  const html = readFileSync('src/downloads/sale-readiness-scorecard.html', 'utf8')
+  const html = readFileSync('src/downloads/exit-navigator-scorecard.html', 'utf8')
   expect(html).toContain('Part A. Timing')
   expect(html).toContain('Part B. Readiness')
   expect(html).toContain('22 to 25')
