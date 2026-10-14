@@ -41,9 +41,6 @@ const pageTitle = entry.data.tagline ? `${entry.data.title} | ${entry.data.tagli
   <article class="service">
     <h1>{entry.data.title}</h1>
     {entry.data.tagline && <p class="service__tagline">{entry.data.tagline}</p>}
-    <div class="service__body">
-      <Content />
-    </div>
 
     {
       entry.data.bodyImage && (
@@ -60,6 +57,10 @@ const pageTitle = entry.data.tagline ? `${entry.data.title} | ${entry.data.tagli
         </figure>
       )
     }
+    <div class="service__body">
+      <Content />
+    </div>
+
 
     <section class="service__faq">
       <h2>Common questions</h2>
