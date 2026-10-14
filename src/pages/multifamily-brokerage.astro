@@ -1,0 +1,167 @@
+---
+import Base from '../layouts/Base.astro'
+import JsonLd from '../components/JsonLd.astro'
+import GeoCTA from '../components/GeoCTA.astro'
+
+// Brokerage page (2026-10-14). The site had advisory pages (NOI, Refinance,
+// Exit) but nothing that says "multifamily broker, 4 to 50 units, Washington
+// DC" in those words, which is what a search or an AI answer matches on.
+// Every fact below already appears elsewhere on the site.
+const faq = [
+	{
+		question: 'What size apartment buildings do you broker in Washington, DC?',
+		answer:
+			'Buildings of 4 to 50 units, owned by individuals or LLCs.',
+	},
+	{
+		question: 'Do I have to list with you to get your read on the building?',
+		answer:
+			'No. The advisory work and the listing decision are separate. The review can conclude that holding, refinancing, or fixing the operating numbers first is the better move, and I will tell you that.',
+	},
+	{
+		question: 'How does TOPA affect selling a DC apartment building?',
+		answer:
+			'TOPA gives tenants a right to purchase when you sell a covered DC building. That adds process and timing obligations that a Virginia sale does not have. Some Maryland counties now have rent control legislation, so the county matters there. Plan the sequence into your timeline before you list.',
+	},
+	{
+		question: 'Are you licensed outside Washington, DC?',
+		answer:
+			'Yes. I hold a real estate broker license in Washington DC, Virginia, and Maryland. This page covers Washington, DC.',
+	},
+]
+
+const pageSchema = {
+	'@context': 'https://schema.org',
+	'@graph': [
+		{
+			'@type': 'Service',
+			'@id': 'https://apartmentwealthnavigator.com/multifamily-brokerage/#service',
+			name: 'Multifamily brokerage for 4 to 50 unit apartment buildings in Washington, DC',
+			serviceType: 'Multifamily investment sales brokerage',
+			provider: { '@id': 'https://apartmentwealthnavigator.com/#person' },
+			areaServed: { '@type': 'AdministrativeArea', name: 'Washington, DC' },
+			url: 'https://apartmentwealthnavigator.com/multifamily-brokerage/',
+		},
+		{
+			'@type': 'FAQPage',
+			mainEntity: faq.map((f) => ({
+				'@type': 'Question',
+				name: f.question,
+				acceptedAnswer: { '@type': 'Answer', text: f.answer },
+			})),
+		},
+	],
+}
+---
+
+<Base
+	title="Multifamily Broker for 4 to 50 Unit Buildings in Washington, DC | Apartment Wealth Navigator"
+	description="Shafiq Hirani, CCIM, MBA, licensed DC multifamily broker with RE/MAX Distinctive Commercial. Sell or buy a 4 to 50 unit apartment building in Washington, DC, with the numbers underwritten first."
+	canonical="https://apartmentwealthnavigator.com/multifamily-brokerage/"
+>
+	<JsonLd data={pageSchema} />
+	<article class="brokerage">
+		<p class="brokerage__kicker">MULTIFAMILY BROKERAGE</p>
+		<h1>Multifamily brokerage for 4 to 50 unit buildings in Washington, DC</h1>
+		<p>
+			I am Shafiq Hirani, a licensed broker with RE/MAX Distinctive Commercial. I represent owners
+			selling, and investors buying, apartment buildings of 4 to 50 units in Washington, DC.
+		</p>
+		<p>
+			A buyer prices the income they can verify from your documents. So the work starts with the
+			numbers, before the listing.
+		</p>
+
+		<h2>Selling a DC apartment building</h2>
+		<p>
+			I read your operating statements, your rent roll, and the leases behind it before we discuss a
+			price. Then I restate the income and expenses the way a buyer’s underwriter will, and price the
+			building against recent DC sales.
+		</p>
+		<ul>
+			<li>Trailing income and expenses restated the way a buyer will restate them.</li>
+			<li>Leases, renewals, deposits, contracts, and capital history in one file.</li>
+			<li>Deferred maintenance found before an inspector finds it.</li>
+			<li>
+				The <a href="/insights/selling-dc-apartment-building-topa/">TOPA timeline</a> built into the
+				plan from the start.
+			</li>
+		</ul>
+		<p>
+			If a sale is not the right move yet, <a href="/services/sale/">Exit Navigator™</a> covers the
+			other exits: a 1031 exchange, a DST, or a recapitalization. For a first read on value, see
+			<a href="/insights/dc-apartment-building-worth-2026/">what a DC apartment building is worth in 2026</a>.
+		</p>
+
+		<h2>What a buyer will check</h2>
+		<p>
+			A buyer underwrites from your operating statements, not your pro forma. The buyer checks the
+			rent roll against the leases and rebuilds the expense lines that reset on a sale, such as the
+			tax assessment and the insurance premium, at the new owner’s number. I run that check on your
+			file before the building goes to market.
+		</p>
+
+		<h2>Buying a DC apartment building</h2>
+		<p>
+			I work with investors buying in the same range. I underwrite from the operating statements, not
+			the broker’s pro forma. I check the rent roll against the leases, and I rebuild the expense
+			lines that reset on a sale at the new owner’s number.
+		</p>
+
+		<h2>Why an owner-operator broker</h2>
+		<p>
+			I hold the CCIM designation, an MBA, and a Professional Engineer license. I currently own a
+			mixed-use building in Dupont Circle, Washington DC, so I read your operating statement as an
+			owner. My track record: 75+ apartment buildings sold, 155+ refinances positioned, and 35+ years
+			in real estate. <a href="/results/">Read the three write-ups with the numbers.</a>
+		</p>
+
+		<h2>The DC market, read monthly</h2>
+		<p>
+			I publish a <a href="/market-report/">monthly DC market report</a> and a
+			<a href="/locations/washington-dc/">Washington, DC market page</a> with vacancy, rent, cap
+			rates, and sales. Every source is named.
+		</p>
+
+		<h2>Frequently asked questions</h2>
+		{
+			faq.map((f) => (
+				<>
+					<h3>{f.question}</h3>
+					<p>{f.answer}</p>
+				</>
+			))
+		}
+
+		<h2>Start with a free call</h2>
+		<p>
+			Send the property address and your last twelve months of operating statements. I read them
+			before we speak. The first call is free.
+		</p>
+		<GeoCTA />
+		<p class="brokerage__contact">
+			Mobile 202-290-1055. Office 202-800-3200. Email shirani@enterprisere.com.
+		</p>
+	</article>
+</Base>
+
+<style>
+	.brokerage {
+		max-width: 720px;
+		margin: 0 auto;
+		padding: var(--space-6) var(--space-4);
+	}
+
+	.brokerage__kicker {
+		color: var(--color-accent);
+		text-transform: uppercase;
+		letter-spacing: 3px;
+		font-size: var(--text-sm);
+	}
+
+	.brokerage__contact {
+		margin-top: var(--space-4);
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+	}
+</style>

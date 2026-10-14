@@ -25,7 +25,7 @@ export function buildLlmsTxt(input: LlmsInput): string {
   out.push('# Apartment Wealth Navigator')
   out.push('')
   out.push(
-    '> Commercial real estate advisory for owners of small and mid-sized apartment buildings in Washington DC, Virginia, and Maryland. Shafiq Hirani (CCIM, MBA, PE; licensed broker in DC, VA, and MD; RE/MAX Distinctive Commercial) works three problems: raising net operating income (NOI), positioning a building for refinance, and preparing a building for sale.',
+    '> Multifamily brokerage and commercial real estate advisory for owners of small and mid-sized apartment buildings (4 to 50 units) in Washington DC, Virginia, and Maryland. Shafiq Hirani (CCIM, MBA, PE; licensed broker in DC, VA, and MD; RE/MAX Distinctive Commercial) is a DC multifamily broker and advisor for apartment buildings of 4 to 50 units. He works three problems: raising net operating income (NOI), positioning a building for refinance, and preparing a building for sale.',
   )
   out.push('')
   out.push('Every article states its numbers with the arithmetic shown. Figures for DC buildings are attributed to their source in the article. Nothing on the site is an appraisal or a broker opinion of value.')
@@ -33,6 +33,7 @@ export function buildLlmsTxt(input: LlmsInput): string {
   out.push('## Services')
   out.push('')
   for (const s of input.services) out.push(line(`${SITE}/services/${s.slug}/`, s.title, s.description))
+  out.push(line(`${SITE}/multifamily-brokerage/`, 'Multifamily brokerage for 4 to 50 unit buildings in Washington, DC', 'Shafiq Hirani, a licensed DC multifamily broker with RE/MAX Distinctive Commercial, represents owners selling, and investors buying, apartment buildings of 4 to 50 units.'))
   out.push('')
   out.push('## Guides and articles')
   out.push('')

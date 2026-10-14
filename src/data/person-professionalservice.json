@@ -6,7 +6,7 @@
       "@type": "Person",
       "@id": "https://apartmentwealthnavigator.com/#person",
       "name": "Shafiq Hirani",
-      "jobTitle": "Commercial Real Estate Advisor and Broker",
+      "jobTitle": "DC Multifamily Broker and Advisor",
       "worksFor": {
         "@id": "https://apartmentwealthnavigator.com/#organization"
       },
@@ -16,6 +16,7 @@
       "telephone": "+1-202-290-1055",
       "knowsAbout": [
         "Apartment building NOI optimization",
+        "Multifamily brokerage for 4 to 50 unit buildings in Washington, DC",
         "Multifamily refinance positioning",
         "Apartment building exit strategy",
         "Commercial real estate market analysis"
@@ -71,7 +72,7 @@
         "https://www.linkedin.com/in/shafiqhirani/",
         "https://www.youtube.com/@ShafiqHiraniCRE",
         "https://www.loopnet.com/commercial-real-estate-brokers/profile/shafiq-hirani/gwsxd3xb",
-        "https://global.remax.com/en/agents/usa/washington/shafiq-s-hirani/1014392001",
+        "https://www.remaxcommercial.com/single-professional/211943/shafiq-hirani",
         "https://www.zillow.com/profile/shafiqhirani",
         "https://x.com/shafiqhirani",
         "https://www.facebook.com/ShafiqHiraniCRE",
@@ -105,7 +106,7 @@
           "name": "Maryland"
         }
       ],
-      "description": "Commercial real estate advisory for apartment owners on NOI optimization, refinance positioning, and exit strategy, licensed in DC, Virginia, and Maryland.",
+      "description": "DC multifamily brokerage and advisory for owners of 4 to 50 unit apartment buildings: NOI optimization, refinance positioning, and exit strategy. Licensed in DC, Virginia, and Maryland.",
       "telephone": "+1-202-800-3200",
       "email": "shirani@enterprisere.com",
       "logo": "https://apartmentwealthnavigator.com/awn-favicon.svg",
@@ -122,10 +123,19 @@
       "parentOrganization": {
         "@type": "RealEstateAgent",
         "name": "RE/MAX Distinctive Commercial",
-        "telephone": "+1-202-800-3200"
+        "telephone": "+1-202-800-3200",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "6846 Elm St",
+          "addressLocality": "McLean",
+          "addressRegion": "VA",
+          "postalCode": "22101",
+          "addressCountry": "US"
+        }
       },
       "knowsAbout": [
         "Apartment building NOI optimization",
+        "Multifamily brokerage for 4 to 50 unit buildings in Washington, DC",
         "Multifamily refinance positioning",
         "Apartment building exit strategy",
         "Commercial real estate market analysis"
