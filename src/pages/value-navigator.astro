@@ -11,7 +11,7 @@ import { Image } from 'astro:assets'
 import { buildFaqSchema } from '../lib/schema'
 import { RESULTS } from '../data/results'
 import { TESTIMONIALS } from '../data/testimonials'
-import heroImage from '../assets/hero-dc-rowhouses.jpg'
+import rangeImage from '../assets/services/body/value-range.png'
 import portraitImage from '../assets/shafiq/portrait-navy.jpg'
 
 export const WORKSHEET_PATH = '/downloads/value-range-worksheet.pdf'
@@ -132,7 +132,7 @@ const faqSchema = buildFaqSchema(faq)
 	</section>
 
 	<section class="range">
-		<Image class="range__image" src={heroImage} alt="A street of red brick bay-front rowhouses converted to apartments" widths={[640, 960]} sizes="(max-width: 900px) 100vw, 40vw" loading="lazy" />
+		<Image class="range__image" src={rangeImage} alt="A value range: one net operating income priced three ways, the lender conservative, the broker at base, the buyer optimistic" widths={[640, 960]} sizes="(max-width: 900px) 100vw, 40vw" loading="lazy" />
 		<div class="range__copy">
 			<h2>Why your building has a range, not a price</h2>
 			<p>

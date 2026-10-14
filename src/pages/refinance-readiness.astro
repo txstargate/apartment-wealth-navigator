@@ -10,7 +10,7 @@ import { Image } from 'astro:assets'
 import { buildFaqSchema } from '../lib/schema'
 import { RESULTS } from '../data/results'
 import { TESTIMONIALS } from '../data/testimonials'
-import laptopImage from '../assets/shafiq/refinance-laptop.jpg'
+import whyImage from '../assets/services/body/refi-why.png'
 import packageImage from '../assets/services/refinance.jpg'
 
 export const KIT_PATH = '/downloads/lender-ready-package-checklist.pdf'
@@ -141,7 +141,7 @@ const faqSchema = buildFaqSchema(faq)
 	</section>
 
 	<section class="kit">
-		<Image class="kit__image" src={packageImage} alt="Shafiq Hirani presenting a lender package at a conference table" widths={[640, 960]} sizes="(max-width: 900px) 100vw, 40vw" loading="lazy" />
+		<Image class="kit__image" src={packageImage} alt="Shafiq Hirani at a laptop reviewing building financials" widths={[640, 960]} sizes="(max-width: 900px) 100vw, 40vw" loading="lazy" />
 		<div class="kit__copy">
 			<h2>What is in the checklist</h2>
 			<p>The file that answers the underwriter’s questions in the underwriter’s order, in four sections, each with the question the lender is silently asking.</p>
@@ -179,7 +179,7 @@ const faqSchema = buildFaqSchema(faq)
 				<a href="/insights/how-to-refinance-small-apartment-building/">How to Refinance a Small Apartment Building</a>.
 			</p>
 		</div>
-		<Image class="why__image" src={laptopImage} alt="Shafiq Hirani at a laptop reviewing a lender package" widths={[640, 960]} sizes="(max-width: 900px) 100vw, 40vw" loading="lazy" />
+		<Image class="why__image" src={whyImage} alt="A diagram contrasting the loan an owner expects from the rate with the smaller loan after the lender re-underwrites the income" widths={[640, 960]} sizes="(max-width: 900px) 100vw, 40vw" loading="lazy" />
 	</section>
 
 	<section class="proof">
