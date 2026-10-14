@@ -12,7 +12,7 @@ import { RESULTS } from '../data/results'
 import { TESTIMONIALS } from '../data/testimonials'
 import { SELL_SIGNALS, WAIT_SIGNALS, READINESS_STATEMENTS } from '../lib/scorecard'
 import tabletImage from '../assets/shafiq/sale-tablet.jpg'
-import saleImage from '../assets/services/sale.jpg'
+import payImage from '../assets/services/body/exit-pay-drivers.png'
 
 export const SCORECARD_PATH = '/downloads/exit-navigator-scorecard.pdf'
 
@@ -152,7 +152,7 @@ const faqSchema = buildFaqSchema(faq)
 	</section>
 
 	<section class="pay">
-		<Image class="pay__image" src={saleImage} alt="A prepared brick apartment building at golden hour" widths={[640, 960]} sizes="(max-width: 900px) 100vw, 40vw" loading="lazy" />
+		<Image class="pay__image" src={payImage} alt="Three drivers of a stronger offer: verified NOI, credible upside, and low diligence risk" widths={[640, 960]} sizes="(max-width: 900px) 100vw, 40vw" loading="lazy" />
 		<div class="pay__copy">
 			<h2>What buyers actually pay for</h2>
 			<p>Three things drive stronger offers. Verified NOI today: trailing 12 months a lender accepts at face value. Credible upside tomorrow: if rents can grow, the evidence that says so. Low diligence risk: the fewer questions your file creates, the fewer reasons a buyer has to reprice you.</p>
