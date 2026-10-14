@@ -4,8 +4,8 @@ tagline: "NOI optimization and expense review"
 description: A line-by-line read of your building's income and expenses, done to raise net operating income before a lender or a buyer prices it.
 pillar: noi
 headerImage: ../../assets/services/noi.jpg
-bodyImage: ../../assets/services/body/noi.jpg
-bodyAlt: "A whiteboard diagram of the five levers that feed NOI, and NOI feeding value"
+bodyImage: ../../assets/services/body/noi.png
+bodyAlt: "A diagram of the five levers that feed NOI, and NOI feeding value"
 bodyCaption: "The five levers, in the order I work them."
 headerAlt: "Shafiq Hirani reviewing a rent roll on a tablet at the entrance of a brick apartment building"
 faq:
