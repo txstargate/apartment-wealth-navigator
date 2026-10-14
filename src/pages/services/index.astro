@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content'
 import { Image } from 'astro:assets'
 import Base from '../../layouts/Base.astro'
 import GeoCTA from '../../components/GeoCTA.astro'
+import brokerageProcess from '../../assets/services/body/brokerage-process.png'
 
 const services = await getCollection('services')
 const order = ['noi', 'refinance', 'sale']
@@ -60,11 +61,11 @@ const focus: Record<string, { when: string; points: string[] }> = {
 		{
 			sorted.map((service, i) => (
 				<article class:list={['service-row', { 'service-row--flip': i % 2 === 1 }]}>
-					{service.data.headerImage && (
+					{service.data.bodyImage && (
 						<a class="service-row__media" href={`/services/${service.id}`} aria-hidden="true" tabindex="-1">
 							<Image
-								src={service.data.headerImage}
-								alt={service.data.headerAlt ?? ''}
+								src={service.data.bodyImage}
+								alt={service.data.bodyAlt ?? ''}
 								widths={[640, 960, 1280]}
 								sizes="(max-width: 900px) 100vw, 50vw"
 								loading={i === 0 ? 'eager' : 'lazy'}
@@ -93,6 +94,9 @@ const focus: Record<string, { when: string; points: string[] }> = {
 			))
 		}
 		<article class="service-row service-row--flip">
+			<a class="service-row__media" href="/multifamily-brokerage/" aria-hidden="true" tabindex="-1">
+				<Image src={brokerageProcess} alt="How the brokerage works in four steps: read the file, restate the income, price to DC sales, take it to market" widths={[640, 960, 1280]} sizes="(max-width: 900px) 100vw, 50vw" loading="lazy" />
+			</a>
 			<div class="service-row__body">
 				<p class="service-row__index">0{sorted.length + 1}</p>
 				<h2>
@@ -194,7 +198,7 @@ const focus: Record<string, { when: string; points: string[] }> = {
 		width: 100%;
 		height: 100%;
 		min-height: 320px;
-		object-fit: cover;
+		object-fit: contain; background: #F1EDE6;
 	}
 
 	.service-row__body {

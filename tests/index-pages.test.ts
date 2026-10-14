@@ -6,10 +6,10 @@ import { test, expect } from 'vitest'
 // shared audit CTA, and everything they claim traces to the service pages
 // or the tool itself.
 
-test('services index shows each service with its header image and a when line', () => {
+test('services index shows each service with its concept diagram and a when line', () => {
   const src = readFileSync('src/pages/services/index.astro', 'utf8')
-  expect(src).toContain('service.data.headerImage')
-  expect(src).toContain('service.data.headerAlt')
+  expect(src).toContain('service.data.bodyImage')
+  expect(src).toContain('service.data.bodyAlt')
   for (const id of ['noi', 'refinance', 'sale']) expect(src).toMatch(new RegExp(`\\b${id}: \\{`))
   expect(src).toContain('<GeoCTA />')
   expect(src).toContain('/tools/noi-check')
