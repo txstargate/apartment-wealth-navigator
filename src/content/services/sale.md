@@ -4,9 +4,9 @@ tagline: "Exit strategy: sale, 1031, DST, and recapitalization"
 description: Exit strategy for a DC apartment building. Weigh an outright sale, a 1031 exchange, a DST, or a recapitalization against your goals and tax position, and run the team that executes it.
 pillar: sale
 headerImage: ../../assets/services/sale-walk.jpg
-bodyImage: ../../assets/services/body/sale.jpg
-bodyAlt: "A clipboard checklist with every box ticked beside a rent roll of apartment financials"
-bodyCaption: "The file every exit runs on."
+bodyImage: ../../assets/services/body/exit-paths.png
+bodyAlt: "A diagram branching from your building to four exits: sell, 1031 exchange, DST, and recapitalization"
+bodyCaption: "One building, four ways out."
 headerAlt: "Shafiq Hirani walking a Washington DC rowhouse street in a navy suit"
 faq:
   - question: What are my options besides selling outright?

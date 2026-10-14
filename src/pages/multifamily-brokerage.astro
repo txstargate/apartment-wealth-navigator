@@ -2,6 +2,8 @@
 import Base from '../layouts/Base.astro'
 import JsonLd from '../components/JsonLd.astro'
 import GeoCTA from '../components/GeoCTA.astro'
+import { Image } from 'astro:assets'
+import brokerageProcess from '../assets/services/body/brokerage-process.png'
 
 // Brokerage page (2026-10-14). The site had advisory pages (NOI, Refinance,
 // Exit) but nothing that says "multifamily broker, 4 to 50 units, Washington
@@ -71,6 +73,10 @@ const pageSchema = {
 			A buyer prices the income they can verify from your documents. So the work starts with the
 			numbers, before the listing.
 		</p>
+
+		<figure class="brokerage__diagram" style="margin:2.25rem 0">
+			<Image src={brokerageProcess} alt="How the brokerage works in four steps: read the file, restate the income the way a buyer underwrites, price to recent DC sales, then take it to market" widths={[760, 1200, 1800]} sizes="(max-width: 820px) 100vw, 760px" style="display:block;width:100%;height:auto;border-radius:4px" />
+		</figure>
 
 		<h2>Selling a DC apartment building</h2>
 		<p>

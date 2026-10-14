@@ -121,8 +121,10 @@ test('homepage service tiles and the DMV hub tiles carry the header photographs'
   const service = readFileSync('src/pages/services/[service].astro', 'utf8')
   expect(service).toMatch(/entry\.data\.bodyImage && \([\s\S]*<figure class="service__figure">/)
   for (const slug of ['noi', 'refinance', 'sale']) {
-    expect(existsSync(`src/assets/services/body/${slug}.jpg`)).toBe(true)
-    expect(readFileSync(`src/content/services/${slug}.md`, 'utf8')).toContain(`bodyImage: ../../assets/services/body/${slug}.jpg`)
+    const fm = readFileSync(`src/content/services/${slug}.md`, 'utf8')
+    const m = fm.match(/bodyImage:\s*\.\.\/\.\.\/assets\/(\S+)/)
+    expect(m, `${slug}.md declares a bodyImage`).toBeTruthy()
+    expect(existsSync(`src/assets/${m![1]}`), `${slug} body image exists on disk`).toBe(true)
   }
 })
 
