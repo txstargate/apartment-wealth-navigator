@@ -15,7 +15,7 @@ interface Props {
 }
 
 const { entry, counterpart, direction = null } = Astro.props
-const canonical = `https://apartmentwealthnavigator.com/insights/${entry.id}`
+const canonical = `https://apartmentwealthnavigator.com/insights/${entry.id}/`
 const publishDateIso = new Date(entry.data.publishDate).toISOString()
 
 const articleSchema = buildArticleSchema({
@@ -98,7 +98,7 @@ const videoSchema = entry.data.youtubeId
       !inlineCtas && counterpart && direction === 'down' && (
         <p class="article__crosslink">
           Own a building in DC, Virginia, or Maryland?{' '}
-          <a href={`/insights/${counterpart.id}`}>Read what this looks like in your market.</a>
+          <a href={`/insights/${counterpart.id}/`}>Read what this looks like in your market.</a>
         </p>
       )
     }
@@ -107,7 +107,7 @@ const videoSchema = entry.data.youtubeId
       !inlineCtas && counterpart && direction === 'up' && (
         <p class="article__crosslink">
           Read the universal guide this article builds on:{' '}
-          <a href={`/insights/${counterpart.id}`}>{counterpart.data.title}</a>
+          <a href={`/insights/${counterpart.id}/`}>{counterpart.data.title}</a>
         </p>
       )
     }

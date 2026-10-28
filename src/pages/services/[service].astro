@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props
 const { Content } = await render(entry)
-const canonical = `https://apartmentwealthnavigator.com/services/${entry.id}`
+const canonical = `https://apartmentwealthnavigator.com/services/${entry.id}/`
 const faqSchema = buildFaqSchema(entry.data.faq)
 const pageTitle = entry.data.tagline ? `${entry.data.title} | ${entry.data.tagline}` : entry.data.title
 ---

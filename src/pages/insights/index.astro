@@ -21,7 +21,7 @@ const dc = orderInsights(filterPublished(await getCollection('dc')))
 			{
 				universal.map((entry) => (
 					<li>
-						<a class="insights__item" href={`/insights/${entry.id}`}>
+						<a class="insights__item" href={`/insights/${entry.id}/`}>
 							{entry.data.coverImage && (
 								<Image
 									class="insights__thumb"
@@ -47,7 +47,7 @@ const dc = orderInsights(filterPublished(await getCollection('dc')))
 			{
 				dc.map((entry) => (
 					<li>
-						<a class="insights__item" href={`/insights/${entry.id}`}>
+						<a class="insights__item" href={`/insights/${entry.id}/`}>
 							{entry.data.coverImage && (
 								<Image
 									class="insights__thumb"

@@ -17,7 +17,7 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props
 const { Content } = await render(entry)
-const canonical = `https://apartmentwealthnavigator.com/locations/${entry.id}`
+const canonical = `https://apartmentwealthnavigator.com/locations/${entry.id}/`
 const dataAsOf = entry.data.dataAsOf
 	? new Date(entry.data.dataAsOf).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })
 	: null
