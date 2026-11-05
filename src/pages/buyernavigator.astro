@@ -1,0 +1,973 @@
+---
+// Buyer Navigator: Free Deal Stress Test (staged 2026-11-05, not deployed).
+// Same landing-page discipline as /noi-navigator/: brand-and-phone header,
+// one goal (the form), form above the fold, honeypot, GHL webhook post,
+// on-page PDF delivery, FAQ with schema. Adds a client-side calculator that
+// sends and stores nothing. No testimonials or client stories on this page:
+// no written client approvals exist yet. No trademark symbol: undecided.
+import Base from '../layouts/Base.astro'
+import JsonLd from '../components/JsonLd.astro'
+import { buildFaqSchema } from '../lib/schema'
+
+export const CHECKLIST_PATH = '/downloads/deal-stress-test.pdf'
+
+const gets = [
+	{ title: 'The 10-minute screen', text: 'Six questions on page one. Cut the seller’s NOI by 10 percent, check the rents against the rent roll, look for the missing lines, count the units against the public record, ask who pays the utilities, and check for TOPA and rent stabilization. You know tonight whether the deal earns a full test.' },
+	{ title: 'The 6-step test', text: 'Request the records, stress the income, reprice every expense as the new owner, run the financing check, price the deal and size your cash, then decide: go, counter or walk.' },
+	{ title: 'The records-request message', text: 'One email to the listing broker, ready to copy. It asks for the T12, the rent roll, the leases, the bank statements, the utility bills and the other records on the list. Fill in the brackets and send it.' },
+	{ title: 'The worksheet', text: 'A seller column, a stressed column, the change and the source for every line. It ends in your stressed value, the gap to the asking price, the maximum loan and the cash needed.' },
+]
+
+const series = [
+	{ cluster: 'Before you offer', titles: ['The Seller’s Pro Forma Is Fiction', 'Your Buy Box: Why the Best Deal on Paper Can Be the Wrong Building for You', 'Financing Sets Your Price, Not the Seller'] },
+	{ cluster: 'Underwriting the building', titles: ['Reading the T12 and Rent Roll: What the Seller Hopes You Skip', 'The Expense Reset: Costs You Inherit the Day You Close', 'TOPA and Rent Control: DC’s Rules That Change Your Deal', 'What Value-Add Is Actually Worth'] },
+	{ cluster: 'Making the deal and owning it', titles: ['Offer Strategy: The Terms That Matter More Than Price', 'Due Diligence: 30 to 60 Days That Decide the Deal', 'Your First 90 Days as an Owner', 'Buy With the Exit in Mind'] },
+]
+let videoNumber = 0
+const seriesNumbered = series.map((c) => ({
+	cluster: c.cluster,
+	items: c.titles.map((title) => ({ n: ++videoNumber, title })),
+}))
+
+const faq = [
+	{ question: 'How long does the Deal Stress Test take?', answer: 'The screen takes about 10 minutes with the offering memorandum open. The full test fits a week of diligence. If the offer is due in days, run the screen tonight, send the records request tomorrow morning, and run the worksheet the day the records arrive.' },
+	{ question: 'Does the calculator store or send my numbers?', answer: 'No. The calculator runs in your browser. Nothing you type into it is sent or saved, and it clears when you close the page. The form at the top of the page is separate and sends only what you enter in it.' },
+	{ question: 'What is a stressed NOI?', answer: 'It is net operating income rebuilt the way you would run the building. Rents come from the current rent roll, vacancy is at least 5 percent, and expenses carry a management fee, a current insurance quote and replacement reserves. The seller’s number shows what the seller hopes for. The stressed number is closer to the one a lender sizes your loan from.' },
+	{ question: 'Why does the loan matter as much as the price?', answer: 'The lender sizes your loan from NOI, then caps it at a share of the price or the appraised value. Maximum annual debt service is stressed NOI divided by the required debt service coverage ratio. The coverage-based maximum loan is that figure divided by the loan constant. If the loan comes in smaller than you planned, you bring the difference to closing as equity.' },
+	{ question: 'Is this only for Washington DC buildings?', answer: 'The test works for small apartment buildings in Washington DC, Virginia, and Maryland, where Shafiq is licensed. The screen asks about TOPA and rent stabilization because DC has them. Rules differ by city, county and state, so have a professional licensed where the property is located review your deal. ' },
+	{ question: 'What does the Buyer Consultation cost?', answer: 'Nothing. The first call is free. Bring the offering memorandum and Shafiq stress tests the deal with you. Any engagement after that is scoped and quoted in writing before work starts.' },
+	{ question: 'Is this investment, legal, tax or lending advice?', answer: 'No. The Deal Stress Test and the calculator are educational tools. Consult your attorney, CPA and lender before you make a purchase decision.' },
+]
+const faqSchema = buildFaqSchema(faq)
+---
+
+<Base
+	title="Deal Stress Test and Calculator | Buyer Navigator"
+	description="Screen an apartment building offering memorandum in 10 minutes. A free 6-step checklist, a worksheet, and a calculator for stressed NOI, value, maximum loan and cash needed."
+	canonical="https://apartmentwealthnavigator.com/buyernavigator/"
+	landing
+>
+	<JsonLd data={faqSchema} />
+
+	<section class="hero no-print" id="get-the-test">
+		<div class="hero__inner">
+			<div class="hero__copy">
+				<p class="hero__kicker">BUYER NAVIGATOR · FREE DEAL STRESS TEST</p>
+				<h1>Stress test the deal before your offer is due</h1>
+				<p class="hero__lede">
+					The offering memorandum shows the seller’s numbers. The Deal Stress Test rebuilds them as
+					the new owner: rents you can verify, a vacancy allowance of at least 5 percent, a management fee, a current insurance
+					quote and reserves. Then it shows the loan your NOI supports and what you would bring to
+					closing. Start with the 10-minute screen tonight.
+				</p>
+				<ul class="hero__points">
+					<li>A 10-minute screen: six questions on page one</li>
+					<li>A 6-step test, from the records request to go, counter or walk</li>
+					<li>A records-request message ready to send to the broker</li>
+					<li>A worksheet that ends in value, maximum loan and cash needed</li>
+				</ul>
+				<p class="hero__trust">Built for buyers of small apartment buildings with an offering memorandum open and an offer deadline. Written by Shafiq Hirani, CCIM, MBA, PE, broker in DC, Virginia, and Maryland.</p>
+			</div>
+
+			<div class="hero__form">
+				<form id="test-form" class="lead-form" novalidate>
+					<h2>Get the Deal Stress Test</h2>
+					<p class="lead-form__sub">On your screen the moment you press the button. The calculator below needs no form.</p>
+					<label for="firstName">First name</label>
+					<input id="firstName" name="first_name" type="text" autocomplete="given-name" required />
+					<label for="lastName">Last name</label>
+					<input id="lastName" name="last_name" type="text" autocomplete="family-name" required />
+					<label for="email">Email</label>
+					<input id="email" name="email" type="email" autocomplete="email" required />
+					<label for="phone">Mobile number</label>
+					<input id="phone" name="phone" type="tel" autocomplete="tel" required />
+					<label for="location">Building city or ZIP</label>
+					<input id="location" name="location" type="text" placeholder="e.g. Washington, DC or 20009" required />
+					<label for="units">Number of units <span class="lead-form__optional">optional</span></label>
+					<input id="units" name="units" type="number" min="1" step="1" />
+					<label for="address">Address of the building you are reviewing <span class="lead-form__optional">optional</span></label>
+					<input id="address" name="address" type="text" autocomplete="off" />
+					<input id="website" name="website" type="text" class="hp-field" autocomplete="off" tabindex="-1" aria-hidden="true" />
+					<button type="submit">Send me the Deal Stress Test</button>
+					<p class="lead-form__consent">
+						You will receive the checklist and occasional emails from Shafiq Hirani about buying
+						apartment buildings. Unsubscribe in one click. <a href="/privacy/">Privacy policy</a>.
+					</p>
+					<p id="test-error" class="lead-form__error" hidden>The form did not send. Email shirani@enterprisere.com and the checklist comes back by reply.</p>
+				</form>
+				<div id="test-thanks" class="result-panel" hidden>
+					<h2>Thank you, <span id="thanks-name"></span>.</h2>
+					<p>The Deal Stress Test is yours now. Start with page one, the 10-minute screen, and keep the offering memorandum open beside it.</p>
+					<a class="result-link" href={CHECKLIST_PATH} download>Download the Deal Stress Test (PDF)</a>
+					<p class="result-panel__next">
+						Short on time? <a href="#calculator">Run the calculator now</a>, or
+						<a id="consult-link" href="/get-started/">book the free Buyer Consultation</a>
+						and bring the offering memorandum.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="gets no-print">
+		<h2>What you get</h2>
+		<p class="gets__lede">Four parts, built to work in 10 minutes tonight and in a week of diligence.</p>
+		<ol class="gets__list">
+			{
+				gets.map((g) => (
+					<li>
+						<strong>{g.title}</strong>
+						<p>{g.text}</p>
+					</li>
+				))
+			}
+		</ol>
+	</section>
+
+	<section class="calc" id="calculator">
+		<div class="calc__head">
+			<p class="calc__kicker no-print">THE CALCULATOR</p>
+			<h2>Run the stress test on your deal</h2>
+			<p class="calc__lede no-print">
+				Fill in what you have. Results update as you type. The calculator runs in your browser.
+				Nothing you enter is sent or saved.
+			</p>
+		</div>
+
+		<div class="calc__grid">
+			<form id="calc-form" class="calc__inputs" novalidate autocomplete="off">
+				<fieldset>
+					<legend>1. Income, as you would underwrite it</legend>
+					<div class="field">
+						<label for="c-gpr">Gross potential rent, per year</label>
+						<input id="c-gpr" inputmode="decimal" type="text" placeholder="e.g. 266,400" />
+						<p class="field__help">Rent if every unit were rented, from the current rent roll. Not projected market rents.</p>
+					</div>
+					<div class="field">
+						<label for="c-vac">Vacancy and credit loss, %</label>
+						<input id="c-vac" inputmode="decimal" type="text" value="5" />
+						<p class="field__help">Use 5 or higher, even if the building is full.</p>
+					</div>
+					<div class="field">
+						<label for="c-oth">Other income you can verify, per year</label>
+						<input id="c-oth" inputmode="decimal" type="text" placeholder="0" />
+						<p class="field__help">Laundry, parking, fees. Count it only if bank records support it.</p>
+					</div>
+				</fieldset>
+
+				<fieldset>
+					<legend>2. Expenses, as the new owner</legend>
+					<div class="field">
+						<label for="c-opex">Operating expenses as presented, per year</label>
+						<input id="c-opex" inputmode="decimal" type="text" placeholder="e.g. 93,072" />
+						<p class="field__help">Total expenses on the seller’s T12 or offering memorandum.</p>
+					</div>
+					<div class="field">
+						<label for="c-mgmt">Management fee you add, per year</label>
+						<input id="c-mgmt" inputmode="decimal" type="text" placeholder="0" />
+						<p class="field__help">Add a professional fee if the seller left it out. Get local quotes.</p>
+					</div>
+					<div class="field">
+						<label for="c-ins">Insurance repricing, added per year</label>
+						<input id="c-ins" inputmode="decimal" type="text" placeholder="0" />
+						<p class="field__help">Your current quote minus the seller’s premium. Use a minus sign if it is lower.</p>
+					</div>
+					<div class="field">
+						<label for="c-adj">Other expense adjustments, per year</label>
+						<input id="c-adj" inputmode="decimal" type="text" placeholder="0" />
+						<p class="field__help">Taxes after reassessment, utilities, repairs, payroll. Positive numbers add expense.</p>
+					</div>
+					<div class="field">
+						<label for="c-res">Replacement reserves, per year</label>
+						<input id="c-res" inputmode="decimal" type="text" placeholder="0" />
+						<p class="field__help">Commonly $250 to $350 per unit per year. Confirm with your lender.</p>
+					</div>
+				</fieldset>
+
+				<fieldset>
+					<legend>3. Price and financing</legend>
+					<div class="field">
+						<label for="c-ask">Asking price</label>
+						<input id="c-ask" inputmode="decimal" type="text" placeholder="e.g. 2,800,000" />
+						<p class="field__help">The price in the offering memorandum.</p>
+					</div>
+					<div class="field">
+						<label for="c-cap">Your target cap rate, %</label>
+						<input id="c-cap" inputmode="decimal" type="text" placeholder="Your number" />
+						<p class="field__help">The cap rate you need to buy this building. This field has no default. You set it.</p>
+					</div>
+					<div class="field">
+						<label for="c-rate">Loan interest rate, %</label>
+						<input id="c-rate" inputmode="decimal" type="text" value="6.5" />
+						<p class="field__help">Confirm the rate with your lender.</p>
+					</div>
+					<div class="field">
+						<label for="c-amort">Amortization, years</label>
+						<input id="c-amort" inputmode="decimal" type="text" value="25" />
+						<p class="field__help">The number of years the payment is spread over.</p>
+					</div>
+					<div class="field">
+						<label for="c-dscr">Required coverage (DSCR), times</label>
+						<input id="c-dscr" inputmode="decimal" type="text" value="1.25" />
+						<p class="field__help">NOI divided by the yearly loan payments. Lenders commonly require 1.20x to 1.25x. Confirm current terms with your lender.</p>
+					</div>
+					<div class="field">
+						<label for="c-cash">Cash you can bring <span class="lead-form__optional">optional</span></label>
+						<input id="c-cash" inputmode="decimal" type="text" placeholder="After your own reserve" />
+						<p class="field__help">Used only for the go, counter or walk read.</p>
+					</div>
+				</fieldset>
+
+				<div class="calc__actions no-print">
+					<button type="button" id="c-example" class="btn btn--ghost">Load a 12-unit example</button>
+					<button type="button" id="c-reset" class="btn btn--ghost">Reset</button>
+				</div>
+			</form>
+
+			<div class="calc__results" aria-live="polite">
+				<h3>Your stress test</h3>
+				<p id="r-note" class="calc__note">Enter gross potential rent and expenses to begin.</p>
+				<dl class="results">
+					<div class="results__row results__row--key"><dt>Stressed NOI</dt><dd id="r-noi">n/a</dd></div>
+					<div class="results__row"><dt>Stressed value</dt><dd id="r-value">n/a</dd></div>
+					<div class="results__row"><dt>Gap to asking price</dt><dd id="r-gap">n/a</dd></div>
+					<div class="results__row"><dt>Maximum annual debt service</dt><dd id="r-ads">n/a</dd></div>
+					<div class="results__row"><dt>Loan constant</dt><dd id="r-const">n/a</dd></div>
+					<div class="results__row results__row--key"><dt>Maximum loan</dt><dd id="r-loan">n/a</dd></div>
+					<div class="results__row"><dt>Equity needed at the asking price</dt><dd id="r-eq-ask">n/a</dd></div>
+					<div class="results__row"><dt>Equity needed at the stressed value</dt><dd id="r-eq-val">n/a</dd></div>
+				</dl>
+				<div id="r-decision" class="decision" data-verdict="incomplete">
+					<p class="decision__label" id="r-verdict">Go, counter or walk</p>
+					<p class="decision__text" id="r-verdict-text">Enter the asking price and your target cap rate to get the go, counter or walk read.</p>
+				</div>
+				<p class="calc__fine">Equity is before closing costs and your reserve. The loan constant is the year-one payment per $1 of loan. Results are illustrative arithmetic, not an appraisal or lending advice.</p>
+				<button type="button" id="c-print" class="btn no-print">Print or save as PDF</button>
+			</div>
+		</div>
+	</section>
+
+	<section class="series no-print">
+		<h2>The Buyer Navigator video series</h2>
+		<p class="series__lede">Eleven short videos walk the test step by step. They are coming soon. The Deal Stress Test and the calculator work without them.</p>
+		<div class="series__clusters">
+			{
+				seriesNumbered.map((c) => (
+					<div class="series__cluster">
+						<h3>{c.cluster}</h3>
+						<ol class="series__list">
+							{c.items.map((v) => (
+								<li value={v.n}>
+									<span class="series__title">{v.title}</span>
+									<span class="series__soon">Coming soon</span>
+								</li>
+							))}
+						</ol>
+					</div>
+				))
+			}
+		</div>
+	</section>
+
+	<section class="consult no-print" id="consultation">
+		<h2>Bring your offering memorandum</h2>
+		<p>
+			Want a second set of eyes on a deal? Book a free Buyer Consultation. Bring the offering
+			memorandum and Shafiq stress tests it with you. Any engagement after the first call
+			is scoped and quoted in writing before work starts.
+		</p>
+		<a class="cta-button" id="consult-cta" href="/get-started/">Book a free Buyer Consultation</a>
+		<p class="consult__service"><a href="/services/buy/">Buyer Navigator service</a>: how Shafiq represents buyers of apartment buildings of 4 to 50 units.</p>
+	</section>
+
+	<section class="faq no-print">
+		<h2>Frequently asked questions</h2>
+		{
+			faq.map((f) => (
+				<div class="faq__item">
+					<h3>{f.question}</h3>
+					<p>{f.answer}</p>
+				</div>
+			))
+		}
+	</section>
+
+	<section class="close no-print">
+		<h2>Stress test the deal before your offer is due.</h2>
+		<p>Six questions. 10 minutes. Know tonight whether the deal earns a full test.</p>
+		<a class="cta-button" href="#get-the-test">Get the Deal Stress Test</a>
+	</section>
+
+	<p class="disclaimer">
+		This page and the Deal Stress Test are for educational purposes only and are not investment,
+		legal, tax or lending advice. Rules differ by city, county and state. Have a professional
+		licensed where the property is located review your deal. Consult your attorney, CPA and lender
+		before you make a purchase decision.
+	</p>
+
+	<a class="sticky-cta no-print" href="#get-the-test">Get the free Deal Stress Test</a>
+</Base>
+
+<script>
+	import { buildLeadPayload, submitLead } from '../lib/ghl'
+	import { bookingUrl } from '../lib/booking'
+	import { isLikelyBot } from '../lib/antispam'
+
+	const form = document.getElementById('test-form') as HTMLFormElement
+	const thanks = document.getElementById('test-thanks') as HTMLElement
+	const thanksName = document.getElementById('thanks-name') as HTMLElement
+	const errorLine = document.getElementById('test-error') as HTMLElement
+	const consult = document.getElementById('consult-link') as HTMLAnchorElement
+	const field = (id: string) => document.getElementById(id) as HTMLInputElement
+
+	form.addEventListener('submit', async (event) => {
+		event.preventDefault()
+		if (isLikelyBot(field('website').value)) {
+			thanksName.textContent = field('firstName').value.trim()
+			form.hidden = true
+			thanks.hidden = false
+			thanks.scrollIntoView({ behavior: 'smooth', block: 'start' })
+			return
+		}
+		if (!form.reportValidity()) return
+		const unitsRaw = field('units').value.trim()
+		const addressRaw = field('address').value.trim()
+		const payload = buildLeadPayload({
+			firstName: field('firstName').value,
+			lastName: field('lastName').value,
+			email: field('email').value,
+			phone: field('phone').value,
+			location: field('location').value,
+			toolName: 'Buyer Navigator',
+			sourcePage: window.location.pathname,
+			units: unitsRaw ? Number(unitsRaw) : undefined,
+			message: addressRaw ? `Building under review: ${addressRaw}` : undefined,
+		})
+		try {
+			await submitLead(payload)
+		} catch {
+			errorLine.hidden = false
+			return
+		}
+		thanksName.textContent = payload.first_name
+		if (payload.route === 'local') {
+			consult.href = bookingUrl(import.meta.env.PUBLIC_GHL_BOOKING_URL)
+			consult.target = '_blank'
+			consult.rel = 'noopener'
+		}
+		form.hidden = true
+		thanks.hidden = false
+		thanks.scrollIntoView({ behavior: 'smooth', block: 'start' })
+	})
+</script>
+
+<script>
+	// Calculator: client-side only. No fetch, no storage, no cookies.
+	import { computeStressTest, parseAmount, readDecision } from '../lib/stress-test'
+
+	const el = (id: string) => document.getElementById(id) as HTMLInputElement
+	const out = (id: string) => document.getElementById(id) as HTMLElement
+	const usd = (n: number) => (n < 0 ? '-$' : '$') + Math.abs(Math.round(n)).toLocaleString('en-US')
+	const DASH = 'n/a'
+
+	const defaults: Record<string, string> = { 'c-vac': '5', 'c-rate': '6.5', 'c-amort': '25', 'c-dscr': '1.25' }
+	const ids = ['c-gpr', 'c-vac', 'c-oth', 'c-opex', 'c-mgmt', 'c-ins', 'c-adj', 'c-res', 'c-ask', 'c-cap', 'c-rate', 'c-amort', 'c-dscr', 'c-cash']
+
+	function update() {
+		const n = (id: string) => parseAmount(el(id).value)
+		const gpr = n('c-gpr')
+		const opex = n('c-opex')
+		const rate = n('c-rate')
+		const amort = n('c-amort')
+		const dscr = n('c-dscr')
+		const note = out('r-note')
+		const keys = ['r-noi', 'r-value', 'r-gap', 'r-ads', 'r-const', 'r-loan', 'r-eq-ask', 'r-eq-val']
+		const decision = out('r-decision')
+
+		if (gpr === undefined || opex === undefined || rate === undefined || amort === undefined || dscr === undefined) {
+			keys.forEach((k) => (out(k).textContent = DASH))
+			note.textContent = 'Enter gross potential rent and expenses to begin. Interest rate, amortization and coverage need a value too.'
+			decision.dataset.verdict = 'incomplete'
+			out('r-verdict').textContent = 'Go, counter or walk'
+			out('r-verdict-text').textContent = 'Enter the asking price and your target cap rate to get the go, counter or walk read.'
+			return
+		}
+		const r = computeStressTest({
+			grossPotentialRent: gpr,
+			vacancyPct: n('c-vac') ?? 0,
+			otherIncome: n('c-oth') ?? 0,
+			operatingExpenses: opex,
+			managementFee: n('c-mgmt') ?? 0,
+			insuranceRepricing: n('c-ins') ?? 0,
+			otherAdjustments: n('c-adj') ?? 0,
+			reserves: n('c-res') ?? 0,
+			askingPrice: n('c-ask'),
+			targetCapRate: n('c-cap'),
+			interestRate: rate,
+			amortizationYears: amort,
+			requiredDscr: dscr,
+			availableCash: n('c-cash'),
+		})
+		note.textContent = ''
+		out('r-noi').textContent = usd(r.stressedNoi)
+		out('r-value').textContent = r.stressedValue === undefined ? 'Add a cap rate' : usd(r.stressedValue)
+		out('r-gap').textContent =
+			r.gapToAsking === undefined
+				? 'Add a price and cap rate'
+				: r.gapToAsking < 0
+					? `${usd(-r.gapToAsking)} below asking`
+					: `${usd(r.gapToAsking)} above asking`
+		out('r-ads').textContent = usd(r.maxAnnualDebtService)
+		out('r-const').textContent = r.loanConstant.toFixed(5)
+		out('r-loan').textContent = usd(r.maxLoan)
+		out('r-eq-ask').textContent = r.equityAtAsking === undefined ? 'Add a price' : usd(r.equityAtAsking)
+		out('r-eq-val').textContent = r.equityAtStressedValue === undefined ? 'Add a cap rate' : usd(r.equityAtStressedValue)
+
+		const d = readDecision(r)
+		decision.dataset.verdict = d.verdict
+		out('r-verdict').textContent = d.label
+		out('r-verdict-text').textContent = d.text
+	}
+
+	ids.forEach((id) => el(id).addEventListener('input', update))
+	;(document.getElementById('calc-form') as HTMLFormElement).addEventListener('submit', (e) => e.preventDefault())
+
+	const set = (values: Record<string, string>) => {
+		ids.forEach((id) => (el(id).value = values[id] ?? defaults[id] ?? ''))
+		update()
+	}
+	// Illustrative 12-unit figures from the worked example in the Deal Stress Test.
+	document.getElementById('c-example')!.addEventListener('click', () =>
+		set({ 'c-gpr': '266400', 'c-opex': '93072', 'c-mgmt': '10000', 'c-ins': '4000', 'c-ask': '2800000', 'c-cap': '6' }),
+	)
+	document.getElementById('c-reset')!.addEventListener('click', () => set({}))
+	document.getElementById('c-print')!.addEventListener('click', () => window.print())
+	update()
+</script>
+
+<style>
+	.hero {
+		background: var(--color-cream);
+		padding: var(--space-6) var(--space-4) var(--space-7);
+	}
+
+	.hero__inner {
+		max-width: 1100px;
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: 1.15fr 1fr;
+		gap: var(--space-6);
+		align-items: start;
+	}
+
+	.hero__kicker,
+	.calc__kicker {
+		font-size: var(--text-sm);
+		letter-spacing: 0.12em;
+		color: var(--color-accent-deep);
+		margin: 0 0 var(--space-2);
+	}
+
+	.hero h1 {
+		font-size: var(--text-4xl);
+		margin: 0 0 var(--space-3);
+	}
+
+	.hero__lede {
+		font-size: var(--text-lg);
+		color: var(--color-slate);
+		margin: 0 0 var(--space-4);
+	}
+
+	.hero__points {
+		margin: 0 0 var(--space-4);
+		padding-left: 1.1rem;
+	}
+
+	.hero__points li {
+		margin-bottom: var(--space-1);
+	}
+
+	.hero__trust {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+		margin: 0;
+	}
+
+	.lead-form,
+	.result-panel {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		background: var(--color-bg);
+		border: 1px solid var(--color-border);
+		border-radius: 4px;
+		padding: var(--space-5);
+		box-shadow: 0 12px 32px rgba(10, 13, 20, 0.08);
+	}
+
+	/* The hidden attribute must beat display: flex. */
+	.lead-form[hidden],
+	.result-panel[hidden] {
+		display: none;
+	}
+
+	.lead-form h2,
+	.result-panel h2 {
+		font-size: var(--text-xl);
+		margin: 0;
+	}
+
+	.lead-form__sub {
+		margin: 0 0 var(--space-2);
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+	}
+
+	.lead-form label {
+		font-weight: 600;
+	}
+
+	.lead-form__optional {
+		font-weight: 400;
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+	}
+
+	.lead-form input {
+		font-size: var(--text-base);
+		padding: var(--space-2);
+		border: 1px solid var(--color-border);
+		border-radius: 2px;
+	}
+
+	.lead-form button,
+	.cta-button,
+	.result-link,
+	.btn {
+		display: inline-block;
+		background: var(--color-navy);
+		color: var(--color-bg);
+		font-size: var(--text-base);
+		font-weight: 600;
+		text-decoration: none;
+		border: 0;
+		border-radius: 2px;
+		padding: var(--space-3) var(--space-4);
+		cursor: pointer;
+		text-align: center;
+	}
+
+	.lead-form button {
+		margin-top: var(--space-3);
+	}
+
+	.lead-form button:hover,
+	.cta-button:hover,
+	.result-link:hover,
+	.btn:hover {
+		background: var(--color-accent);
+		color: var(--color-obsidian);
+	}
+
+	.lead-form__consent,
+	.lead-form__error {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+		margin: var(--space-2) 0 0;
+	}
+
+	.lead-form__error {
+		color: #8a2a1f;
+	}
+
+	.result-link {
+		margin: var(--space-2) 0;
+	}
+
+	.result-panel__next {
+		margin: 0;
+	}
+
+	.gets,
+	.calc,
+	.series,
+	.faq {
+		max-width: 1100px;
+		margin: var(--space-7) auto 0;
+		padding: 0 var(--space-4);
+	}
+
+	.gets h2,
+	.calc h2,
+	.series h2,
+	.consult h2,
+	.faq h2,
+	.close h2 {
+		font-size: var(--text-2xl);
+		margin: 0 0 var(--space-2);
+	}
+
+	.gets__lede,
+	.calc__lede,
+	.series__lede {
+		color: var(--color-slate);
+		margin: 0 0 var(--space-4);
+	}
+
+	.gets__list {
+		list-style: none;
+		counter-reset: get;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: var(--space-4);
+	}
+
+	.gets__list li {
+		counter-increment: get;
+		border-top: 3px solid var(--color-accent);
+		padding-top: var(--space-3);
+	}
+
+	.gets__list li::before {
+		content: '0' counter(get);
+		display: block;
+		font-family: var(--font-headline);
+		font-size: var(--text-sm);
+		letter-spacing: 0.12em;
+		color: var(--color-accent-deep);
+		margin-bottom: var(--space-1);
+	}
+
+	.gets__list strong {
+		font-family: var(--font-headline);
+		font-weight: 700;
+		font-size: var(--text-lg);
+		color: var(--color-navy);
+	}
+
+	.gets__list p {
+		margin: var(--space-2) 0 0;
+		color: var(--color-slate);
+	}
+
+	/* Calculator */
+	.calc__grid {
+		display: grid;
+		grid-template-columns: 1.1fr 1fr;
+		gap: var(--space-5);
+		align-items: start;
+	}
+
+	.calc__inputs fieldset {
+		border: 1px solid var(--color-border);
+		border-top: 3px solid var(--color-accent);
+		border-radius: 4px;
+		padding: var(--space-3) var(--space-4) var(--space-2);
+		margin: 0 0 var(--space-4);
+		min-width: 0;
+	}
+
+	.calc__inputs legend {
+		font-family: var(--font-headline);
+		font-weight: 700;
+		color: var(--color-navy);
+		padding: 0 var(--space-2);
+	}
+
+	.field {
+		margin-bottom: var(--space-3);
+	}
+
+	.field label {
+		display: block;
+		font-weight: 600;
+		margin-bottom: var(--space-1);
+	}
+
+	.field input {
+		width: 100%;
+		font-size: 1rem; /* 16px stops iOS zooming on focus */
+		padding: var(--space-2);
+		border: 1px solid var(--color-border);
+		border-radius: 2px;
+	}
+
+	.field__help {
+		margin: var(--space-1) 0 0;
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+	}
+
+	.calc__actions {
+		display: flex;
+		gap: var(--space-2);
+		flex-wrap: wrap;
+	}
+
+	.btn--ghost {
+		background: transparent;
+		color: var(--color-navy);
+		border: 1px solid var(--color-navy);
+	}
+
+	.calc__results {
+		position: sticky;
+		top: var(--space-3);
+		background: var(--color-cream);
+		border-radius: 4px;
+		padding: var(--space-4);
+	}
+
+	.calc__results h3 {
+		font-size: var(--text-xl);
+		margin: 0 0 var(--space-2);
+	}
+
+	.calc__note {
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+		margin: 0 0 var(--space-2);
+	}
+
+	.calc__note:empty {
+		display: none;
+	}
+
+	.results {
+		margin: 0 0 var(--space-3);
+	}
+
+	.results__row {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-3);
+		padding: var(--space-2) 0;
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.results__row dt {
+		color: var(--color-slate);
+	}
+
+	.results__row dd {
+		margin: 0;
+		font-weight: 600;
+		text-align: right;
+		color: var(--color-navy);
+	}
+
+	.results__row--key dd {
+		font-family: var(--font-headline);
+		font-size: var(--text-lg);
+	}
+
+	.decision {
+		background: var(--color-bg);
+		border-left: 4px solid var(--color-border);
+		border-radius: 2px;
+		padding: var(--space-3);
+		margin-bottom: var(--space-3);
+	}
+
+	.decision[data-verdict='go'] {
+		border-left-color: #2f6b3a;
+	}
+
+	.decision[data-verdict='counter'] {
+		border-left-color: var(--color-accent-deep);
+	}
+
+	.decision[data-verdict='walk'] {
+		border-left-color: #8a2a1f;
+	}
+
+	.decision__label {
+		font-family: var(--font-headline);
+		font-size: var(--text-xl);
+		color: var(--color-navy);
+		margin: 0 0 var(--space-1);
+	}
+
+	.decision__text {
+		margin: 0;
+	}
+
+	.calc__fine {
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+		margin: 0 0 var(--space-3);
+	}
+
+	/* Series */
+	.series__clusters {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: var(--space-4);
+	}
+
+	.series__cluster h3 {
+		font-size: var(--text-lg);
+		color: var(--color-navy);
+		margin: 0 0 var(--space-2);
+		border-top: 3px solid var(--color-accent);
+		padding-top: var(--space-2);
+	}
+
+	.series__list {
+		margin: 0;
+		padding-left: 1.4rem;
+	}
+
+	.series__list li {
+		margin-bottom: var(--space-3);
+	}
+
+	.series__title {
+		display: block;
+		font-weight: 600;
+	}
+
+	.series__soon {
+		display: inline-block;
+		font-size: var(--text-sm);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--color-accent-deep);
+	}
+
+	.consult {
+		max-width: 760px;
+		margin: var(--space-7) auto 0;
+		padding: var(--space-6) var(--space-4);
+		text-align: center;
+		background: var(--color-cream);
+		border-radius: 4px;
+	}
+
+	.consult p {
+		color: var(--color-slate);
+	}
+
+	.consult__service {
+		margin: var(--space-3) 0 0;
+		font-size: var(--text-sm);
+	}
+
+	.faq__item {
+		border-top: 1px solid var(--color-border);
+		padding: var(--space-3) 0;
+	}
+
+	.faq__item h3 {
+		font-size: var(--text-lg);
+		margin: 0 0 var(--space-1);
+	}
+
+	.faq__item p {
+		margin: 0;
+		color: var(--color-slate);
+	}
+
+	.close {
+		max-width: 760px;
+		margin: var(--space-7) auto var(--space-5);
+		padding: var(--space-6) var(--space-4);
+		text-align: center;
+	}
+
+	.close p {
+		color: var(--color-slate);
+	}
+
+	.disclaimer {
+		max-width: 1100px;
+		margin: 0 auto var(--space-8);
+		padding: var(--space-3) var(--space-4) 0;
+		border-top: 1px solid var(--color-border);
+		font-size: var(--text-sm);
+		color: var(--color-slate);
+	}
+
+	.sticky-cta {
+		display: none;
+	}
+
+	@media (max-width: 900px) {
+		.hero__inner,
+		.calc__grid {
+			grid-template-columns: 1fr;
+		}
+
+		.hero h1 {
+			font-size: var(--text-3xl);
+		}
+
+		.gets__list {
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		}
+
+		.series__clusters {
+			grid-template-columns: 1fr;
+		}
+
+		.calc__results {
+			position: static;
+		}
+
+		.sticky-cta {
+			display: block;
+			position: fixed;
+			left: var(--space-3);
+			right: var(--space-3);
+			bottom: var(--space-3);
+			z-index: 20;
+			background: var(--color-navy);
+			color: var(--color-bg);
+			text-align: center;
+			font-weight: 600;
+			text-decoration: none;
+			padding: var(--space-3);
+			border-radius: 4px;
+			box-shadow: 0 8px 24px rgba(10, 13, 20, 0.3);
+		}
+
+		.consult {
+			margin-left: var(--space-4);
+			margin-right: var(--space-4);
+		}
+	}
+
+	/* Print or save as PDF prints the calculator only. */
+	@media print {
+		.no-print,
+		.sticky-cta,
+		.disclaimer + *,
+		:global(.site-header),
+		:global(.site-footer),
+		:global(.consent-banner) {
+			display: none !important;
+		}
+
+		.calc {
+			margin: 0;
+			max-width: none;
+		}
+
+		.calc__grid {
+			grid-template-columns: 1fr 1fr;
+		}
+
+		.calc__results {
+			position: static;
+			background: none;
+			border: 1px solid #999;
+		}
+
+		.disclaimer {
+			margin-bottom: 0;
+		}
+	}
+</style>

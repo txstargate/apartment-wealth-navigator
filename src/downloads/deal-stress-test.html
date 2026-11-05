@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>The Deal Stress Test</title>
+<style>
+  @page { size: Letter; margin: 0.5in 0.6in; }
+  :root { --navy:#12314F; --obsidian:#0A0D14; --gold:#C5A880; --gold-deep:#A98C63; --cream:#F1EDE6; --slate:#334155; --border:#CBD5E1; }
+  * { box-sizing: border-box; }
+  body { font-family: Georgia, 'Times New Roman', serif; color: var(--obsidian); margin: 0; font-size: 9.6pt; line-height: 1.3; }
+  .page { page-break-after: always; break-after: page; height: 9.95in; position: relative; overflow: hidden; }
+  .page:last-child { page-break-after: auto; break-after: auto; }
+  .head { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--navy); padding-bottom: 6pt; margin-bottom: 8pt; }
+  .brand { font-size: 9.5pt; letter-spacing: 0.12em; color: var(--gold-deep); text-transform: uppercase; }
+  h1 { font-size: 21pt; margin: 2pt 0 0; color: var(--navy); line-height: 1.1; }
+  .meta { font-family: Arial, Helvetica, sans-serif; font-size: 8.6pt; color: var(--slate); text-align: right; max-width: 230pt; }
+  .runhead { display:flex; justify-content:space-between; font-family: Arial, sans-serif; font-size: 8pt; letter-spacing: .1em; text-transform: uppercase; color: var(--gold-deep); border-bottom: 1px solid var(--border); padding-bottom: 3pt; margin-bottom: 8pt; }
+  h2 { font-size: 12.5pt; color: var(--navy); margin: 0 0 3pt; }
+  .why { font-family: Arial, Helvetica, sans-serif; font-size: 8.8pt; color: var(--slate); margin: 0 0 4pt; }
+  .part { border: 1px solid var(--border); border-top: 3px solid var(--gold); border-radius: 3pt; padding: 6pt 9pt; margin: 0 0 8pt; }
+  ul.chk { list-style: none; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; font-size: 9pt; }
+  ul.chk li { display: flex; gap: 6pt; margin: 0 0 3pt; align-items: flex-start; }
+  .box { flex: 0 0 auto; width: 9pt; height: 9pt; border: 1.2pt solid var(--navy); margin-top: 1.5pt; }
+  ul.cols2 { columns: 2; column-gap: 16pt; }
+  ul.cols2 li { break-inside: avoid; }
+  .rule { font-family: Arial, Helvetica, sans-serif; font-size: 9pt; background: var(--cream); border-left: 3pt solid var(--gold); padding: 5pt 8pt; margin: 0 0 8pt; }
+  .rule ul { margin: 2pt 0 0; padding-left: 12pt; }
+  .msg { font-family: Arial, Helvetica, sans-serif; font-size: 8.8pt; background: var(--cream); border: 1px dashed var(--gold-deep); padding: 6pt 9pt; margin: 4pt 0 0; }
+  .msg p { margin: 0 0 4pt; }
+  .label { font-family: Arial, sans-serif; font-size: 8.4pt; color: var(--gold-deep); letter-spacing: .08em; text-transform: uppercase; margin: 6pt 0 2pt; }
+  table { width: 100%; border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-size: 8.6pt; }
+  th { text-align: left; background: var(--navy); color: #fff; padding: 2.5pt 5pt; font-weight: 600; font-size: 8.2pt; }
+  td { border-bottom: 1px solid var(--border); padding: 2.2pt 5pt; vertical-align: middle; }
+  table.ex td:nth-child(n+2) { text-align: right; }
+  table.ex th:nth-child(n+2) { text-align: right; }
+  table.ws td { height: 12.4pt; padding-top:1pt; padding-bottom:1pt; }
+  table.ws td:first-child { width: 33%; }
+  table.ws td:nth-child(2), table.ws td:nth-child(3), table.ws td:nth-child(4) { width: 14%; border-left: 1px solid var(--border); }
+  table.ws td:nth-child(5) { border-left: 1px solid var(--border); }
+  tr.tot td { background: var(--cream); }
+  .setup { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4pt 10pt; font-family: Arial, sans-serif; font-size: 8.6pt; margin-bottom: 6pt; }
+  .setup div { border-bottom: 1px solid var(--navy); padding-bottom: 8pt; color: var(--slate); }
+  .result { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4pt 12pt; font-family: Arial, sans-serif; font-size: 8.6pt; margin-top: 7pt; }
+  .result div { border-bottom: 1px solid var(--navy); padding-bottom: 8pt; color: var(--slate); }
+  .decide { font-family: Arial, sans-serif; font-size: 9pt; margin-top: 7pt; display:flex; gap: 16pt; align-items:center; }
+  .decide .box { margin-top: 0; }
+  .note { font-family: Arial, sans-serif; font-size: 8pt; color: var(--slate); margin: 3pt 0 0; }
+  .foot { position: absolute; bottom: 0; left: 0; right: 0; border-top: 1px solid var(--border); padding-top: 4pt; font-family: Arial, Helvetica, sans-serif; font-size: 7.6pt; color: var(--slate); }
+  .foot strong { color: var(--navy); }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="head">
+    <div>
+      <div class="brand">Buyer Navigator</div>
+      <h1>The Deal Stress Test</h1>
+    </div>
+    <div class="meta">For an experienced owner or buyer with an offering memorandum open and a deadline. Print it, tick it, keep it with the file.</div>
+  </div>
+
+  <div class="part">
+    <h2>Start here: the 10-minute screen</h2>
+    <p class="why">Open the offering memorandum. Answer six questions. Do not call anyone yet. Tick a box when the answer is a flag: it does not match, it is missing, or you cannot tell.</p>
+    <ul class="chk">
+<li><span class="box"></span><span><strong>The 10 percent test.</strong> Cut the seller's NOI by 10 percent. Divide by the asking price. Does the deal still work at that cap rate?</span></li>
+<li><span class="box"></span><span><strong>Rents.</strong> Do the pro forma rents match the rents on the current rent roll?</span></li>
+<li><span class="box"></span><span><strong>The missing lines.</strong> Is vacancy 5 percent or higher? Is there a management fee? Are there reserves?</span></li>
+<li><span class="box"></span><span><strong>Unit count.</strong> Does the rent roll count match the public record and the Certificate of Occupancy?</span></li>
+<li><span class="box"></span><span><strong>Utilities.</strong> Who pays them? One master meter or individual meters?</span></li>
+<li><span class="box"></span><span><strong>Local rules.</strong> In DC, has a TOPA notice started? Is any unit under rent stabilization? Ask an attorney before you rely on the answer.</span></li>
+    </ul>
+  </div>
+
+  <div class="rule"><strong>How to read your answers</strong>
+    <ul>
+      <li><strong>0 or 1 flag:</strong> the deal earns a full stress test. Request the records (Step 1).</li>
+      <li><strong>2 or more flags:</strong> request the records before you spend more time. Do not write an offer on the seller's numbers.</li>
+      <li><strong>A flag on question 1:</strong> the deal only works at the seller's number. It does not work.</li>
+    </ul>
+  </div>
+
+  <div class="part">
+    <h2>How to use the full test</h2>
+    <p class="why" style="margin:0">Work Steps 1 to 6 in order. Enter your numbers in the worksheet on page 4, or in the calculator at apartmentwealthnavigator.com/buyernavigator. Compare your stressed value to the asking price. If the offer is due in days: run the 10-minute screen tonight, send the records request tomorrow morning, and run the worksheet the day the records arrive.</p>
+  </div>
+
+  <div class="part">
+    <h2>The six steps at a glance</h2>
+    <table>
+      <tr><td><strong>1. Request the records</strong></td><td>Price follows NOI. NOI is only as good as the documents behind it.</td></tr>
+      <tr><td><strong>2. Stress the income</strong></td><td>The lender uses the rents tenants pay, not the rents the seller hopes for.</td></tr>
+      <tr><td><strong>3. Reprice every expense</strong></td><td>The seller's expenses are the seller's. Yours reset the day you close.</td></tr>
+      <tr><td><strong>4. Run the financing check</strong></td><td>The lender sizes your loan from NOI. A smaller loan is extra equity you bring.</td></tr>
+      <tr><td><strong>5. Price it and size your cash</strong></td><td>Stressed NOI divided by your cap rate is your value. Then count the cash.</td></tr>
+      <tr><td><strong>6. Decide</strong></td><td>Go, counter, or walk.</td></tr>
+    </table>
+  </div>
+
+  <div class="foot"><strong>Shafiq Hirani, MBA, CCIM</strong> | shirani@enterprisere.com | 202-290-1055 | Want a second set of eyes? Book a free Buyer Consultation at apartmentwealthnavigator.com/buyernavigator. Educational only. See the notice on page 4.</div>
+</div>
+
+<div class="page">
+  <div class="runhead"><span>The Deal Stress Test</span><span>Page 2 of 4</span></div>
+
+  <div class="part">
+    <h2>Step 1. Request the records</h2>
+    <p class="why">Why: price follows NOI, and NOI is only as good as the documents behind it.</p>
+    <ul class="chk">
+<li><span class="box"></span><span><strong>T12</strong>: trailing 12 months of income and expenses, plus the prior full year</span></li>
+<li><span class="box"></span><span><strong>Rent roll</strong>: current, with unit, rent, lease start and end dates, deposits and concessions</span></li>
+<li><span class="box"></span><span><strong>Leases</strong> for every unit</span></li>
+<li><span class="box"></span><span><strong>Bank deposit statements</strong> for 12 months, to confirm the rent roll is being collected</span></li>
+<li><span class="box"></span><span><strong>Real estate tax bill</strong> and assessment notice</span></li>
+<li><span class="box"></span><span><strong>Insurance</strong> declarations page and claims history</span></li>
+<li><span class="box"></span><span><strong>Utility bills</strong> for 12 months, and a list of which utilities tenants pay</span></li>
+<li><span class="box"></span><span><strong>Service contracts</strong> (trash, elevator, landscaping, pest, laundry) with terms and cancellation clauses</span></li>
+<li><span class="box"></span><span><strong>Capital improvements</strong> over 5 years, open permits, housing code violations</span></li>
+<li><span class="box"></span><span><strong>Certificate of Occupancy</strong> and the public record of unit count</span></li>
+<li><span class="box"></span><span><strong>Estoppel certificates</strong>, if the seller will provide them</span></li>
+<li><span class="box"></span><span><strong>Local-law notices</strong> required before a sale. In DC: tenant purchase rights (TOPA), rent stabilization status and any exemption paperwork, and each unit's rent history</span></li>
+    </ul>
+    <div class="label">Send this. Copy, paste, fill in the brackets.</div>
+    <div class="msg">
+      <p>[Broker name],</p>
+      <p>I am reviewing [property address] and want to move quickly. Please send the following: the T12 and the prior full year; the current rent roll with lease dates and deposits; all leases; 12 months of bank deposit statements; the tax bill and assessment notice; the insurance declarations page and claims history; 12 months of utility bills; service contracts; capital improvements over the last 5 years, open permits and code violations; the Certificate of Occupancy; and any estoppels or tenant notices, including TOPA status if the building is in DC.</p>
+      <p>I will respond within 24 hours of receiving them.</p>
+      <p style="margin:0">[Your name] [phone]</p>
+    </div>
+  </div>
+
+  <div class="part">
+    <h2>Step 2. Stress the income</h2>
+    <p class="why">Why: the pro forma shows rents the seller hopes for. The lender uses rents tenants pay.</p>
+    <ul class="chk">
+<li><span class="box"></span><span>Use rents tenants pay today from the rent roll, not projected market rents</span></li>
+<li><span class="box"></span><span>Subtract free rent, concessions and tenant credits</span></li>
+<li><span class="box"></span><span>Compare billed rent to deposited rent (delinquency)</span></li>
+<li><span class="box"></span><span>Count units against the public record. A rent roll with units the city does not recognize is income that does not exist</span></li>
+<li><span class="box"></span><span>Underwrite vacancy and credit loss at 5 percent minimum, even if the building is full</span></li>
+<li><span class="box"></span><span>Count other income (laundry, parking, fees) only if bank records support it</span></li>
+<li><span class="box"></span><span>Note leases expiring in the next 12 months and any units under rent control limits</span></li>
+<li><span class="box"></span><span>Underwrite rents at what the law allows, not what the market would pay</span></li>
+    </ul>
+  </div>
+
+  <div class="foot">Educational only, not investment, legal, tax or lending advice. Rules differ by city, county and state.</div>
+</div>
+
+<div class="page">
+  <div class="runhead"><span>The Deal Stress Test</span><span>Page 3 of 4</span></div>
+
+  <div class="part">
+    <h2>Step 3. Reprice every expense as the new owner</h2>
+    <p class="why">Why: the seller's expenses are the seller's. Yours reset the day you close.</p>
+    <ul class="chk">
+<li><span class="box"></span><span><strong>Taxes:</strong> ask how the assessment could change after a sale at your price</span></li>
+<li><span class="box"></span><span><strong>Insurance:</strong> get a current quote for your coverage, not the seller's old premium</span></li>
+<li><span class="box"></span><span><strong>Utilities:</strong> check for a single master meter and for leaks the seller paid out of pocket</span></li>
+<li><span class="box"></span><span><strong>Management:</strong> include a professional fee even if the seller self-manages; get local quotes</span></li>
+<li><span class="box"></span><span><strong>Payroll and contracts:</strong> confirm what you will actually pay to run the building</span></li>
+<li><span class="box"></span><span><strong>Repairs:</strong> compare the T12 to the building's age and condition</span></li>
+<li><span class="box"></span><span><strong>Reserves:</strong> include replacement reserves, commonly $250 to $350 per unit per year; confirm with your lender</span></li>
+<li><span class="box"></span><span><strong>Value-add:</strong> price the renovation, the lost rent during the work, and the inspection surprise before you count the upside</span></li>
+    </ul>
+  </div>
+
+  <div class="part">
+    <h2>Step 4. Run the financing check</h2>
+    <p class="why">Why: the lender sizes your loan from NOI, not from the asking price. A smaller loan is extra equity you bring.</p>
+    <ul class="chk">
+<li><span class="box"></span><span>Debt service coverage ratio (DSCR) = NOI divided by annual mortgage payments</span></li>
+<li><span class="box"></span><span>Lenders commonly require 1.20x to 1.25x. Confirm current terms with your lender</span></li>
+<li><span class="box"></span><span>Maximum annual debt service = stressed NOI divided by required DSCR</span></li>
+<li><span class="box"></span><span><strong>Maximum loan = maximum annual debt service divided by the loan constant.</strong> The loan constant is the year-one payment per $1 of loan. At about 6.5 percent interest and 25-year amortization it is about 0.081. Ask your lender for the real one</span></li>
+<li><span class="box"></span><span>If the loan you can get is smaller than you planned, the difference is extra equity</span></li>
+    </ul>
+    <p class="note">Quick rule: at about 6.5 percent interest, 25-year amortization and 1.25x coverage, each $1,000 of NOI supports roughly $10,000 of loan.</p>
+  </div>
+
+  <div class="part">
+    <h2>Step 5. Price it and size your cash</h2>
+    <ul class="chk">
+<li><span class="box"></span><span>Your value = stressed NOI divided by your target cap rate. Compare it to the asking price. The gap is your negotiating case</span></li>
+<li><span class="box"></span><span>Cash needed = price minus loan, plus closing costs, plus your reserve</span></li>
+<li><span class="box"></span><span>Your reserve is the number from your buy box. Write it down before you see the building</span></li>
+<li><span class="box"></span><span>If your cash needed exceeds what you have, the building fails your buy box, whatever the cap rate says</span></li>
+    </ul>
+  </div>
+
+  <div class="part">
+    <h2>Step 6. Decide: go, counter, or walk</h2>
+    <ul class="chk">
+      <li><span class="box"></span><span><strong>Go:</strong> your stressed value is at or above the asking price and the cash fits your reserve rule.</span></li>
+      <li><span class="box"></span><span><strong>Counter:</strong> your stressed value is below the asking price. Offer your number. Bring the worksheet line by line.</span></li>
+      <li><span class="box"></span><span><strong>Walk:</strong> the seller's price only works at the seller's numbers, or the cash needed breaks your reserve.</span></li>
+      <li><span class="box"></span><span>Whatever the decision, protect it in the contract: contingencies, due diligence period, financing timeline, and the dates your deposit goes hard.</span></li>
+    </ul>
+  </div>
+
+  <div class="part">
+    <h2>Red flags that need answers before you go further</h2>
+    <ul class="chk cols2">
+<li><span class="box"></span><span>Pro forma rents well above the current rent roll</span></li>
+<li><span class="box"></span><span>Vacancy below 5 percent, or no vacancy line</span></li>
+<li><span class="box"></span><span>No management fee, payroll or reserves</span></li>
+<li><span class="box"></span><span>Rent roll income that does not match bank deposits</span></li>
+<li><span class="box"></span><span>Unit count that does not match the public record</span></li>
+<li><span class="box"></span><span>Many leases expiring right after closing, or recent large concessions</span></li>
+<li><span class="box"></span><span>Seller reluctant to provide the T12, deposits or utility bills</span></li>
+<li><span class="box"></span><span>A TOPA notice already started, or rent stabilization status unclear (DC)</span></li>
+    </ul>
+  </div>
+
+  <div class="foot">Educational only, not investment, legal, tax or lending advice. Rules differ by city, county and state.</div>
+</div>
+
+<div class="page">
+  <div class="runhead"><span>The Deal Stress Test</span><span>Page 4 of 4</span></div>
+
+  <h2>Worked example: a 12-unit building at a $2.8M asking price</h2>
+  <table class="ex">
+    <tr><th>Line item</th><th>Seller</th><th>Stressed</th><th>Change</th></tr>
+    <tr><td>Gross potential rent (12 units)</td><td>$266,400</td><td>$266,400</td><td>$0</td></tr>
+    <tr><td>Vacancy (2% seller, 5% stressed)</td><td>($5,328)</td><td>($13,320)</td><td>($8,000)</td></tr>
+    <tr><td>Operating expenses as presented</td><td>($93,072)</td><td>($93,072)</td><td>$0</td></tr>
+    <tr><td>Management fee (omitted by seller)</td><td>$0</td><td>($10,000)</td><td>($10,000)</td></tr>
+    <tr><td>Insurance repriced to current quote</td><td>$0</td><td>($4,000)</td><td>($4,000)</td></tr>
+    <tr class="tot"><td><strong>Net operating income (NOI)</strong></td><td><strong>$168,000</strong></td><td><strong>$146,000</strong></td><td><strong>($22,000)</strong></td></tr>
+    <tr><td>Cap rate at the $2.8M asking price</td><td>6.0%</td><td>5.2%</td><td></td></tr>
+    <tr><td>Value at a 6.0% cap rate</td><td>$2,800,000</td><td>$2,433,000</td><td>($367,000)</td></tr>
+    <tr><td>Maximum loan at 1.25x, 6.5%, 25 years</td><td>$1,659,000</td><td>$1,442,000</td><td>($217,000)</td></tr>
+    <tr><td>Equity at the asking price, before closing costs and reserve</td><td>$1,141,000</td><td>$1,358,000</td><td>$217,000</td></tr>
+  </table>
+  <p class="note">Illustrative figures for education only, rounded to the nearest $1,000. Loan constant 0.08102.</p>
+
+  <h2 style="margin-top:9pt">Worksheet</h2>
+  <div class="setup">
+    <div>Property</div><div>Units</div><div>Asking price</div><div>Target cap rate</div>
+    <div>Interest rate</div><div>Amortization (years)</div><div>Required DSCR (1.25)</div><div></div>
+  </div>
+  <table class="ws">
+    <tr><th>Line item</th><th>Seller</th><th>Stressed</th><th>Change</th><th>Source (T12, rent roll, quote, lender)</th></tr>
+<tr><td>Gross potential rent (in place)</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Loss to lease and concessions</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Vacancy and credit loss (5% minimum)</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Other income (verified)</td><td></td><td></td><td></td><td></td></tr>
+<tr><td><strong>Effective gross income</strong></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Real estate taxes (post-sale)</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Insurance (current quote)</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Utilities</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Repairs and maintenance</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Payroll and contract services</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Management fee</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Administrative and legal</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Replacement reserves</td><td></td><td></td><td></td><td></td></tr>
+<tr><td><strong>Total operating expenses</strong></td><td></td><td></td><td></td><td></td></tr>
+<tr><td><strong>NOI</strong></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Annual debt service</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>DSCR (NOI divided by debt service)</td><td></td><td></td><td></td><td></td></tr>
+  </table>
+  <div class="result">
+    <div>Stressed value (NOI / cap rate)</div><div>Gap to asking price</div><div>Maximum annual debt service</div>
+    <div>Maximum loan</div><div>Cash needed</div>
+    </div>
+  <div class="decide"><strong>Decision:</strong> <span class="box"></span> Go <span class="box"></span> Counter <span class="box"></span> Walk</div>
+
+  <div class="foot">
+    <strong>Want a second set of eyes on a deal?</strong> Book a free Buyer Consultation. Bring the offering memorandum and we will stress test it together. apartmentwealthnavigator.com/buyernavigator<br/>
+    <strong>Shafiq Hirani, MBA, CCIM</strong> | shirani@enterprisere.com | 202-290-1055<br/>
+    This checklist is for educational purposes only and is not investment, legal, tax, or lending advice. Consult your attorney, CPA, and lender before making a purchase decision. Rules differ by city, county and state. Have a professional licensed where the property is located review your deal.
+  </div>
+</div>
+
+</body>
+</html>

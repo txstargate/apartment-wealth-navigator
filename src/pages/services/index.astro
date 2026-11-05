@@ -6,7 +6,7 @@ import GeoCTA from '../../components/GeoCTA.astro'
 import brokerageProcess from '../../assets/services/body/brokerage-process.png'
 
 const services = await getCollection('services')
-const order = ['noi', 'refinance', 'sale']
+const order = ['noi', 'refinance', 'sale', 'buy', 'value']
 const sorted = [...services].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id))
 
 // One line of "where the work goes" per service, lifted from each service
@@ -39,12 +39,29 @@ const focus: Record<string, { when: string; points: string[] }> = {
 			'Deferred maintenance found before an inspector finds it',
 		],
 	},
+	buy: {
+		when: 'Before you write an offer, with the offering memorandum open and the deadline known.',
+		points: [
+			'Your buy box, so the deals that do not fit get a no in minutes',
+			'The seller\u2019s NOI rebuilt from the T12, rent roll, leases, and bank deposits',
+			'The loan that NOI supports, and the cash you bring to closing',
+			'Offer terms, contingencies, and a due diligence plan with every deadline owned',
+		],
+	},
+	value: {
+		when: 'When the free value range is not enough, or a lender such as a bank asks for a broker opinion of value.',
+		points: [
+			'A deeper analysis than the free value range, which stays the quick version',
+			'A broker opinion of value that can be prepared for a lender such as a bank',
+			'A clear line between a broker opinion and a licensed appraisal',
+		],
+	},
 }
 ---
 
 <Base
 	title="Services | Apartment Wealth Navigator"
-	description="How Shafiq Hirani works with apartment owners: NOI optimization, refinance positioning, exit navigation, and multifamily brokerage when the numbers are ready."
+	description="How Shafiq Hirani works with apartment owners: NOI optimization, refinance positioning, exit navigation, buyer representation, valuation, and multifamily brokerage when the numbers are ready."
 	canonical="https://apartmentwealthnavigator.com/services/"
 >
 	<section class="services-intro">
@@ -87,7 +104,7 @@ const focus: Record<string, { when: string; points: string[] }> = {
 							))}
 						</ul>
 						<a class="service-row__link" href={`/services/${service.id}`}>
-							How {service.data.pillar === 'noi' ? 'the review' : service.data.pillar === 'refinance' ? 'positioning' : 'exit planning'} works
+							How {service.data.pillar === 'noi' ? 'the review' : service.data.pillar === 'refinance' ? 'positioning' : service.data.pillar === 'buy' ? 'buyer representation' : service.data.pillar === 'value' ? 'valuation' : 'exit planning'} works
 						</a>
 					</div>
 				</article>

@@ -13,6 +13,8 @@ import heroImage from '../assets/hero-dc-rowhouses.jpg'
 import noiHeader from '../assets/services/noi.jpg'
 import saleHeader from '../assets/services/sale-walk.jpg'
 import refinanceHeader from '../assets/services/refinance.jpg'
+import buyHeader from '../assets/services/buy.jpg'
+import valueRange from '../assets/services/body/value-range.png'
 import portraitNavy from '../assets/shafiq/portrait-navy.jpg'
 
 // Hero playlist order: the rowhouse loop first, then each DMV area in
@@ -49,6 +51,21 @@ const serviceTiles = [
 		blurb: 'Work the numbers your next lender will size the loan on, while those numbers can still change.',
 		image: refinanceHeader,
 		alt: 'Shafiq Hirani at a table with a laptop, walking through the numbers',
+	},
+	{
+		href: '/services/buy',
+		title: 'Buyer Navigator™',
+		blurb: 'Rebuild the seller\u2019s NOI from the records, size the loan, and write terms that protect you before you offer.',
+		image: buyHeader,
+		alt: 'A brick apartment building in Washington DC with a parked car in front',
+	},
+	{
+		href: '/services/value',
+		title: 'Value Navigator™',
+		blurb: 'A deeper value analysis, including a broker opinion of value that can be prepared for a lender such as a bank. The free value range is the quick version.',
+		image: valueRange,
+		diagram: true,
+		alt: 'A line from the lender\u2019s value, through the broker\u2019s value, to the buyer\u2019s value',
 	},
 ]
 
@@ -163,17 +180,18 @@ const stats = [
 	</section>
 
 	<section class="content-block">
-		<h2>Three ways I work with owners</h2>
+		<h2>Five ways I work with apartment owners and buyers</h2>
+		<p>Owners start with NOI, a refinance, or an exit. Buyers start with the deal stress test. Value Navigator is a deeper value analysis than the free range.</p>
 		<div class="services-grid">
 			{
 				serviceTiles.map((tile) => (
 					<a class="service-tile" href={tile.href}>
 						<Image
-							class="service-tile__image"
+							class:list={['service-tile__image', { 'service-tile__image--diagram': tile.diagram }]}
 							src={tile.image}
 							alt={tile.alt}
 							widths={[480, 800, 1200]}
-							sizes="(max-width: 640px) 100vw, 33vw"
+							sizes="(max-width: 640px) 100vw, (max-width: 900px) 50vw, 33vw"
 							loading="lazy"
 						/>
 						<h3>{tile.title}</h3>
@@ -182,14 +200,7 @@ const stats = [
 				))
 			}
 		</div>
-	</section>
-
-	<section class="content-block">
-		<h2>Selling or buying in Washington, DC</h2>
-		<p>
-			I also broker 4 to 50 unit apartment buildings. See my
-			<a href="/multifamily-brokerage/">multifamily brokerage in Washington, DC</a>.
-		</p>
+		<p class="brokerage-line">I represent buyers and sellers of 4 to 50 unit apartment buildings in Washington, DC. <a href="/multifamily-brokerage/">See how the brokerage works.</a></p>
 	</section>
 
 	<section class="content-block">
@@ -470,10 +481,44 @@ const stats = [
 		}
 	}
 
+	/* Five tiles: three across, then two wider across, so no orphan tile. */
 	.services-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+		grid-template-columns: repeat(6, 1fr);
 		gap: var(--space-4);
+	}
+
+	.services-grid > .service-tile {
+		grid-column: span 2;
+	}
+
+	.services-grid > .service-tile:nth-child(n + 4) {
+		grid-column: span 3;
+	}
+
+	@media (max-width: 900px) {
+		.services-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		.services-grid > .service-tile,
+		.services-grid > .service-tile:nth-child(n + 4) {
+			grid-column: span 1;
+		}
+
+		.services-grid > .service-tile:last-child {
+			grid-column: span 2;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.services-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.services-grid > .service-tile:last-child {
+			grid-column: span 1;
+		}
 	}
 
 	.service-tile {
@@ -491,6 +536,16 @@ const stats = [
 		width: 100%;
 		aspect-ratio: 16 / 10;
 		object-fit: cover;
+	}
+
+	.brokerage-line {
+		margin: var(--space-4) 0 0;
+		color: var(--color-slate);
+	}
+
+	.service-tile__image--diagram {
+		object-fit: contain;
+		background: var(--color-cream);
 	}
 
 	.service-tile h3 {

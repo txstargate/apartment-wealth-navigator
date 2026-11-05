@@ -46,7 +46,7 @@ const dc = defineCollection({
 const serviceSchema = z.object({
   title: z.string(),
   description: z.string(),
-  pillar: z.enum(['noi', 'refinance', 'sale']),
+  pillar: z.enum(['noi', 'refinance', 'sale', 'buy', 'value']),
   faq: z.array(
     z.object({
       question: z.string(),

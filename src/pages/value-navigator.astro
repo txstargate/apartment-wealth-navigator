@@ -41,7 +41,7 @@ const intents = ['Just curious', 'Refinancing', 'Considering a sale', 'Not sure'
 const proof = RESULTS.slice(0, 3)
 
 const faq = [
-	{ question: 'Is this an appraisal?', answer: 'No. It is an advisory value range built the way lenders and buyers underwrite, to guide a decision. A formal valuation requires a licensed appraiser or a broker opinion of value prepared for the specific property. Shafiq tells you which of those you need, and when.' },
+	{ question: 'Is this an appraisal?', answer: 'No. It is an advisory value range built the way lenders and buyers underwrite, to guide a decision. It is not a broker opinion of value. A broker opinion of value is an evaluation, not a formal valuation, and it is not an appraisal. Where a lender or the law requires a licensed appraisal, you need an appraiser. Ask your lender which one it needs.' },
 	{ question: 'Why a range and not one number?', answer: 'Three parties price the same building three ways. A lender applies conservative expenses and tests debt coverage. A buyer underwrites the upside. A broker prices off comparable sales and current cap rates. All three numbers are defensible, and knowing the range before you call any of them changes how you negotiate.' },
 	{ question: 'Do my numbers need to be perfect?', answer: 'No. Send what you have. The range states its confidence level and names what matters most. A rent roll and the last twelve months of operating statements are enough for a first read; the worksheet on this page shows the arithmetic Shafiq runs on them.' },
 	{ question: 'Will you try to sell me something?', answer: 'You get clarity first. The range comes with a recommended next step, which may be to hold and revisit. Any engagement after that, including a listing, is scoped and quoted in writing before work starts. The first call is free.' },
@@ -260,6 +260,7 @@ const faqSchema = buildFaqSchema(faq)
 		<p>Three numbers, the assumptions behind them, and the next step they point to.</p>
 		<a class="cta-button" href="#get-my-value-range">Get my value range</a>
 		<p class="close__alt">Want a number tonight? <a href="/tools/noi-check/">Run the free NOI Quick Check.</a></p>
+		<p class="close__alt">Need more than the quick version? A broker opinion of value can be prepared for a lender such as a bank. See the <a href="/services/value/">Value Navigator service</a>.</p>
 	</section>
 
 	<a class="sticky-cta" href="#get-my-value-range">Get my free value range</a>

@@ -55,6 +55,8 @@ I am a real estate advisor and broker. I am not a tax advisor, an attorney, or a
 
 What I do is help you weigh the options against your goals, prepare and position the real estate, identify replacement property for a 1031, and quarterback the team around you. The qualified intermediary runs the exchange. Your CPA runs the tax. A licensed securities advisor handles a DST. I own the real estate side and keep everyone moving to the same timeline.
 
+If the exit is a sale, I can represent you as the seller. [The multifamily brokerage page](/multifamily-brokerage/) explains how I sell 4 to 50 unit apartment buildings.
+
 ## Start with the free scorecard
 
 The [Exit Navigator Scorecard](/exit-navigator/) answers the two questions before you commit to any exit: is anything forcing the decision, and would your file survive a buyer's diligence. Ten minutes, confidential.
