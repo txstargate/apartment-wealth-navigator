@@ -21,7 +21,7 @@ const dc = orderInsights(filterPublished(await getCollection('dc')))
 			{
 				universal.map((entry) => (
 					<li>
-						<a class="insights__item" href={`/insights/${entry.id}/`}>
+						<a class={entry.data.coverImage ? 'insights__item' : 'insights__item insights__item--no-thumb'} href={`/insights/${entry.id}/`}>
 							{entry.data.coverImage && (
 								<Image
 									class="insights__thumb"
@@ -47,7 +47,7 @@ const dc = orderInsights(filterPublished(await getCollection('dc')))
 			{
 				dc.map((entry) => (
 					<li>
-						<a class="insights__item" href={`/insights/${entry.id}/`}>
+						<a class={entry.data.coverImage ? 'insights__item' : 'insights__item insights__item--no-thumb'} href={`/insights/${entry.id}/`}>
 							{entry.data.coverImage && (
 								<Image
 									class="insights__thumb"
@@ -95,6 +95,12 @@ const dc = orderInsights(filterPublished(await getCollection('dc')))
 		align-items: start;
 		color: var(--color-text);
 		text-decoration: none;
+	}
+
+	/* An article with no cover has no thumbnail column: let the text use the
+	   full row instead of the 200px thumbnail slot. */
+	.insights__item--no-thumb {
+		grid-template-columns: 1fr;
 	}
 
 	.insights__thumb {
