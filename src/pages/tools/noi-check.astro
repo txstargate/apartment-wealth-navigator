@@ -27,13 +27,13 @@ import metersPhoto from '../../assets/shafiq/noi-audit-meters.jpg'
 			can change it before you see a result.
 		</p>
 
-		<form id="noi-form" class="noi-form">
+		<form id="noi-form" class="noi-form" method="post">
 			<label for="units">Number of units</label>
 			<input id="units" type="number" min="1" step="1" required />
 
 			<fieldset class="noi-form__group">
 				<legend>Current gross rent</legend>
-				<input id="grossRent" type="number" min="0" step="1" required />
+				<input id="grossRent" type="number" min="0" step="1" required aria-label="Current gross rent amount" />
 				<div class="noi-form__radios">
 					<label><input type="radio" name="rentPeriod" value="annual" checked /> Annual</label>
 					<label><input type="radio" name="rentPeriod" value="monthly" /> Monthly</label>
@@ -135,9 +135,9 @@ import metersPhoto from '../../assets/shafiq/noi-audit-meters.jpg'
 			<p class="disclaimer">
 				This is an educational estimate, not an appraisal and not a broker opinion of value.
 			</p>
-			<p class="disclaimer">No PII stored on the site beyond the GoHighLevel submission.</p>
+			<p class="disclaimer">Your information goes securely to Shafiq's CRM and is not stored on this website.</p>
 
-			<form id="lead-form" class="lead-form">
+			<form id="lead-form" class="lead-form" method="post">
 				<h3>Get the real numbers on your building</h3>
 				<label for="leadFirstName">First name</label>
 				<input id="leadFirstName" type="text" autocomplete="given-name" required />
@@ -158,6 +158,7 @@ import metersPhoto from '../../assets/shafiq/noi-audit-meters.jpg'
 					By submitting, you agree to be contacted by phone, text, or email about your inquiry.
 					Message and data rates may apply. Reply STOP to opt out.
 				</p>
+				<p id="lead-error" class="form-error" role="alert" hidden>Something did not send. Email shirani@enterprisere.com and Shafiq replies directly.</p>
 			</form>
 
 			<div id="lead-thank-you" class="result-panel" hidden>
@@ -225,6 +226,7 @@ import metersPhoto from '../../assets/shafiq/noi-audit-meters.jpg'
 	const hcBenchmarkAttributionEl = document.getElementById('hcBenchmarkAttribution') as HTMLElement
 
 	const leadForm = document.getElementById('lead-form') as HTMLFormElement
+	const leadError = document.getElementById('lead-error') as HTMLElement
 	const leadThankYou = document.getElementById('lead-thank-you') as HTMLElement
 	const leadThankYouName = document.getElementById('lead-thank-you-name') as HTMLElement
 	const leadLocalPanel = document.getElementById('lead-local-panel') as HTMLElement
@@ -348,7 +350,13 @@ import metersPhoto from '../../assets/shafiq/noi-audit-meters.jpg'
 			return
 		}
 
-		await submitLead(payload)
+		try {
+			await submitLead(payload)
+		} catch {
+			leadError.hidden = false
+			return
+		}
+		leadError.hidden = true
 
 		leadThankYouName.textContent = payload.first_name
 		leadThankYou.hidden = false
@@ -358,6 +366,12 @@ import metersPhoto from '../../assets/shafiq/noi-audit-meters.jpg'
 </script>
 
 <style>
+	.form-error {
+		font-size: var(--text-sm);
+		color: #8a2a1f;
+		margin: var(--space-2) 0 0;
+	}
+
 	.noi-check {
 		max-width: 640px;
 		margin: 0 auto;

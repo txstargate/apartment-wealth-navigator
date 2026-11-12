@@ -75,9 +75,15 @@ export async function submitLead(payload: LeadPayload): Promise<void> {
     return
   }
 
-  await fetch(webhookUrl, {
+  const response = await fetch(webhookUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   })
+
+  // A 4xx or 5xx must not read as a sent lead. Callers catch this and show
+  // the email fallback.
+  if (!response.ok) {
+    throw new Error(`Lead submission failed with status ${response.status}`)
+  }
 }

@@ -15,16 +15,12 @@ interface Props {
 }
 
 const { entry, counterpart, direction = null } = Astro.props
+const dateLabel = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })
 const canonical = `https://apartmentwealthnavigator.com/insights/${entry.id}/`
 const publishDateIso = new Date(entry.data.publishDate).toISOString()
+const publishLabel = dateLabel(new Date(entry.data.publishDate))
+const modifiedLabel = entry.data.dataAsOf ? dateLabel(new Date(entry.data.dataAsOf)) : ''
 
-const articleSchema = buildArticleSchema({
-  title: entry.data.title,
-  description: entry.data.description,
-  url: canonical,
-  author: 'Shafiq Hirani',
-  datePublished: publishDateIso,
-})
 
 const faqSchema = entry.data.faq?.length ? buildFaqSchema(entry.data.faq) : null
 const inlineCtas = Boolean(entry.data.inlineCtas)
@@ -33,6 +29,18 @@ const service = serviceForPillar(entry.data.pillar)
 const ogCover = entry.data.coverImage
   ? await getImage({ src: entry.data.coverImage, width: 1200, format: 'jpg' })
   : null
+
+// dateModified: the data-as-of date when the article has one, else the publish date.
+const modifiedDateIso = entry.data.dataAsOf ? new Date(entry.data.dataAsOf).toISOString() : publishDateIso
+const articleSchema = buildArticleSchema({
+  title: entry.data.title,
+  description: entry.data.description,
+  url: canonical,
+  author: 'Shafiq Hirani',
+  datePublished: publishDateIso,
+  dateModified: modifiedDateIso,
+  image: ogCover ? `https://apartmentwealthnavigator.com${ogCover.src}` : undefined,
+})
 
 // VideoObject thumbnail: the article cover when there is one (always exists,
 // 1200 wide), else YouTube's sddefault, which every video has. maxresdefault
@@ -62,6 +70,11 @@ const videoSchema = entry.data.youtubeId
   <article class="article">
     <p class="article__pillar">{entry.data.pillar.toUpperCase()}</p>
     <h1>{entry.data.title}</h1>
+    <p class="article__byline">
+      Written by <a href="/about/">Shafiq Hirani, CCIM</a> · Published{' '}
+      <time datetime={publishDateIso}>{publishLabel}</time>
+      {entry.data.dataAsOf && (<> · Data as of <time datetime={modifiedDateIso}>{modifiedLabel}</time></>)}
+    </p>
 
     {
       entry.data.coverImage && (
@@ -146,6 +159,12 @@ const videoSchema = entry.data.youtubeId
     object-fit: cover;
     border-radius: 4px;
     margin: var(--space-4) 0 var(--space-5);
+  }
+
+  .article__byline {
+    font-size: var(--text-sm);
+    color: var(--color-slate);
+    margin: 0 0 var(--space-4);
   }
 
   .article__pillar {

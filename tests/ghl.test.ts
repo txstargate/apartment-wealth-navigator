@@ -168,3 +168,20 @@ test('submitLead no-ops with a console note when the webhook URL is "off"', asyn
   expect(fetchMock).not.toHaveBeenCalled()
   expect(infoSpy).toHaveBeenCalled()
 })
+
+test('submitLead throws when the webhook answers with an error status', async () => {
+  import.meta.env.PUBLIC_GHL_WEBHOOK_URL = 'https://example.com/webhook'
+  global.fetch = vi.fn().mockResolvedValue({ ok: false, status: 500 }) as unknown as typeof fetch
+
+  const payload = buildLeadPayload({
+    firstName: 'Jane',
+    lastName: 'Owner',
+    email: 'jane@example.com',
+    phone: '2025551212',
+    location: 'Washington, DC',
+    toolName: 'Get a Read',
+    sourcePage: '/get-started',
+  })
+
+  await expect(submitLead(payload)).rejects.toThrow('500')
+})

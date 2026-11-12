@@ -9,7 +9,10 @@ export interface ArticleSchemaInput {
   author: string
   datePublished?: string
   dateModified?: string
+  image?: string
 }
+
+const PERSON_ID = 'https://apartmentwealthnavigator.com/#person'
 
 export function buildArticleSchema(input: ArticleSchemaInput) {
   return {
@@ -20,8 +23,13 @@ export function buildArticleSchema(input: ArticleSchemaInput) {
     url: input.url,
     author: {
       '@type': 'Person',
+      '@id': PERSON_ID,
       name: input.author,
+      url: 'https://apartmentwealthnavigator.com/about/',
     },
+    publisher: { '@id': PERSON_ID },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': input.url },
+    ...(input.image ? { image: [input.image] } : {}),
     ...(input.datePublished ? { datePublished: input.datePublished } : {}),
     ...(input.dateModified ? { dateModified: input.dateModified } : {}),
   }

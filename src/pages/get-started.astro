@@ -14,7 +14,7 @@ import Base from '../layouts/Base.astro'
 			referral to a trusted partner in your market. The first call is free. Any engagement after it is scoped and quoted in writing before work starts.
 		</p>
 
-		<form id="location-form" class="location-form">
+		<form id="location-form" class="location-form" method="post">
 			<label for="firstName">First name</label>
 			<input id="firstName" name="first_name" type="text" autocomplete="given-name" required />
 
@@ -35,6 +35,7 @@ import Base from '../layouts/Base.astro'
 				By submitting, you agree to be contacted by phone, text, or email about your inquiry.
 				Message and data rates may apply. Reply STOP to opt out.
 			</p>
+		<p id="form-error" class="form-error" role="alert" hidden>Something did not send. Email shirani@enterprisere.com and Shafiq replies directly.</p>
 		</form>
 
 		<div id="thank-you" class="result-panel" hidden>
@@ -72,6 +73,7 @@ import Base from '../layouts/Base.astro'
 	const REFERRAL_INTAKE_URL = referralIntakeUrl(import.meta.env.PUBLIC_REFERRAL_INTAKE_URL)
 
 	const form = document.getElementById('location-form') as HTMLFormElement
+	const formError = document.getElementById('form-error') as HTMLElement
 	const firstNameInput = document.getElementById('firstName') as HTMLInputElement
 	const lastNameInput = document.getElementById('lastName') as HTMLInputElement
 	const thankYou = document.getElementById('thank-you') as HTMLElement
@@ -113,7 +115,13 @@ import Base from '../layouts/Base.astro'
 			toolName: 'Get a Read',
 			sourcePage: window.location.pathname,
 		})
-		await submitLead(payload)
+		try {
+			await submitLead(payload)
+		} catch {
+			formError.hidden = false
+			return
+		}
+		formError.hidden = true
 
 		thankYouName.textContent = payload.first_name
 		thankYou.hidden = false
@@ -131,6 +139,12 @@ import Base from '../layouts/Base.astro'
 </script>
 
 <style>
+	.form-error {
+		font-size: var(--text-sm);
+		color: #8a2a1f;
+		margin: var(--space-2) 0 0;
+	}
+
 	.get-started {
 		max-width: 600px;
 		margin: 0 auto;
