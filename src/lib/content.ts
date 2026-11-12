@@ -14,7 +14,7 @@ export function filterPublished<T extends DraftableEntry>(entries: T[]): T[] {
 // joined the four pillar guides). Alphabetical file order put "5 Signals"
 // above the guides. Reading order instead: pillar by pillar, the guide (the
 // entry that has a DC counterpart) first, then its deep dives by title.
-export const PILLAR_ORDER = ['valuation', 'noi', 'refinance', 'sale'] as const
+export const PILLAR_ORDER = ['valuation', 'noi', 'refinance', 'sale', 'buy'] as const
 
 export interface OrderableEntry {
   data: { pillar: string; title: string; dcCounterpart?: string }

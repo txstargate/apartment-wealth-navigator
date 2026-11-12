@@ -1,8 +1,8 @@
 import { test, expect } from 'vitest'
 import { articleSchema } from '../src/content.config'
 
-test('pillar enum accepts all four pillars', () => {
-  for (const pillar of ['valuation', 'noi', 'refinance', 'sale']) {
+test('pillar enum accepts all five pillars', () => {
+  for (const pillar of ['valuation', 'noi', 'refinance', 'sale', 'buy']) {
     expect(() =>
       articleSchema.parse({
         title: 'T',

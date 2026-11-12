@@ -13,10 +13,10 @@ test('buy service has the Navigator title, tagline, images and FAQ', () => {
   expect((md.match(/- question:/g) ?? []).length).toBeGreaterThanOrEqual(5)
 })
 
-test('the schema accepts the buy pillar for services only', () => {
+test('the schema accepts the buy pillar for services and articles', () => {
   const cfg = readFileSync('src/content.config.ts', 'utf8')
   expect(cfg).toContain("pillar: z.enum(['noi', 'refinance', 'sale', 'buy', 'value'])")
-  expect(cfg).toContain("pillar: z.enum(['valuation', 'noi', 'refinance', 'sale'])")
+  expect(cfg).toContain("pillar: z.enum(['valuation', 'noi', 'refinance', 'sale', 'buy'])")
 })
 
 test('copy links both ways, keeps fees off the page, and has no stories or em dashes', () => {

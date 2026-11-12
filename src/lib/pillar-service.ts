@@ -5,6 +5,7 @@ export const SERVICE_FOR_PILLAR: Record<string, { href: string; title: string }>
   refinance: { href: '/services/refinance/', title: 'Refinance Navigator™' },
   sale: { href: '/services/sale/', title: 'Exit Navigator™' },
   valuation: { href: '/services/noi/', title: 'NOI Navigator™' },
+  buy: { href: '/services/buy/', title: 'Buyer Navigator™' },
 }
 
 export function serviceForPillar(pillar: string) {

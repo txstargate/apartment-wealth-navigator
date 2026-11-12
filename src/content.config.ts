@@ -10,7 +10,7 @@ export const articleSchema = z.object({
   // Search-result title (60 characters or fewer). The H1 stays `title`.
   seoTitle: z.string().optional(),
   description: z.string(),
-  pillar: z.enum(['valuation', 'noi', 'refinance', 'sale']),
+  pillar: z.enum(['valuation', 'noi', 'refinance', 'sale', 'buy']),
   youtubeId: z.string().optional(),
   dcCounterpart: z.string().optional(),
   universalParent: z.string().optional(),
