@@ -1,5 +1,6 @@
 ---
 title: Refinance Navigator™
+seoTitle: "Refinance Navigator™ | Lender-Ready Packaging"
 tagline: "Refinance positioning and lender-ready packaging"
 description: Work the operating numbers your next lender will size the loan on, in the window before you apply.
 pillar: refinance

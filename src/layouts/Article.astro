@@ -59,7 +59,7 @@ const videoSchema = entry.data.youtubeId
 ---
 
 <Base
-  title={entry.data.title}
+  title={entry.data.seoTitle ?? entry.data.title}
   description={entry.data.description}
   canonical={canonical}
   ogImage={ogCover?.src}

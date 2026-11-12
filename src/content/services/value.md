@@ -1,7 +1,8 @@
 ---
 title: Value Navigator™
+seoTitle: "Value Navigator™ | Broker Opinions of Value"
 tagline: "Broker opinions of value and property evaluation"
-description: A deeper value analysis for an apartment building, including a broker opinion of value that can be prepared for a lender such as a bank. The free value range is the quick version.
+description: "A deeper value analysis for an apartment building, including a broker opinion of value prepared for a lender. The free value range is the quick version."
 pillar: value
 bodyImage: ../../assets/services/body/value-range.png
 bodyAlt: "A line from the lender's value, through the broker's value, to the buyer's value"

@@ -7,6 +7,8 @@ import { z } from 'astro/zod'
 // (reach + referral) and dc (search capture + Shafiq's own deals).
 export const articleSchema = z.object({
   title: z.string(),
+  // Search-result title (60 characters or fewer). The H1 stays `title`.
+  seoTitle: z.string().optional(),
   description: z.string(),
   pillar: z.enum(['valuation', 'noi', 'refinance', 'sale']),
   youtubeId: z.string().optional(),
@@ -45,6 +47,7 @@ const dc = defineCollection({
 
 const serviceSchema = z.object({
   title: z.string(),
+  seoTitle: z.string().optional(),
   description: z.string(),
   pillar: z.enum(['noi', 'refinance', 'sale', 'buy', 'value']),
   faq: z.array(
@@ -109,6 +112,7 @@ const locations = defineCollection({
 // report names its source (CoStar 0-20 unit export, remax-intel comps).
 export const reportSchema = z.object({
   title: z.string(),
+  seoTitle: z.string().optional(),
   market: z.enum(['Washington DC', 'Northern Virginia', 'Suburban Maryland']),
   month: z.string().regex(/^\d{4}-\d{2}$/),
   dataAsOf: z.coerce.date(),

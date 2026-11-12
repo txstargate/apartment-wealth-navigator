@@ -1,5 +1,6 @@
 ---
 title: Buyer Navigator™
+seoTitle: "Buyer Navigator™ | Buyer Representation"
 tagline: "Buyer representation and deal stress testing"
 description: Buyer representation for apartment buildings of 4 to 50 units, from buy box through due diligence and closing, with a written 90-day plan for the new owner.
 pillar: buy

@@ -1,5 +1,6 @@
 ---
 title: "Does Your DC Apartment Building Need a Broker Opinion of Value or an Appraisal?"
+seoTitle: "Broker Opinion of Value or Appraisal for a DC Building"
 description: "A broker opinion of value helps you decide to sell, hold or refinance. The lender orders the appraisal. Here is who orders each and what to prepare first."
 pillar: valuation
 publishDate: 2026-11-11

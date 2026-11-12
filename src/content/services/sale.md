@@ -1,7 +1,8 @@
 ---
 title: Exit Navigator™
+seoTitle: "Exit Navigator™ | Sale, 1031, DST, Recapitalization"
 tagline: "Exit strategy: sale, 1031, DST, and recapitalization"
-description: Exit strategy for a DC apartment building. Weigh an outright sale, a 1031 exchange, a DST, or a recapitalization against your goals and tax position, and run the team that executes it.
+description: "Exit strategy for a DC apartment building. Weigh a sale, 1031 exchange, DST, or recapitalization against your goals and tax position."
 pillar: sale
 headerImage: ../../assets/services/sale-walk.jpg
 bodyImage: ../../assets/services/body/exit-paths.png

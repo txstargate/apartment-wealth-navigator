@@ -18,7 +18,7 @@ const { entry } = Astro.props
 const { Content } = await render(entry)
 const canonical = `https://apartmentwealthnavigator.com/services/${entry.id}/`
 const faqSchema = buildFaqSchema(entry.data.faq)
-const pageTitle = entry.data.tagline ? `${entry.data.title} | ${entry.data.tagline}` : entry.data.title
+const pageTitle = entry.data.seoTitle ?? (entry.data.tagline ? `${entry.data.title} | ${entry.data.tagline}` : entry.data.title)
 ---
 
 <Base title={pageTitle} description={entry.data.description} canonical={canonical}>

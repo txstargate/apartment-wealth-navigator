@@ -24,7 +24,7 @@ const schema = buildArticleSchema({
 })
 ---
 
-<Base title={`${entry.data.title} | Apartment Wealth Navigator`} description={entry.data.description} canonical={canonical}>
+<Base title={entry.data.seoTitle ?? `${entry.data.title} | Apartment Wealth Navigator`} description={entry.data.description} canonical={canonical}>
 	<JsonLd data={schema} />
 	<article class="report">
 		<p class="report__kicker">DMV Market Report · {entry.data.market} · {monthLabel(entry.data.month)}</p>
