@@ -185,3 +185,15 @@ test('submitLead throws when the webhook answers with an error status', async ()
 
   await expect(submitLead(payload)).rejects.toThrow('500')
 })
+
+test('withUtm adds the UTM values and leaves an untagged payload unchanged', async () => {
+  const { withUtm } = await import('../src/lib/ghl')
+  const payload = buildLeadPayload({
+    firstName: 'Jane', lastName: 'Owner', email: 'jane@example.com', phone: '2025551212',
+    location: 'Washington, DC', toolName: 'Get a Read', sourcePage: '/get-started',
+  })
+  expect(withUtm(payload, {})).toEqual(payload)
+  expect(withUtm(payload, { utm_source: 'youtube', utm_campaign: 'noi_test' })).toMatchObject({
+    utm_source: 'youtube', utm_campaign: 'noi_test', email: 'jane@example.com',
+  })
+})

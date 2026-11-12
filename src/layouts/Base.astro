@@ -57,6 +57,12 @@ const ogImageUrl = ogImage ? (ogImage.startsWith('http') ? ogImage : `${site}${o
 			<slot />
 		</main>
 		<Footer />
+		<script>
+			import { captureUtm } from '../lib/utm'
+			try {
+				captureUtm(window.location.search, sessionStorage)
+			} catch {}
+		</script>
 		<Analytics />
 	</body>
 </html>

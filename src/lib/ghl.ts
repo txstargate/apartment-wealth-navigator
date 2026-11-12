@@ -4,6 +4,7 @@
 // 2026-09-12)" and ghl-cowork-runbook.md Part C for the field mappings.
 
 import { routeByLocation } from './geo'
+import { readUtm, type Utm } from './utm'
 
 export interface LeadInput {
   firstName: string
@@ -28,6 +29,10 @@ export interface LeadPayload {
   message: string
   route: 'local' | 'advisory'
   source_page: string
+  utm_source?: string
+  utm_medium?: string
+  utm_campaign?: string
+  utm_content?: string
 }
 
 // First and last name are separate form fields (Shafiq, 2026-09-12) so they
@@ -67,7 +72,21 @@ export function resolveWebhookUrl(envValue?: string): string | null {
   return envValue && envValue.trim() !== '' ? envValue : DEFAULT_GHL_WEBHOOK_URL
 }
 
-export async function submitLead(payload: LeadPayload): Promise<void> {
+// Adds the visitor's first-touch UTM values, when the browser kept any.
+export function withUtm(payload: LeadPayload, utm: Utm): LeadPayload {
+  return { ...payload, ...utm }
+}
+
+function storedUtm(): Utm {
+  try {
+    return typeof sessionStorage === 'undefined' ? {} : readUtm(sessionStorage)
+  } catch {
+    return {}
+  }
+}
+
+export async function submitLead(basePayload: LeadPayload): Promise<void> {
+  const payload = withUtm(basePayload, storedUtm())
   const webhookUrl = resolveWebhookUrl(import.meta.env.PUBLIC_GHL_WEBHOOK_URL)
 
   if (!webhookUrl) {
