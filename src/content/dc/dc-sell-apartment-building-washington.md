@@ -3,7 +3,7 @@ title: "Selling an Apartment Building in Washington, DC"
 description: "Selling an apartment building in Washington starts with verified rent rolls, leases and T-12 expenses, then TOPA and rent stabilization timing."
 pillar: sale
 publishDate: 2026-11-16
-draft: true
+draft: false
 inlineCtas: true
 coverImage: ../../assets/covers/dc-sell-apartment-building-washington.jpg
 coverAlt: "Eight blank manila folders in a row above a stack of lease pages, a pen and a calculator on an oak table."
