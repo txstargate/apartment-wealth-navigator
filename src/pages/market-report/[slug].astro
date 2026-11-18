@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content'
 import Base from '../../layouts/Base.astro'
 import JsonLd from '../../components/JsonLd.astro'
+import ReportSignup from '../../components/ReportSignup.astro'
 import { buildArticleSchema } from '../../lib/schema'
 import { orderReports, monthLabel } from '../../lib/reports'
 
@@ -29,11 +30,15 @@ const schema = buildArticleSchema({
 	<article class="report">
 		<p class="report__kicker">DMV Market Report · {entry.data.market} · {monthLabel(entry.data.month)}</p>
 		<h1>{entry.data.title}</h1>
-		<p class="report__meta">For owners of 4 to 20 unit buildings. Data as of {dataAsOf}. Sources are named in the report.</p>
+		<p class="report__meta">For owners of {entry.data.month >= '2026-11' ? '3 to 20' : '4 to 20'} unit buildings. Data as of {dataAsOf}. Sources are named in the report.</p>
+
+		<ReportSignup placement="top" />
 
 		<div class="report__body">
 			<Content />
 		</div>
+
+		<ReportSignup placement="end" />
 
 		<aside class="report__next">
 			<p class="report__next-kicker">Your building's number</p>

@@ -1,0 +1,171 @@
+---
+import { resolveReportWebhookUrl } from '../lib/reportSignup'
+
+// Email signup for the monthly Navigator Report. Hidden until a dedicated GHL
+// webhook is set in PUBLIC_GHL_REPORT_WEBHOOK_URL, so the live page never shows
+// a form that goes nowhere. The report itself stays public and indexable.
+const { placement = 'end' } = Astro.props as { placement?: 'top' | 'end' }
+const enabled = resolveReportWebhookUrl(import.meta.env.PUBLIC_GHL_REPORT_WEBHOOK_URL) !== null
+---
+
+{
+	enabled && (
+		<section class="signup" data-placement={placement} data-report-signup aria-labelledby={`signup-h-${placement}`}>
+			<form class="signup__form" method="post" novalidate>
+				<h2 id={`signup-h-${placement}`}>Get the report each month.</h2>
+				<p class="signup__sub">
+					One email when the new DC report posts, with what it means for a 3 to 20 unit building. No other mail.
+				</p>
+				<div class="signup__row">
+					<label>
+						First name
+						<input name="first_name" type="text" autocomplete="given-name" required />
+					</label>
+					<label>
+						Email
+						<input name="email" type="email" autocomplete="email" required />
+					</label>
+					<label>
+						Building size
+						<select name="building_size" required>
+							<option value="">Choose one</option>
+							<option value="3-4">3 to 4 units</option>
+							<option value="5-20">5 to 20 units</option>
+						</select>
+					</label>
+				</div>
+				<input name="website" type="text" class="hp-field" autocomplete="off" tabindex="-1" aria-hidden="true" />
+				<button type="submit">Send me the report</button>
+				<p class="signup__consent">
+					Email only. Unsubscribe in one click. <a href="/privacy/">Privacy policy</a>.
+				</p>
+				<p class="signup__error" hidden>Something did not send. Email shirani@enterprisere.com and I will add you by hand.</p>
+			</form>
+			<div class="signup__thanks" hidden>
+				<h2>You are on the list, <span data-name />.</h2>
+				<p>The next report arrives in your inbox when it posts.</p>
+			</div>
+		</section>
+	)
+}
+
+<script>
+	import { isLikelyBot } from '../lib/antispam'
+	import { buildReportSignupPayload, resolveReportWebhookUrl, submitReportSignup } from '../lib/reportSignup'
+
+	const url = resolveReportWebhookUrl(import.meta.env.PUBLIC_GHL_REPORT_WEBHOOK_URL)
+	document.querySelectorAll<HTMLElement>('[data-report-signup]').forEach((box) => {
+		const form = box.querySelector('form') as HTMLFormElement
+		const thanks = box.querySelector('.signup__thanks') as HTMLElement
+		const error = box.querySelector('.signup__error') as HTMLElement
+		const nameSlot = box.querySelector('[data-name]') as HTMLElement
+		const val = (name: string) => (form.elements.namedItem(name) as HTMLInputElement).value
+
+		form.addEventListener('submit', async (event) => {
+			event.preventDefault()
+			if (isLikelyBot(val('website'))) {
+				nameSlot.textContent = val('first_name').trim()
+				form.hidden = true
+				thanks.hidden = false
+				return
+			}
+			if (!form.reportValidity() || !url) return
+			const payload = buildReportSignupPayload({
+				firstName: val('first_name'),
+				email: val('email'),
+				buildingSize: val('building_size'),
+				sourcePage: window.location.pathname,
+			})
+			try {
+				await submitReportSignup(url, payload)
+			} catch {
+				error.hidden = false
+				return
+			}
+			nameSlot.textContent = payload.first_name
+			form.hidden = true
+			thanks.hidden = false
+		})
+	})
+</script>
+
+<style>
+	.signup {
+		margin: var(--space-5) 0;
+	}
+
+	.signup__form,
+	.signup__thanks {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		background: var(--color-cream);
+		border: 1px solid var(--color-border);
+		border-radius: 4px;
+		padding: var(--space-4);
+	}
+
+	.signup__form[hidden],
+	.signup__thanks[hidden] {
+		display: none;
+	}
+
+	.signup h2 {
+		font-size: var(--text-xl);
+		margin: 0;
+	}
+
+	.signup__sub,
+	.signup__consent {
+		margin: 0;
+		color: var(--color-slate);
+		font-size: var(--text-sm);
+	}
+
+	.signup__row {
+		display: grid;
+		gap: var(--space-2);
+		grid-template-columns: 1fr;
+	}
+
+	@media (min-width: 640px) {
+		.signup__row {
+			grid-template-columns: 1fr 1.4fr 1fr;
+		}
+	}
+
+	.signup label {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		font-weight: 600;
+	}
+
+	.signup input,
+	.signup select {
+		font-size: var(--text-base);
+		font-weight: 400;
+		padding: var(--space-2);
+		border: 1px solid var(--color-border);
+		border-radius: 2px;
+		background: var(--color-bg);
+	}
+
+	.signup button {
+		align-self: flex-start;
+		background: var(--color-navy);
+		color: var(--color-bg);
+		font-size: var(--text-base);
+		font-weight: 600;
+		border: 0;
+		border-radius: 2px;
+		padding: var(--space-3) var(--space-4);
+		cursor: pointer;
+	}
+
+	.signup__error {
+		margin: 0;
+		color: var(--color-accent-deep);
+		font-size: var(--text-sm);
+	}
+</style>
