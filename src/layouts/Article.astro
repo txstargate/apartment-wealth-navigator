@@ -7,6 +7,7 @@ import YouTubeFacade from '../components/YouTubeFacade.astro'
 import { youtubeEmbedUrl, youtubeThumbnailUrl } from '../lib/youtube'
 import { buildArticleSchema, buildVideoSchema, buildFaqSchema } from '../lib/schema'
 import { serviceForPillar } from '../lib/pillar-service'
+import { hasWatchPage, watchPath } from '../lib/watch'
 
 interface Props {
   entry: any
@@ -94,6 +95,11 @@ const videoSchema = entry.data.youtubeId
       entry.data.youtubeId && (
         <div class="article__video">
           <YouTubeFacade id={entry.data.youtubeId} title={entry.data.title} />
+          {hasWatchPage(entry.id) && (
+            <p class="article__watch">
+              <a href={watchPath(entry.id)}>Watch this video on its own page</a>
+            </p>
+          )}
         </div>
       )
     }
@@ -179,6 +185,11 @@ const videoSchema = entry.data.youtubeId
   /* The facade sizes itself at 16:9; the wrapper only sets rhythm. */
   .article__video {
     margin: var(--space-4) 0;
+  }
+
+  .article__watch {
+    font-size: var(--text-sm);
+    margin: var(--space-2) 0 0;
   }
 
   .article__body {
