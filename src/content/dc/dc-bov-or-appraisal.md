@@ -82,7 +82,7 @@ Take a building with $120,000 of verified NOI.
 
 | Cap rate | Source | Indicated value |
 | --- | --- | --- |
-| 7.3% | CoStar market cap rate, DC buildings of 0 to 20 units | $1,643,836 |
+| 7.3% | CoStar market cap rate, DC buildings of 3 to 20 units | $1,643,836 |
 | 6.95% | My own closed comps, 24 reported sales (a thin sample, so a direction only) | $1,726,619 |
 
 That is an $82,783 spread from one building, one NOI and two sourced cap rates. A broker opinion of value shows you the range and the evidence behind it before a lender picks one number.
@@ -143,4 +143,4 @@ RE/MAX Distinctive Commercial · (202) 290-1055
 
 Equal Housing Opportunity. Shafiq Hirani is licensed in Washington DC, Virginia and Maryland. He is a real estate broker, not a tax advisor, attorney or securities representative. This article is general information, not legal, tax or financial advice. Have an attorney and other licensed professionals where the property is located review your decision before you act.
 
-**Sources:** CoStar November 2026 DC Multifamily Search Analytics, 0 to 20 units, report date 2026-11-10. My own closed-sale data (CoStar and Bright MLS), build 2026-11-10. [Fannie Mae Instructions for Appraisers, Multifamily Selling and Servicing Guide](https://mfguide.fanniemae.com/system/files/07-28-26-03-47-56-PM/Instructions%20for%20Appraisers%20Guide%20Update%20%28Redline%29.pdf). [Fannie Mae Multifamily Guide, Appraiser Independence](https://mfguide.fanniemae.com/fnmf-pdf/download/6346). Market data © CoStar, used with permission.
+**Sources:** CoStar November 2026 DC Multifamily Search Analytics, 3 to 20 units, report date 2026-11-16. My own closed-sale data (CoStar and Bright MLS), 3 to 20 units, rebuilt 2026-11-16. [Fannie Mae Instructions for Appraisers, Multifamily Selling and Servicing Guide](https://mfguide.fanniemae.com/system/files/07-28-26-03-47-56-PM/Instructions%20for%20Appraisers%20Guide%20Update%20%28Redline%29.pdf). [Fannie Mae Multifamily Guide, Appraiser Independence](https://mfguide.fanniemae.com/fnmf-pdf/download/6346). Market data © CoStar, used with permission.

@@ -109,7 +109,7 @@ const locations = defineCollection({
 
 // Monthly DMV market report (added 2026-10-10). One file per month; the
 // series rotates DC, Northern Virginia, Suburban Maryland. Every figure in a
-// report names its source (CoStar 0-20 unit export, remax-intel comps).
+// report names its source (CoStar 3-20 unit export, Navigator Intel comps).
 export const reportSchema = z.object({
   title: z.string(),
   seoTitle: z.string().optional(),
