@@ -3,7 +3,7 @@ title: "How to Read Today's NOI on a Northern Virginia Apartment Building"
 description: "Higher rates shrink the loan a lender will write on the same income. Build today's NOI from leases and the trailing twelve months, then test it against current financing."
 pillar: valuation
 publishDate: 2026-11-18
-draft: true
+draft: false
 inlineCtas: true
 coverImage: ../../assets/covers/read-todays-noi-northern-virginia.jpg
 coverAlt: "A three-storey red brick apartment building in Northern Virginia at golden hour with autumn trees and lit windows."
