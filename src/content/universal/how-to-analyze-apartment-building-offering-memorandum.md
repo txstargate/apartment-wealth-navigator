@@ -5,7 +5,7 @@ description: "An offering memorandum shows a projection, not a record. Rebuild t
 pillar: buy
 youtubeId: "eHp08hFbp94"
 publishDate: 2026-11-18
-draft: true
+draft: false
 inlineCtas: true
 coverImage: ../../assets/covers/how-to-analyze-apartment-building-offering-memorandum.jpg
 coverAlt: "An overhead view of an open offering memorandum with four figures circled in red pen, next to a black calculator and a pen on a dark wood desk."
